@@ -1,0 +1,621 @@
+﻿Satker,Jabatan,Formasi
+1100,Kepala BPS Provinsi,1
+1100,Kepala Bagian Umum,1
+1100,Penata Laksana Barang Mahir,3
+1100,Penata Laksana Barang Terampil,1
+1100,Analis Pengelola Keuangan APBN Ahli Madya,3
+1100,Analis Pengelola Keuangan APBN Ahli Muda,2
+1100,Analis Pengelola Keuangan APBN Ahli Pertama,3
+1100,Pranata Keuangan APBN Penyelia,1
+1100,Pranata Keuangan APBN Mahir,3
+1100,Pranata Keuangan APBN Terampil,1
+1100,Analis Anggaran Ahli Madya,1
+1100,Analis Anggaran Ahli Muda,2
+1100,Analis Anggaran Ahli Pertama,2
+1100,Analis SDM Aparatur Ahli Muda,3
+1100,Analis SDM Aparatur Ahli Pertama,4
+1100,Pranata SDM Aparatur Penyelia,2
+1100,Pranata SDM Aparatur Mahir,2
+1100,Pranata SDM Aparatur Terampil,3
+1100,Arsiparis Ahli Madya,1
+1100,Arsiparis Ahli Muda,2
+1100,Arsiparis Ahli Pertama,3
+1100,Arsiparis Terampil,1
+1100,Penyuluh Hukum Ahli Muda,1
+1100,Penyuluh Hukum Ahli Pertama,1
+1100,Pranata Humas Ahli Muda,1
+1100,Pustakawan Penyelia,1
+1100,Pustakawan Mahir,1
+1100,Pustakawan Terampil,1
+1100,Pengolah Data,1
+1100,Verifikator Keuangan,1
+1100,Pengelola Surat,1
+1100,Pranata Kearsipan,1
+1100,Pengelola Barang Milik Negara,2
+1100,Teknisi Pemeliharaan Sarana dan Prasarana,1
+1100,Pengemudi,1
+1100,Statistisi Ahli Utama,1
+1100,Statistisi Ahli Madya,8
+1100,Statistisi Ahli Muda,22
+1100,Statistisi Ahli Pertama,21
+1100,Statistisi Penyelia,3
+1100,Statistisi Mahir,5
+1100,Statistisi Terampil,2
+1100,Pranata Komputer Ahli Madya,5
+1100,Pranata Komputer Ahli Muda,7
+1100,Pranata Komputer Ahli Pertama,8
+1100,Pranata Komputer Penyelia,1
+1100,Pranata Komputer Mahir,2
+1100,Pranata Komputer Terampil,3
+1100,Pengolah Data,5
+1100,Sekretaris,1
+1101,Kepala BPS Kabupaten/Kota,1
+1101,Kepala Subbagian Umum,1
+1101,Penata Laksana Barang Terampil,1
+1101,Analis Pengelola Keuangan APBN Ahli Muda,1
+1101,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1101,Pranata Keuangan APBN Mahir,1
+1101,Analis Anggaran Ahli Muda,1
+1101,Analis Anggaran Ahli Pertama,1
+1101,Pustakawan Mahir,1
+1101,Pustakawan Terampil,1
+1101,Pengolah Data,1
+1101,Pranata Kearsipan,1
+1101,Pengelola Barang Milik Negara,1
+1101,Statistisi Ahli Madya,1
+1101,Statistisi Ahli Muda,6
+1101,Statistisi Ahli Pertama,10
+1101,Pranata Komputer Ahli Madya,1
+1101,Pranata Komputer Ahli Muda,2
+1101,Pranata Komputer Ahli Pertama,3
+1101,Pranata Komputer Penyelia,1
+1101,Pranata Komputer Mahir,1
+1101,Pranata Komputer Terampil,1
+1101,Pengolah Data,6
+1102,Kepala BPS Kabupaten/Kota,1
+1102,Kepala Subbagian Umum,1
+1102,Penata Laksana Barang Terampil,1
+1102,Analis Pengelola Keuangan APBN Ahli Muda,1
+1102,Pranata Keuangan APBN Terampil,1
+1102,Analis Anggaran Ahli Muda,1
+1102,Analis Anggaran Ahli Pertama,1
+1102,Pustakawan Mahir,1
+1102,Pustakawan Terampil,1
+1102,Pengolah Data,1
+1102,Pranata Kearsipan,1
+1102,Pengelola Barang Milik Negara,1
+1102,Statistisi Ahli Madya,1
+1102,Statistisi Ahli Muda,6
+1102,Statistisi Ahli Pertama,10
+1102,Statistisi Mahir,2
+1102,Statistisi Terampil,3
+1102,Pranata Komputer Ahli Madya,1
+1102,Pranata Komputer Ahli Muda,2
+1102,Pranata Komputer Ahli Pertama,3
+1102,Pranata Komputer Penyelia,1
+1102,Pranata Komputer Mahir,1
+1102,Pranata Komputer Terampil,1
+1102,Pengolah Data,4
+1103,Kepala BPS Kabupaten/Kota,1
+1103,Kepala Subbagian Umum,1
+1103,Penata Laksana Barang Terampil,1
+1103,Analisis Pengelolaan Keuangan APBN Ahli Muda,1
+1103,Pranata Keuangan APBN Mahir,1
+1103,Analis Anggaran Ahli Muda,1
+1103,Analis Anggaran Ahli Pertama,1
+1103,Pustakawan Mahir,1
+1103,Pustakawan Terampil,1
+1103,Pengolah Data,1
+1103,Pranata Kearsipan,1
+1103,Pengelola Barang Milik Negara,1
+1103,Statistisi Ahli Madya,1
+1103,Statistisi Ahli Muda,6
+1103,Statistisi Ahli Pertama,12
+1103,Statistisi Mahir,6
+1103,Pranata Komputer Ahli Madya,1
+1103,Pranata Komputer Ahli Muda,2
+1103,Pranata Komputer Ahli Pertama,3
+1103,Pranata Komputer Penyelia,1
+1103,Pranata Komputer Mahir,1
+1103,Pranata Komputer Terampil,1
+1103,Pengolah Data,4
+1104,Kepala BPS Kabupaten/Kota,1
+1104,Kepala Subbagian Umum,1
+1104,Penata Laksana Barang Terampil,1
+1104,Analis Pengelola Keuangan APBN Ahli Muda,1
+1104,Pranata Keuangan APBN Mahir,1
+1104,Analis Anggaran Ahli Muda,1
+1104,Analis Anggaran Ahli Pertama,1
+1104,Pustakawan Mahir,1
+1104,Pustakawan Terampil,1
+1104,Pengolah Data,1
+1104,Pranata Kearsipan,1
+1104,Pengelola Barang Milik Negara,1
+1104,Statistisi Ahli Madya,1
+1104,Statistisi Ahli Muda,6
+1104,Statistisi Ahli Pertama,10
+1104,Statistisi Penyelia,1
+1104,Statistisi Mahir,1
+1104,Statistisi Terampil,3
+1104,Pranata Komputer Ahli Madya,1
+1104,Pranata Komputer Ahli Muda,2
+1104,Pranata Komputer Ahli Pertama,3
+1104,Pranata Komputer Penyelia,1
+1104,Pranata Komputer Mahir,1
+1104,Pranata Komputer Terampil,1
+1104,Pengolah Data,7
+1105,Kepala BPS Kabupaten/Kota,1
+1105,Kepala Subbagian Umum,1
+1105,Penata Laksana Barang Terampil,1
+1105,Analis Pengelola Keuangan APBN Ahli Muda,1
+1105,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1105,Pranata Keuangan APBN Terampil,1
+1105,Analis Anggaran Ahli Muda,1
+1105,Analis Anggaran Ahli Pertama,1
+1105,Pustakawan Mahir,1
+1105,Pustakawan Terampil,1
+1105,Pengolah Data,1
+1105,Pranata Kearsipan,1
+1105,Pengelola Barang Milik Negara,1
+1105,Statistisi Ahli Madya,1
+1105,Statistisi Ahli Muda,7
+1105,Statistisi Ahli Pertama,10
+1105,Statistisi Penyelia,5
+1105,Statistisi Mahir,5
+1105,Statistisi Terampil,3
+1105,Pranata Komputer Ahli Madya,1
+1105,Pranata Komputer Ahli Muda,2
+1105,Pranata Komputer Ahli Pertama,3
+1105,Pranata Komputer Penyelia,1
+1105,Pranata Komputer Mahir,1
+1105,Pranata Komputer Terampil,1
+1105,Pengolah Data,4
+1106,Kepala BPS Kabupaten/Kota,1
+1106,Kepala Subbagian Umum,1
+1106,Penata Laksana Barang Terampil,1
+1106,Analis Pengelola Keuangan APBN Ahli Muda,1
+1106,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1106,Pranata Keuangan APBN Penyelia,1
+1106,Analis Anggaran Ahli Muda,1
+1106,Analis Anggaran Ahli Pertama,1
+1106,Pustakawan Mahir,1
+1106,Pustakawan Terampil,1
+1106,Pengolah Data,1
+1106,Pranata Kearsipan,1
+1106,Pengelola Barang Milik Negara,1
+1106,Statistisi Ahli Madya,1
+1106,Statistisi Ahli Muda,7
+1106,Statistisi Ahli Pertama,9
+1106,Statistisi Mahir,1
+1106,Statistisi Terampil,6
+1106,Pranata Komputer Ahli Madya,1
+1106,Pranata Komputer Ahli Muda,2
+1106,Pranata Komputer Ahli Pertama,3
+1106,Pranata Komputer Penyelia,1
+1106,Pranata Komputer Mahir,1
+1106,Pranata Komputer Terampil,1
+1106,Pengolah Data,5
+1107,Kepala BPS Kabupaten/Kota,1
+1107,Kepala Subbagian Umum,1
+1107,Penata Laksana Barang Terampil,1
+1107,Analis Pengelola Keuangan APBN Ahli Muda,1
+1107,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1107,Pranata Keuangan APBN Terampil,1
+1107,Analis Anggaran Ahli Muda,1
+1107,Analis Anggaran Ahli Pertama,1
+1107,Pustakawan Mahir,1
+1107,Pustakawan Terampil,1
+1107,Pengolah Data,1
+1107,Pranata Kearsipan,1
+1107,Pengelola Barang Milik Negara,1
+1107,Statistisi Ahli Madya,1
+1107,Statistisi Ahli Muda,6
+1107,Statistisi Ahli Pertama,10
+1107,Statistisi Mahir,4
+1107,Statistisi Terampil,1
+1107,Pranata Komputer Ahli Madya,1
+1107,Pranata Komputer Ahli Muda,2
+1107,Pranata Komputer Ahli Pertama,3
+1107,Pranata Komputer Penyelia,1
+1107,Pranata Komputer Mahir,1
+1107,Pranata Komputer Terampil,2
+1107,Pengolah Data,5
+1108,Kepala BPS Kabupaten/Kota,1
+1108,Kepala Subbagian Umum,1
+1108,Penata Laksana Barang Terampil,1
+1108,Analis Pengelola Keuangan APBN Ahli Muda,1
+1108,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1108,Pranata Keuangan APBN Penyelia,1
+1108,Analis Anggaran Ahli Muda,1
+1108,Analis Anggaran Ahli Pertama,1
+1108,Pustakawan Mahir,1
+1108,Pustakawan Terampil,1
+1108,Pengolah Data,1
+1108,Pranata Kearsipan,1
+1108,Pengelola Barang Milik Negara,1
+1108,Statistisi Ahli Madya,1
+1108,Statistisi Ahli Muda,9
+1108,Statistisi Ahli Pertama,9
+1108,Statistisi Mahir,2
+1108,Statistisi Terampil,3
+1108,Pranata Komputer Ahli Madya,1
+1108,Pranata Komputer Ahli Muda,2
+1108,Pranata Komputer Ahli Pertama,3
+1108,Pranata Komputer Penyelia,1
+1108,Pranata Komputer Mahir,1
+1108,Pengolah Data,4
+1109,Kepala BPS Kabupaten/Kota,1
+1109,Kepala Subbagian Umum,1
+1109,Penata Laksana Barang Terampil,1
+1109,Analis Pengelola Keuangan APBN Ahli Muda,1
+1109,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1109,Pranata Keuangan APBN Penyelia,1
+1109,Pranata Keuangan APBN Mahir,1
+1109,Analis Anggaran Ahli Muda,1
+1109,Analis Anggaran Ahli Pertama,1
+1109,Pranata SDM Aparatur Terampil,1
+1109,Pustakawan Mahir,1
+1109,Pustakawan Terampil,1
+1109,Pengolah Data,1
+1109,Pranata Kearsipan,1
+1109,Pengelola Barang Milik Negara,1
+1109,Statistisi Ahli Madya,1
+1109,Statistisi Ahli Muda,8
+1109,Statistisi Ahli Pertama,10
+1109,Statistisi Penyelia,2
+1109,Statistisi Mahir,8
+1109,Statistisi Terampil,3
+1109,Pranata Komputer Ahli Madya,1
+1109,Pranata Komputer Ahli Muda,2
+1109,Pranata Komputer Ahli Pertama,3
+1109,Pranata Komputer Penyelia,1
+1109,Pranata Komputer Mahir,1
+1109,Pranata Komputer Terampil,1
+1109,Pengolah Data,5
+1110,Kepala BPS Kabupaten/Kota,1
+1110,Kepala Subbagian Umum,1
+1110,Penata Laksana Barang Terampil,1
+1110,Analis Pengelola Keuangan APBN Ahli Muda,1
+1110,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1110,Analis Anggaran Ahli Muda,1
+1110,Analis Anggaran Ahli Pertama,1
+1110,Pustakawan Mahir,1
+1110,Pustakawan Terampil,1
+1110,Pengolah Data,1
+1110,Pranata Kearsipan,1
+1110,Pengelola Barang Milik Negara,1
+1110,Statistisi Ahli Madya,1
+1110,Statistisi Ahli Muda,9
+1110,Statistisi Ahli Pertama,10
+1110,Statistisi Mahir,3
+1110,Statistisi Terampil,1
+1110,Pranata Komputer Ahli Madya,1
+1110,Pranata Komputer Ahli Muda,2
+1110,Pranata Komputer Ahli Pertama,3
+1110,Pranata Komputer Penyelia,1
+1110,Pranata Komputer Mahir,1
+1110,Pranata Komputer Terampil,1
+1110,Pengolah Data,5
+1111,Kepala BPS Kabupaten/Kota,1
+1111,Kepala Subbagian Umum,1
+1111,Penata Laksana Barang Terampil,1
+1111,Analis Pengelola Keuangan APBN Ahli Muda,1
+1111,Pranata Keuangan APBN Penyelia,1
+1111,Pranata Keuangan APBN Mahir,1
+1111,Analis Anggaran Ahli Muda,1
+1111,Analis Anggaran Ahli Pertama,1
+1111,Pustakawan Mahir,1
+1111,Pustakawan Terampil,1
+1111,Pengolah Data,1
+1111,Pranata Kearsipan,1
+1111,Pengelola Barang Milik Negara,1
+1111,Statistisi Ahli Madya,1
+1111,Statistisi Ahli Muda,9
+1111,Statistisi Ahli Pertama,11
+1111,Statistisi Penyelia,1
+1111,Statistisi Mahir,3
+1111,Statistisi Terampil,3
+1111,Pranata Komputer Ahli Madya,1
+1111,Pranata Komputer Ahli Muda,2
+1111,Pranata Komputer Ahli Pertama,3
+1111,Pranata Komputer Penyelia,1
+1111,Pranata Komputer Mahir,1
+1111,Pranata Komputer Terampil,1
+1111,Pengolah Data,5
+1112,Kepala BPS Kabupaten/Kota,1
+1112,Kepala Subbagian Umum,1
+1112,Penata Laksana Barang Terampil,1
+1112,Analis Pengelola Keuangan APBN Ahli Muda,1
+1112,Pranata Keuangan APBN Penyelia,1
+1112,Pranata Keuangan APBN Mahir,1
+1112,Analis Anggaran Ahli Muda,1
+1112,Analis Anggaran Ahli Pertama,1
+1112,Pustakawan Mahir,1
+1112,Pustakawan Terampil,1
+1112,Pengolah Data,1
+1112,Pranata Kearsipan,1
+1112,Pengelola Barang Milik Negara,1
+1112,Statistisi Ahli Madya,1
+1112,Statistisi Ahli Muda,7
+1112,Statistisi Ahli Pertama,8
+1112,Statistisi Mahir,2
+1112,Statistisi Terampil,3
+1112,Pranata Komputer Ahli Madya,1
+1112,Pranata Komputer Ahli Muda,2
+1112,Pranata Komputer Ahli Pertama,3
+1112,Pranata Komputer Penyelia,1
+1112,Pranata Komputer Mahir,1
+1112,Pranata Komputer Terampil,1
+1112,Pengolah Data,5
+1113,Kepala BPS Kabupaten/Kota,1
+1113,Kepala Subbagian Umum,1
+1113,Penata Laksana Barang Terampil,1
+1113,Analis Pengelola Keuangan APBN Ahli Muda,1
+1113,Pranata Keuangan APBN Mahir,1
+1113,Analis Anggaran Ahli Muda,1
+1113,Analis Anggaran Ahli Pertama,1
+1113,Pustakawan Mahir,1
+1113,Pustakawan Terampil,1
+1113,Pengolah Data,1
+1113,Pranata Kearsipan,1
+1113,Pengelola Barang Milik Negara,1
+1113,Statistisi Ahli Madya,1
+1113,Statistisi Ahli Muda,6
+1113,Statistisi Ahli Pertama,12
+1113,Statistisi Mahir,1
+1113,Statistisi Terampil,2
+1113,Pranata Komputer Ahli Madya,1
+1113,Pranata Komputer Ahli Muda,2
+1113,Pranata Komputer Ahli Pertama,3
+1113,Pranata Komputer Penyelia,1
+1113,Pranata Komputer Mahir,1
+1113,Pranata Komputer Terampil,1
+1113,Pengolah Data,5
+1114,Kepala BPS Kabupaten/Kota,1
+1114,Kepala Subbagian Umum,1
+1114,Penata Laksana Barang Terampil,1
+1114,Analis Pengelola Keuangan APBN Ahli Muda,1
+1114,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1114,Pranata Keuangan APBN Penyelia,1
+1114,Pranata Keuangan APBN Mahir,1
+1114,Analis Anggaran Ahli Muda,1
+1114,Analis Anggaran Ahli Pertama,1
+1114,Pustakawan Mahir,1
+1114,Pustakawan Terampil,1
+1114,Pengolah Data,1
+1114,Pranata Kearsipan,1
+1114,Pengelola Barang Milik Negara,1
+1114,Statistisi Ahli Madya,1
+1114,Statistisi Ahli Muda,7
+1114,Statistisi Ahli Pertama,10
+1114,Statistisi Mahir,1
+1114,Statistisi Terampil,3
+1114,Pranata Komputer Ahli Madya,1
+1114,Pranata Komputer Ahli Muda,2
+1114,Pranata Komputer Ahli Pertama,3
+1114,Pranata Komputer Penyelia,1
+1114,Pranata Komputer Mahir,1
+1114,Pranata Komputer Terampil,1
+1114,Pengolah Data,5
+1115,Kepala BPS Kabupaten/Kota,1
+1115,Kepala Subbagian Umum,1
+1115,Penata Laksana Barang Terampil,1
+1115,Analis Pengelola Keuangan APBN Ahli Muda,1
+1115,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1115,Pranata Keuangan APBN Terampil,1
+1115,Analis Anggaran Ahli Muda,1
+1115,Analis Anggaran Ahli Pertama,1
+1115,Pustakawan Mahir,1
+1115,Pustakawan Terampil,1
+1115,Pengolah Data,1
+1115,Pranata Kearsipan,1
+1115,Pengelola Barang Milik Negara,1
+1115,Statistisi Ahli Madya,1
+1115,Statistisi Ahli Muda,6
+1115,Statistisi Ahli Pertama,10
+1115,Statistisi Mahir,1
+1115,Statistisi Terampil,3
+1115,Pranata Komputer Ahli Madya,1
+1115,Pranata Komputer Ahli Muda,2
+1115,Pranata Komputer Ahli Pertama,3
+1115,Pranata Komputer Penyelia,1
+1115,Pranata Komputer Mahir,1
+1115,Pranata Komputer Terampil,1
+1115,Pengolah Data,4
+1116,Kepala BPS Kabupaten/Kota,1
+1116,Kepala Subbagian Umum,1
+1116,Penata Laksana Barang Terampil,1
+1116,Analis Pengelola Keuangan APBN Ahli Muda,1
+1116,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1116,Pranata Keuangan APBN Terampil,1
+1116,Analis Anggaran Ahli Muda,1
+1116,Analis Anggaran Ahli Pertama,1
+1116,Pustakawan Mahir,1
+1116,Pustakawan Terampil,1
+1116,Pengolah Data,1
+1116,Pranata Kearsipan,1
+1116,Pengelola Barang Milik Negara,1
+1116,Statistisi Ahli Madya,1
+1116,Statistisi Ahli Muda,6
+1116,Statistisi Ahli Pertama,8
+1116,Statistisi Penyelia,1
+1116,Statistisi Mahir,1
+1116,Statistisi Terampil,3
+1116,Pranata Komputer Ahli Madya,1
+1116,Pranata Komputer Ahli Muda,2
+1116,Pranata Komputer Ahli Pertama,3
+1116,Pranata Komputer Penyelia,1
+1116,Pranata Komputer Mahir,1
+1116,Pranata Komputer Terampil,1
+1116,Pengolah Data,7
+1117,Kepala BPS Kabupaten/Kota,1
+1117,Kepala Subbagian Umum,1
+1117,Penata Laksana Barang Terampil,1
+1117,Analis Pengelola Keuangan APBN Ahli Muda,1
+1117,Pranata Keuangan APBN Mahir,1
+1117,Analis Anggaran Ahli Muda,1
+1117,Analis Anggaran Ahli Pertama,1
+1117,Pustakawan Mahir,1
+1117,Pustakawan Terampil,1
+1117,Pengolah Data,1
+1117,Pranata Kearsipan,1
+1117,Pengelola Barang Milik Negara,1
+1117,Statistisi Ahli Madya,1
+1117,Statistisi Ahli Muda,7
+1117,Statistisi Ahli Pertama,9
+1117,Statistisi Mahir,2
+1117,Statistisi Terampil,3
+1117,Pranata Komputer Ahli Madya,1
+1117,Pranata Komputer Ahli Muda,2
+1117,Pranata Komputer Ahli Pertama,3
+1117,Pranata Komputer Penyelia,1
+1117,Pranata Komputer Mahir,1
+1117,Pranata Komputer Terampil,1
+1117,Pengolah Data,4
+1118,Kepala BPS Kabupaten/Kota,1
+1118,Kepala Subbagian Umum,1
+1118,Penata Laksana Barang Terampil,1
+1118,Analis Pengelola Keuangan APBN Ahli Muda,1
+1118,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1118,Pranata Keuangan APBN Mahir,1
+1118,Analis Anggaran Ahli Muda,1
+1118,Analis Anggaran Ahli Pertama,1
+1118,Pustakawan Mahir,1
+1118,Pustakawan Terampil,1
+1118,Pengolah Data,1
+1118,Pranata Kearsipan,1
+1118,Pengelola Barang Milik Negara,1
+1118,Statistisi Ahli Madya,1
+1118,Statistisi Ahli Muda,7
+1118,Statistisi Ahli Pertama,8
+1118,Statistisi Mahir,4
+1118,Pranata Komputer Ahli Madya,1
+1118,Pranata Komputer Ahli Muda,2
+1118,Pranata Komputer Ahli Pertama,3
+1118,Pranata Komputer Penyelia,1
+1118,Pranata Komputer Mahir,1
+1118,Pranata Komputer Terampil,1
+1118,Pengolah Data,4
+1171,Kepala BPS Kabupaten/Kota,1
+1171,Kepala Subbagian Umum,1
+1171,Penata Laksana Barang Terampil,1
+1171,Analis Pengelola Keuangan APBN Ahli Muda,1
+1171,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1171,Pranata Keuangan APBN Mahir,1
+1171,Pranata Keuangan APBN Terampil ,1
+1171,Analis Anggaran Ahli Muda,1
+1171,Analis Anggaran Ahli Pertama,1
+1171,Pustakawan Mahir,1
+1171,Pustakawan Terampil,1
+1171,Pengolah Data,1
+1171,Pranata Kearsipan,1
+1171,Pengelola Barang Milik Negara,1
+1171,Statistisi Ahli Madya,1
+1171,Statistisi Ahli Muda,11
+1171,Statistisi Ahli Pertama,12
+1171,Statistisi Penyelia,2
+1171,Statistisi Mahir,4
+1171,Statistisi Terampil,1
+1171,Pranata Komputer Ahli Madya,1
+1171,Pranata Komputer Ahli Muda,2
+1171,Pranata Komputer Ahli Pertama,3
+1171,Pranata Komputer Penyelia,1
+1171,Pranata Komputer Mahir,1
+1171,Pranata Komputer Terampil,1
+1171,Pengolah Data,7
+1172,Kepala BPS Kabupaten/Kota,1
+1172,Kepala Subbagian Umum,1
+1172,Penata Laksana Barang Terampil,1
+1172,Analis Pengelola Keuangan APBN Ahli Muda,1
+1172,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1172,Analis Anggaran Ahli Muda,1
+1172,Analis Anggaran Ahli Pertama,1
+1172,Pustakawan Mahir,1
+1172,Pustakawan Terampil,1
+1172,Pengolah Data,1
+1172,Pranata Kearsipan,1
+1172,Pengelola Barang Milik Negara,1
+1172,Statistisi Ahli Madya,1
+1172,Statistisi Ahli Muda,6
+1172,Statistisi Ahli Pertama,9
+1172,Pranata Komputer Ahli Madya,1
+1172,Pranata Komputer Ahli Muda,2
+1172,Pranata Komputer Ahli Pertama,3
+1172,Pranata Komputer Penyelia,1
+1172,Pranata Komputer Mahir,1
+1172,Pranata Komputer Terampil,1
+1172,Pengolah Data,5
+1173,Kepala BPS Kabupaten/Kota,1
+1173,Kepala Subbagian Umum,1
+1173,Penata Laksana Barang Terampil,1
+1173,Analis Pengelola Keuangan APBN Ahli Muda,1
+1173,Pranata Keuangan APBN Terampil,1
+1173,Analis Anggaran Ahli Muda,1
+1173,Analis Anggaran Ahli Pertama,1
+1173,Pustakawan Mahir,1
+1173,Pustakawan Terampil,1
+1173,Pengolah Data,1
+1173,Pranata Kearsipan,1
+1173,Pengelola Barang Milik Negara,1
+1173,Statistisi Ahli Madya,1
+1173,Statistisi Ahli Muda,1
+1173,Statistisi Ahli Pertama,6
+1173,Statistisi Penyelia,8
+1173,Statistisi Mahir,1
+1173,Pranata Komputer Ahli Madya,1
+1173,Pranata Komputer Ahli Muda,2
+1173,Pranata Komputer Ahli Pertama,3
+1173,Pranata Komputer Penyelia,1
+1173,Pranata Komputer Mahir,1
+1173,Pranata Komputer Terampil,1
+1173,Pengolah Data,5
+1174,Kepala BPS Kabupaten/Kota,1
+1174,Kepala Subbagian Umum,1
+1174,Penata Laksana Barang Terampil,1
+1174,Analis Pengelola Keuangan APBN Ahli Muda,1
+1174,Analis Pengelola Keuangan APBN Ahli Pertama,1
+1174,Pranata Keuangan APBN Mahir,1
+1174,Pranata Keuangan APBN Terampil,1
+1174,Analis Anggaran Ahli Muda,1
+1174,Analis Anggaran Ahli Pertama,1
+1174,Pustakawan Mahir,1
+1174,Pustakawan Terampil,1
+1174,Pengolah Data,1
+1174,Pranata Kearsipan,1
+1174,Pengelola Barang Milik Negara,1
+1174,Statistisi Ahli Madya,1
+1174,Statistisi Ahli Muda,8
+1174,Statistisi Ahli Pertama,9
+1174,Statistisi Penyelia,1
+1174,Statistisi Mahir,1
+1174,Pranata Komputer Ahli Madya,1
+1174,Pranata Komputer Ahli Muda,2
+1174,Pranata Komputer Ahli Pertama,3
+1174,Pranata Komputer Penyelia,1
+1174,Pranata Komputer Mahir,1
+1174,Pranata Komputer Terampil,1
+1174,Pengolah Data,5
+1175,Kepala BPS Kabupaten/Kota,1
+1175,Kepala Subbagian Umum,1
+1175,Penata Laksana Barang Terampil,1
+1175,Analis Pengelola Keuangan APBN Ahli Muda,1
+1175,Pranata Keuangan APBN Mahir,1
+1175,Pranata Keuangan APBN Terampil,2
+1175,Analis Anggaran Ahli Muda,1
+1175,Analis Anggaran Ahli Pertama,1
+1175,Pustakawan Mahir,1
+1175,Pustakawan Terampil,1
+1175,Pengolah Data,1
+1175,Pranata Kearsipan,1
+1175,Pengelola Barang Milik Negara,1
+1175,Statistisi Ahli Madya,1
+1175,Statistisi Ahli Muda,6
+1175,Statistisi Ahli Pertama,11
+1175,Statistisi Mahir,1
+1175,Pranata Komputer Ahli Madya,1
+1175,Pranata Komputer Ahli Muda,2
+1175,Pranata Komputer Ahli Pertama,3
+1175,Pranata Komputer Penyelia,1
+1175,Pranata Komputer Mahir,1
+1175,Pranata Komputer Terampil,1
+1175,Pengolah Data,5
