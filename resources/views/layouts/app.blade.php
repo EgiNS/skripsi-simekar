@@ -30,12 +30,13 @@
 
     </head>
 
-    <body class="m-0 font-sans antialiased font-normal text-base leading-default bg-gray-50 text-slate-500">
+    <body class="m-0 overflow-x-hidden font-sans antialiased font-normal text-base leading-default bg-gray-50 text-slate-500">
         @include('template.sidebar')
 
-        <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">
+        <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200 overflow-x-hidden">
             @include('template.navbar')
-            <div class="w-full px-6 py-6 mx-auto">
+            <div class="w-full px-6 py-6 mx-auto overflow-x-hidden">
+                @livewire('misc.flash-message')
                 @yield('content')
             </div>
             {{-- @dump($slot) --}}

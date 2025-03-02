@@ -12,9 +12,13 @@ class Profile extends Model
     protected $table = "profile";
     protected $guarded = [];
 
-    // public function jabatan()
-    // {
-    //     return $this->belongsTo(Jabatan::class, 'id_jabatan'); // Sesuaikan 'id_jabatan' dengan nama field di tabel Profile
-    // }
+    public function satker()
+    {
+        return $this->belongsTo(Satker::class, 'id_satker'); // Sesuaikan 'id_jabatan' dengan nama field di tabel Profile
+    }
 
+    public function golongan()
+    {
+        return $this->belongsTo(Golongan::class, 'id_golongan'); // Sesuaikan 'id_jabatan' dengan nama field di tabel Profile
+    }
 }

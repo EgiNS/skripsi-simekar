@@ -22,9 +22,15 @@ class DetailABKTable extends DataTableComponent
     public $selectedSatker;
     public $selectedJabatan;
     public $pegawaiList = [];
-    public $showModal = false;
-    public $id_satker = '1100';
-    public $jabatan = 'Kepala BPS Provinsi';
+    public $showModalInfo = false;
+    public $showModalEdit = false;
+    public $showModalDelete = false;
+    public $id_satker, $jabatan, $nama_satker;
+    public $formasi, $editId, $hapusId;
+
+    protected $rules = [
+        'formasi' => 'required|integer',
+    ];
 
     protected $listeners = ['loadPegawai'];
 
@@ -40,6 +46,9 @@ class DetailABKTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make('ID', 'id')
+                ->hideIf(true),
+
             Column::make('Kode Satker', 'id_satker')
                 ->sortable()
                 ->searchable(),
@@ -66,8 +75,11 @@ class DetailABKTable extends DataTableComponent
 
             Column::make('Aksi')
             ->label(fn($row) => view('livewire.abk.detail.detail-action-button', [
+                'id' => $row->id,
                 'id_satker' => $row->id_satker,
                 'jabatan' => $row->jabatan,
+                'nama_satker' => $row->satker->nama,
+                'formasi' => $row->formasi,
                 'pegawaiList' => $this->pegawaiList,
             ])),
         ];
@@ -127,10 +139,40 @@ class DetailABKTable extends DataTableComponent
         // Ambil pegawai sesuai id_satker & jabatan
         $this->pegawaiList = Profile::where('id_satker', $id_satker)
             ->where('jabatan', $jabatan)
-            ->pluck('nama') // Sesuaikan dengan nama kolom di database
+            ->get(['nama', 'nip']) // Sesuaikan dengan nama kolom di database
             ->toArray();
 
         // Tampilkan modal
-        $this->showModal = true;
+        $this->showModalInfo = true;
     }
-}
+
+    public function openModalEdit($id, $formasi)
+    {
+        $this->editId = $id;
+        $this->formasi = $formasi;
+        $this->showModalEdit = true;
+    }
+
+    public function saveEdit()
+    {
+        $this->validate();
+
+        if ($this->editId) {
+            $data = ABK::find($this->editId);
+            $data->formasi = $this->formasi;
+            $data->save();
+        }
+
+        $this->showModalEdit = false;
+        $this->dispatch('showFlashMessage', 'Formasi berhasil diperbarui!', 'success');
+    }
+
+    public function openModalDelete($id, $satkerDelete, $jabatanDelete)
+    {
+        $this->hapusId = $id;
+        $this->nama_satker = $satkerDelete;
+        $this->jabatan = $jabatanDelete;
+        $this->showModalDelete = false; // Tutup dulu untuk memicu update
+    $this->showModalDelete = true;
+    }
+} 
