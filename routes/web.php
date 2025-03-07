@@ -9,7 +9,9 @@ use App\Livewire\Abk\Pegawai\UpdatePegawai;
 use App\Livewire\Abk\Status\StatusABK;
 use App\Livewire\ABK\TabelABK;
 use App\Livewire\Abk\Tambah\TambahABK;
+use App\Livewire\Mutasi\Kepala\SimulasiKepala;
 use App\Livewire\Mutasi\Pegawai\SimulasiPegawai;
+use App\Livewire\Mutasi\Usul\UsulMutasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +35,5 @@ Route::get('/tambah-abk', TambahABK::class)->name('tambah-abk');
 Route::get('/update-pegawai', UpdatePegawai::class)->name('update-pegawai');
 Route::get('/update-nomenklatur', UpdateNomenklatur::class)->name('update-nomenklatur');
 Route::get('/simulasi-pegawai', SimulasiPegawai::class)->name('simulasi-pegawai');
+Route::get('/simulasi-kepala', SimulasiKepala::class)->name('simulasi-kepala');
+Route::get('/usul-mutasi', UsulMutasi::class)->name('usul-mutasi');

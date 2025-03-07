@@ -9,6 +9,7 @@ use App\Exports\DaftarPegawaiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\WithBulkActions;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
@@ -28,7 +29,7 @@ class DaftarPegawaiTable extends DataTableComponent
              ->setSearchEnabled();
     }
 
-    public function query()
+    public function builder(): EloquentBuilder
     {
         return Profile::query()->orderBy('id_satker', 'asc');
     }
