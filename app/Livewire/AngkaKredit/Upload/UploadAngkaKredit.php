@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Mutasi\Usul;
+namespace App\Livewire\AngkaKredit\Upload;
 
 use App\Models\Profile;
-use App\Models\Satker;
 use Livewire\Component;
 
-class UsulMutasi extends Component
+class UploadAngkaKredit extends Component
 {
     public $nip, $nama, $jabatan, $satker;
+    public $jenisAngkaKredit = 1; 
+    public $periodeMulai, $periodeAkhir, $tahun;
     public $suggestionsNip = [];
-    public $suggestionsSatker = [];
 
     public function updatedNip($value)
     {
@@ -18,6 +18,7 @@ class UsulMutasi extends Component
             $this->suggestionsNip = []; // Kosongkan suggestion jika input NIP kosong
             $this->nama = ''; // Reset nama
             $this->jabatan = ''; // Reset jabatan
+            $this->satker = '';
         } else {
             // Cari suggestion NIP
             $this->suggestionsNip = Profile::where('nip', 'like', '%' . $value . '%')
@@ -35,36 +36,21 @@ class UsulMutasi extends Component
             $this->nip = $nip;
             $this->nama = $profile->nama;
             $this->jabatan = $profile->jabatan;
+            $this->satker = $profile->satker->nama;
         }
         $this->suggestionsNip = []; // Kosongkan suggestion setelah memilih
     }
 
-    public function updatedSatker($value)
+    public function updatedJenisAngkaKredit($value)
     {
-        if (empty($value)) {
-            $this->suggestionsSatker = [];
-            $this->satker = '';
-        } else {
-            $this->suggestionsSatker = Satker::where('nama', 'like', '%' . $value . '%')
-                ->distinct()
-                ->limit(5)
-                ->pluck('nama')
-                ->toArray();
-        }
-    }
-
-    public function selectSatker($nama)
-    {
-        $profile = Satker::where('nama', $nama)->first();
-        if ($profile) {
-            $this->satker = $nama;
-            $this->suggestionsSatker = [];
-        }
-        $this->suggestionsSatker = [];
+        // Reset nilai periode dan angka kredit saat jenis berubah
+        $this->periodeMulai = null;
+        $this->periodeAkhir = null;
+        $this->tahun = null;
     }
 
     public function render()
     {
-        return view('livewire.mutasi.usul.usul-mutasi')->extends('layouts.app');
+        return view('livewire.angka-kredit.upload.upload-angka-kredit')->extends('layouts.app');
     }
 }

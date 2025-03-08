@@ -9,6 +9,8 @@ use App\Livewire\Abk\Pegawai\UpdatePegawai;
 use App\Livewire\Abk\Status\StatusABK;
 use App\Livewire\ABK\TabelABK;
 use App\Livewire\Abk\Tambah\TambahABK;
+use App\Livewire\AngkaKredit\Daftar\DaftarAngkaKredit;
+use App\Livewire\AngkaKredit\Upload\UploadAngkaKredit;
 use App\Livewire\Mutasi\Kepala\SimulasiKepala;
 use App\Livewire\Mutasi\Pegawai\SimulasiPegawai;
 use App\Livewire\Mutasi\Usul\UsulMutasi;
@@ -37,3 +39,5 @@ Route::get('/update-nomenklatur', UpdateNomenklatur::class)->name('update-nomenk
 Route::get('/simulasi-pegawai', SimulasiPegawai::class)->name('simulasi-pegawai');
 Route::get('/simulasi-kepala', SimulasiKepala::class)->name('simulasi-kepala');
 Route::get('/usul-mutasi', UsulMutasi::class)->name('usul-mutasi');
+Route::get('/angka-kredit', DaftarAngkaKredit::class)->name('angka-kredit');
+Route::get('/upload-angka-kredit', UploadAngkaKredit::class)->name('upload-angka-kredit');

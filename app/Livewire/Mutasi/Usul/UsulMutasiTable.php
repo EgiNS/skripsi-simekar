@@ -61,9 +61,9 @@ class UsulMutasiTable extends DataTableComponent
                 ->label(fn($row) => $this->tglTindak($row->updated_at, $row->created_at))
                 ->sortable(),
             Column::make('Aksi')
-            ->label(fn($row) => view('livewire.mutasi.usul.status-action-button', [
-                'nama' => $row->nama,
-            ]))
+                ->label(fn($row) => view('livewire.mutasi.usul.status-action-button', [
+                    'nama' => $row->nama,
+                ]))
         ];
     }
 
