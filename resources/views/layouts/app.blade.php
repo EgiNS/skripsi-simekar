@@ -13,21 +13,23 @@
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
 
         <!-- Styles -->
-        <link rel="stylesheet" href="assets/css/soft-ui-dashboard-tailwind.css" />
+        <link rel="stylesheet" href="{{ asset('assets/css/soft-ui-dashboard-tailwind.css') }}" />
 
         {{-- Nucleo Icons --}}
-        <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
-        <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
-
-        @vite('resources/css/app.css')
+        <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+        {{-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/main.min.css" rel="stylesheet"> --}}
 
         @livewireStyles
 
+        @vite('resources/css/app.css')
         <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
         {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
 
         {{-- <script src="https://unpkg.com/livewire-tables@latest/dist/livewire-tables.js" defer></script> --}}
 
+        @stack('style')
+        
     </head>
 
     <body class="m-0 overflow-x-hidden font-sans antialiased font-normal text-base leading-default bg-gray-50 text-slate-500">
@@ -39,11 +41,11 @@
                 @livewire('misc.flash-message')
                 @yield('content')
             </div>
-            {{-- @dump($slot) --}}
         </main>
 
+        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}" async></script>
+        <script src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js') }}" async></script>        
+        @vite('resources/js/app.js')
         @livewireScripts
-        <script src="assets/js/plugins/perfect-scrollbar.min.js" async></script>
-        <script src="assets/js/soft-ui-dashboard-tailwind.js" async></script>
     </body>
 </html>

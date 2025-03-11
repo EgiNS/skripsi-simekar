@@ -14,6 +14,10 @@ use App\Livewire\AngkaKredit\Upload\UploadAngkaKredit;
 use App\Livewire\Mutasi\Kepala\SimulasiKepala;
 use App\Livewire\Mutasi\Pegawai\SimulasiPegawai;
 use App\Livewire\Mutasi\Usul\UsulMutasi;
+use App\Livewire\Ukom\Informasi\DetailInformasiUkom;
+use App\Livewire\Ukom\Informasi\InformasiUkom;
+use App\Livewire\Ukom\Informasi\TambahInformasiUkom;
+use App\Livewire\Ukom\Jadwal\JadwalUkom;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,3 +45,7 @@ Route::get('/simulasi-kepala', SimulasiKepala::class)->name('simulasi-kepala');
 Route::get('/usul-mutasi', UsulMutasi::class)->name('usul-mutasi');
 Route::get('/angka-kredit', DaftarAngkaKredit::class)->name('angka-kredit');
 Route::get('/upload-angka-kredit', UploadAngkaKredit::class)->name('upload-angka-kredit');
+Route::get('/jadwal-ukom', JadwalUkom::class)->name('jadwal-ukom');
+Route::get('/info-ukom', InformasiUkom::class)->name('info-ukom');
+Route::get('/tambah-info-ukom', TambahInformasiUkom::class)->name('tambah-info-ukom');
+Route::get('/info-ukom/{id}', DetailInformasiUkom::class)->name('detail-info');
