@@ -33,7 +33,7 @@
     </head>
 
     <body class="m-0 overflow-x-hidden font-sans antialiased font-normal text-base leading-default bg-gray-50 text-slate-500">
-        @include('template.sidebar')
+        @include('template.user-sidebar')
 
         <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200 overflow-x-hidden">
             @include('template.navbar')

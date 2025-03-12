@@ -186,6 +186,6 @@ class DetailABKTable extends DataTableComponent
         $this->nama_satker = $satkerDelete;
         $this->jabatan = $jabatanDelete;
         $this->showModalDelete = false; // Tutup dulu untuk memicu update
-    $this->showModalDelete = true;
+        $this->showModalDelete = true;
     }
 } 
