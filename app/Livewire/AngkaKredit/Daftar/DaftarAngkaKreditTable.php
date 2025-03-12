@@ -55,9 +55,10 @@ class DaftarAngkaKreditTable extends DataTableComponent
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
                 ->label(fn($row) => $this->showLink($row->link_pak)),
             Column::make("Perkiraan Kenaikan Pangkat")
-                ->label(fn() => '2 tahun 3 bulan'),
+                ->label(fn() => 'April 2026')
+                ->sortable(),
             Column::make("Perkiraan Kenaikan Jenjang")
-                ->label(fn() => '1 tahun 3 bulan'),
+                ->label(fn() => 'April 2025'),
             Column::make("Waktu Upload", "created_at")
                 ->sortable(),
         ];

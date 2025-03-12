@@ -40,7 +40,10 @@ class DetailABKTable extends DataTableComponent
              ->setBulkActions([
                 'exportSelectedXlsx' => 'Export ke Excel',
                 ])
-             ->setSearchEnabled();
+             ->setSearchEnabled()
+             ->setFooterTrAttributes(function($rows) {
+                    return ['class' => 'text-[#CB0C9F]'];
+                });
     }
 
     public function columns(): array
@@ -51,11 +54,15 @@ class DetailABKTable extends DataTableComponent
 
             Column::make('Kode Satker', 'id_satker')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->hideIf(true),
 
             Column::make('Satker', 'satker.nama')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->footer(function($rows) {
+                    return 'Subtotal Pegawai';
+                }),
 
             Column::make('Nama Jabatan', 'jabatan')
                 ->sortable()
@@ -63,11 +70,17 @@ class DetailABKTable extends DataTableComponent
 
             Column::make('Formasi', 'formasi')
                 ->format(fn($value) => "<span class='font-semibold'>$value</span>")
+                ->footer(function($rows) {
+                    return $rows->sum('formasi');
+                })
                 ->html(),
             
             Column::make('Eksisting')
                 ->label(fn($row, Column $column) => $this->getEksistingLabel($row))
-                ->html(),
+                ->html()
+                ->footer(function($rows) {
+                    return $rows->reduce(fn($total, $row) => $total + $this->getEksisting($row->jabatan, $row->id_satker), 0);
+                }),
 
             // Column::make('Action')
             //     ->label(fn($row) => view('livewire.a-b-k.components.action-button', ['row' => $row]))
