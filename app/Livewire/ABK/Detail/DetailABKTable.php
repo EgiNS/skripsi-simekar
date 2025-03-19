@@ -188,4 +188,11 @@ class DetailABKTable extends DataTableComponent
         $this->showModalDelete = false; // Tutup dulu untuk memicu update
         $this->showModalDelete = true;
     }
+
+    public function delete()
+    {
+        ABK::find($this->hapusId)->delete();
+        $this->showModalDelete = false; 
+        $this->dispatch('showFlashMessage', 'ABK berhasil dihapus!', 'success');
+    }
 } 

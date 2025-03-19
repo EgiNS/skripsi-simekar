@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Abk\Tambah;
 
-use App\Models\Jabatan;
+use App\Models\ABK;
 use App\Models\Satker;
+use App\Models\Jabatan;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class TambahABK extends Component
 {
@@ -25,6 +27,29 @@ class TambahABK extends Component
     {
         $this->jabatan = $jabatan;
         $this->suggestions = [];
+    }
+
+    public function createABK()
+    {
+        // Validasi input
+        $validatedData = $this->validate([
+            'satker'  => ['required', Rule::exists('satker', 'id')],
+            'jabatan' => 'required|string|max:255',
+            'formasi' => 'required|integer|min:1',
+        ]);
+
+        // Simpan ke database
+        ABK::create([
+            'id_satker' => $this->satker,
+            'jabatan'   => $this->jabatan,
+            'formasi'   => $this->formasi,
+        ]);
+
+        // Reset form
+        $this->reset(['satker', 'jabatan', 'formasi']);
+
+        // Kirim notifikasi ke user
+        $this->dispatch('showFlashMessage', 'Formasi Berhasil Ditambahkan!', 'success');
     }
     
     public function render()

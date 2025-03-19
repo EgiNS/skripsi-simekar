@@ -1,5 +1,5 @@
 <div>
-    <button wire:click="openModalEdit('{{ $nama }}')"
+    <button wire:click="openModalEdit('{{ $id }}')"
         class="px-3 py-1 bg-[#17C1E8] text-white rounded hover:bg-[#35acc7]">
         Ubah Status
     </button>
@@ -13,7 +13,7 @@
                 </div>
                 
                 <div class="relative w-full">
-                    <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
+                    <select wire:model='status' class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
                         <option value=1>Menunggu</option>
                         <option value=2>Terima</option>
                         <option value=3>Tolak</option>
@@ -30,7 +30,7 @@
                     <button @click="open = false" class="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-600">
                         Batal
                     </button>
-                    <button wire:click="" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <button wire:click="saveEdit" class="px-3 py-1 bg-[#CB0C9F] hover:bg-[#b42f95] text-white rounded">
                         Simpan
                     </button>
                 </div>

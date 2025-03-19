@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Mutasi\Usul;
 
-use App\Models\Profile;
 use App\Models\Satker;
+use App\Models\Profile;
+use App\Models\UsulMutasi as ModelsUsulMutasi;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class UsulMutasi extends Component
 {
-    public $nip, $nama, $jabatan, $satker;
+    public $nip, $nama, $jabatan, $satker, $alasan;
+    public $jenis = 1;
     public $suggestionsNip = [];
     public $suggestionsSatker = [];
 
@@ -61,6 +64,35 @@ class UsulMutasi extends Component
             $this->suggestionsSatker = [];
         }
         $this->suggestionsSatker = [];
+    }
+
+    public function createUsul()
+    {
+        $validatedData = $this->validate([
+            'nip'  => ['required', Rule::exists('profile', 'nip')],
+            'satker'  => ['required', Rule::exists('satker', 'nama')],
+            'jabatan' => 'required|string|max:255',
+            'jenis' => 'required|integer',
+            'alasan' => 'required',
+        ]);
+
+        // Simpan ke database
+        ModelsUsulMutasi::create([
+            'nip' => $this->nip,
+            'satker_tujuan' => Satker::where('nama', $this->satker)->value('id'),
+            'jenis' => $this->jenis,
+            'alasan' => $this->alasan,
+        ]);
+
+        $this->dispatch('refreshTable');
+
+        // Reset form
+        $this->reset(['nip', 'nama', 'jabatan', 'satker', 'jenis', 'alasan']);
+
+        $this->dispatch('close-modal');
+
+        // Kirim notifikasi ke user
+        $this->dispatch('showFlashMessage', 'Usul Mutasi Berhasil Ditambahkan!', 'success');
     }
 
     public function render()

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\AngkaKredit\Daftar;
+namespace App\Livewire\AngkaKredit\Pegawai;
 
 use Carbon\Carbon;
 use App\Models\AngkaKredit;
-use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Illuminate\Database\Eloquent\Builder;
 
-class DaftarAngkaKreditTable extends DataTableComponent
+class RiwayatAngkaKreditTable extends DataTableComponent
 {
     protected $model = AngkaKredit::class;
 
@@ -19,7 +19,7 @@ class DaftarAngkaKreditTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return AngkaKredit::where('angka_kredit.status', '!=', '1');
+        return AngkaKredit::where('nip', '12345');
     }
 
     public function columns(): array
@@ -28,17 +28,12 @@ class DaftarAngkaKreditTable extends DataTableComponent
             Column::make("Id", "id")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("NIP", "profile.nip")
+            Column::make("jenis", "jenis")
                 ->sortable()
-                ->searchable(),
-            Column::make("Nama", "profile.nama")
-                ->sortable()
-                ->searchable(),
-            Column::make("Jabatan", "profile.jabatan")
-                ->sortable()
-                ->searchable(),
-            Column::make("Satker", "profile.satker.nama ")
-                ->sortable()
+                ->hideIf(true),
+            Column::make("Jenis")
+                ->html()
+                ->label(fn($row) => $this->showJenis($row->jenis))
                 ->searchable(),
             Column::make("Angka Kredit", "nilai")
                 ->sortable(),
@@ -48,14 +43,10 @@ class DaftarAngkaKreditTable extends DataTableComponent
             Column::make("end", "periode_end")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("Jenis PAK", "jenis")
+            Column::make("link", "link_pak")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("Jenis")
-                ->html()
-                ->label(fn($row) => $this->showJenis($row->jenis))
-                ->searchable(),
-            Column::make("link", "link_pak")
+            Column::make("status", "status")
                 ->sortable()
                 ->hideIf(true),
             Column::make("Periode PAK")
@@ -64,12 +55,11 @@ class DaftarAngkaKreditTable extends DataTableComponent
             Column::make("Link PAK")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
                 ->label(fn($row) => $this->showLink($row->link_pak)),
-            Column::make("Perkiraan Kenaikan Pangkat")
-                ->label(fn() => 'April 2026')
+            Column::make("Tanggal Upload", "created_at")
                 ->sortable(),
-            Column::make("Perkiraan Kenaikan Jenjang")
-                ->label(fn() => 'April 2025'),
-            Column::make("Waktu Upload", "created_at")
+            Column::make("Status")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showStatus($row->status))
                 ->sortable(),
         ];
     }
@@ -100,13 +90,24 @@ class DaftarAngkaKreditTable extends DataTableComponent
     public function showJenis($jenis)
     {
         if ($jenis == 1) {
-            return 'Integrasi';
+            return '<span class="text-xs px-2 rounded-lg bg-blue-500 text-white">Integrasi</span>';
         } elseif ($jenis == 2) {
-            return 'Praintegrasi';
+            return '<span class="text-xs px-2 rounded-lg bg-orange-300 text-white">Praintegrasi</span>';
         } elseif ($jenis == 3) {
-            return 'Konversi Tahunan';
+            return '<span class="text-xs px-2 rounded-lg bg-fuchsia-400 text-white">Konversi Tahunan</span>';
         } elseif ($jenis == 4) {
-            return 'Konversi Periodik';
+            return '<span class="text-xs px-2 rounded-lg bg-teal-500 text-white">Konversi Periodik</span>';
+        }
+    }
+
+    public function showStatus($status) 
+    {  
+        if ($status ==  1) {
+            return '<span class="text-xs px-2 rounded-lg bg-yellow-400 text-white">Menunggu</span>';
+        } elseif ($status == 2) {
+            return '<span class="text-xs px-2 rounded-lg bg-green-400 text-white">Diterima</span>';
+        } elseif ($status == 3) {
+            return '<span class="text-xs px-2 rounded-lg bg-[#F53939] text-white">Ditolak</span>';
         }
     }
 }

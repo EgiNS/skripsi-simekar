@@ -1,4 +1,7 @@
 <div class="flex flex-wrap -mx-3">
+  @section('beforeTitle', 'Pages')
+  @section('title', 'Karier')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative text-[#252F40] text-sm flex flex-col min-w-0 mb-6 break-words border-0 border-transparent border-solid rounded-2xl">
             <div class="mb-5 bg-white rounded-2xl shadow-soft-xl">

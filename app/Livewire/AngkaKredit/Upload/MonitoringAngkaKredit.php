@@ -4,19 +4,27 @@ namespace App\Livewire\AngkaKredit\Upload;
 
 use Carbon\Carbon;
 use App\Models\AngkaKredit;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class MonitoringAngkaKredit extends DataTableComponent
 {
-    public $nama;
+    public $status, $editId;
     public $showModalEdit = false;
 
     protected $model = AngkaKredit::class;
 
+    protected $listeners = ['refreshTable' => '$refresh'];
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+    }
+
+    public function builder(): Builder
+    {
+        return AngkaKredit::where('angka_kredit.status', '1');
     }
 
     public function columns(): array
@@ -72,7 +80,7 @@ class MonitoringAngkaKredit extends DataTableComponent
                 ->sortable(),
             Column::make('Aksi')
                 ->label(fn($row) => view('livewire.angka-kredit.upload.status-action-button', [
-                    'nama' => $row->nama,
+                    'id' => $row->id,
                 ]))
         ];
     }
@@ -122,9 +130,22 @@ class MonitoringAngkaKredit extends DataTableComponent
         }
     }
 
-    public function openModalEdit($nama)
+    public function openModalEdit($id)
     {
-        $this->nama = $nama;
+        $this->editId = $id;
         $this->showModalEdit = true;
+    }
+
+    public function saveEdit()
+    {
+        if ($this->editId) {
+            $data = AngkaKredit::find($this->editId);
+            $data->status = $this->status;
+            $data->updated_at = Carbon::now();
+            $data->save();
+        }
+
+        $this->showModalEdit = false;
+        $this->dispatch('showFlashMessage', 'Status berhasil diperbarui!', 'success');
     }
 }   

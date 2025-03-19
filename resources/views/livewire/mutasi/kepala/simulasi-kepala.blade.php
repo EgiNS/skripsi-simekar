@@ -1,4 +1,7 @@
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'Mutasi')
+    @section('title', 'Simulasi Kepala')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="flex-auto px-0 pt-0 pb-2">
@@ -18,7 +21,7 @@
                                                     <p>Nama: <span class="text-[#252F40] font-semibold ml-2">{{ $kepala['nama'] }}</span></p>
                                                     <p>NIP: <span class="text-[#252F40] font-semibold ml-2">{{ $kepala['nip'] }}</span></p>
                                                     <p>Jabatan: <span class="text-[#252F40] font-semibold">{{ $kepala['jabatan'] }}</span></p>
-                                                    <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $kepala['satker_asal'] }} {{ $kepala['zona'] ? '(Zona ' . $kepala['zona'] . ' )' : '' }}</span></p>
+                                                    <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $kepala['satker_asal'] }} {{ $kepala['zona'] ? '(Zona ' . $kepala['zona'] . ')' : '' }}</span></p>
                                                     <p>Masa kerja jabatan saat ini: <br> <span class="text-[#252F40] font-semibold">{{ $kepala['tmt_jab'] }}</span></p>
                                                     <p>Riwayat jabatan: -</p>
                                                 </div>
@@ -27,7 +30,7 @@
                                                     <label class="mb-1">Pilih satker tujuan:</label>
                                                     <select :disabled="isDisabled" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10">
                                                         @foreach ($allSatker as $satker)
-                                                            <option value="{{ $satker['id'] }}">{{ $satker['nama'] . ' ( ' . $satker['zona'] . ' )' }}</option>
+                                                            <option value="{{ $satker['id'] }}">{{ $satker['nama'] . ' (Zona ' . $satker['zona'] . ')' }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
@@ -37,9 +40,14 @@
                                                     </div>
                                             
                                                     @if ($kepala['jabatan'] == 'Kepala BPS Kabupaten/Kota')
-                                                        <button @click="isDisabled = true" class="bg-[#EF5350] place-self-end text-white rounded-lg px-3 py-1 text-sm font-semibold mt-3">
-                                                            Nonaktifkan Sebagai Kepala
+                                                        <button 
+                                                            @click="isDisabled = !isDisabled" 
+                                                            class="bg-[#EF5350] place-self-end text-white rounded-lg px-3 py-1 text-sm font-semibold mt-3"
+                                                            :class="isDisabled ? 'bg-green-500' : 'bg-[#EF5350]'"
+                                                        >
+                                                            <span x-text="isDisabled ? 'Aktifkan Sebagai Kepala' : 'Nonaktifkan Sebagai Kepala'"></span>
                                                         </button>
+                                                
                                                     @else
                                                         <button wire:click="hapusData('{{ $kepala['nip'] }}')" class="bg-[#EF5350] place-self-end text-white rounded-lg px-3 py-1 text-sm font-semibold mt-3">
                                                             Hapus
@@ -52,8 +60,8 @@
                                 </div>
                                 
                                 <div class="w-full flex justify-between mt-12 gap-x-4">
-                                    <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition">Kembali</button>
-                                    <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm" @click="showSatker = true">Tambah</button>
+                                    <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
+                                    <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium" @click="showSatker = true">Tambah Kandidat</button>
                                 </div>
 
                                 <div x-data="{ search: '' }" x-show="showSatker" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm">

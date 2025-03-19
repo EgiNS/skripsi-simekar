@@ -79,6 +79,8 @@ class SimulasiPegawai extends Component
                     })
                     ->values();
 
+                $satkerTerpilih = $satkerList->firstWhere('id', $satkerTujuan) ?? ['formasi' => 0, 'eksisting' => 0];
+
                 // Simpan data lengkap
                 $this->detailedData[] = [
                     'nama' => $profile->nama,
@@ -88,8 +90,8 @@ class SimulasiPegawai extends Component
                     'tmt_jab' => $this->hitungMasaKerja($profile->tmt_jab),
                     'tmt_cpns' => $this->hitungMasaKerja($profile->tmt_cpns),
                     'satker_tujuan' => Satker::find($satkerTujuan)->nama ?? 'Tidak Ditemukan',
-                    'formasi' => $satkerList->first()['formasi'] ?? 0,
-                    'eksisting' => $satkerList->first()['eksisting'] ?? 0,
+                    'formasi' => $satkerTerpilih['formasi'],
+                    'eksisting' => $satkerTerpilih['eksisting'],
                     'satker_eligible' => $satkerList, // Simpan semua satker yang eligible
                 ];
             }
@@ -119,6 +121,26 @@ class SimulasiPegawai extends Component
         $selisih = $tmt->diff($sekarang);
 
         return "{$selisih->y} tahun {$selisih->m} bulan {$selisih->d} hari";
+    }
+
+    public function updateSatkerTujuan($index, $satkerId)
+    {
+        $pegawai = &$this->detailedData[$index];
+
+        // Cari satker yang dipilih dari daftar eligible
+        $selectedSatker = collect($pegawai['satker_eligible'])->firstWhere('id', $satkerId);
+
+        if ($selectedSatker) {
+            // Update satker tujuan, formasi, eksisting, dan status
+            $pegawai['satker_tujuan'] = $selectedSatker['nama'];
+            $pegawai['formasi'] = $selectedSatker['formasi'];
+            $pegawai['eksisting'] = $selectedSatker['eksisting'];
+        }
+
+        // Perbarui status eligibility
+        $pegawai['status'] = ($pegawai['formasi'] > $pegawai['eksisting']) ? 'Eligible' : 'Tidak Eligible';
+
+        $this->dispatch('close-modal');
     }
 
     public function render()

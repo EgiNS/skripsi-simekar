@@ -29,8 +29,8 @@
                         <a href="{{ url()->previous() }}" wire:navigate class="bg-gradient-to-br mr-3 from-[#A8B8D8] to-[#627594] hover:scale-105 transition text-sm font-semibold text-white px-4 py-2 rounded">
                             Kembali
                         </a>
-                        <button wire:click='createInfo' class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-sm font-semibold text-white px-4 py-2 rounded">
-                            Kirim
+                        <button wire:click='saveEdit' class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-sm font-semibold text-white px-4 py-2 rounded">
+                            Edit
                         </button>
                     </div>
                 </div>

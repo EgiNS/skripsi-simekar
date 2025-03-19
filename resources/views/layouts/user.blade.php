@@ -36,7 +36,7 @@
         @include('template.user-sidebar')
 
         <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200 overflow-x-hidden">
-            @include('template.navbar')
+            @include('template.navbar', ['pageTitle' => View::yieldContent('title'), 'beforeTitle' => View::yieldContent('beforeTitle')])
             <div class="w-full px-6 py-6 mx-auto overflow-x-hidden">
                 @livewire('misc.flash-message')
                 @yield('content')

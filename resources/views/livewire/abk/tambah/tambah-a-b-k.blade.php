@@ -1,4 +1,7 @@
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'ABK')
+    @section('title', 'Tambah ABK')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
@@ -7,7 +10,7 @@
             <div class="flex-auto px-0 pt-0 pb-2 mt-4">
                 <div class="p-5 overflow-x-auto">
                     <form role="form">
-                        <div class="w-full grid grid-cols-7 align-middle content-center mb-4">
+                        <div class="w-full grid grid-cols-7 items-center text-sm mb-4">
                             <label class="text-slate-700">Satker</label>
                             <div class="col-span-6 relative w-full">
                                 <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" 
@@ -26,7 +29,7 @@
                             </div>
                         </div>
                         <div x-data="{ open: false }" class="relative w-full">
-                            <div class="w-full grid grid-cols-7 align-middle content-center">
+                            <div class="w-full grid grid-cols-7 items-center text-sm">
                                 <label class="text-slate-700">Jabatan</label>
                                 <div class="col-span-6 w-full">
                                     <input 
@@ -52,17 +55,23 @@
                                             @endforeach
                                         </ul>
                                     </div>
+                                    @error('jabatan')
+                                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
-                        <div class="w-full grid grid-cols-7 align-middle content-center my-4">
+                        <div class="w-full grid grid-cols-7 items-center text-sm my-4">
                             <label class="text-slate-700">Jumlah Formasi</label>
                             <div class="col-span-6 relative w-full">
                                 <input type="integer" wire:model='formasi' class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                                @error('formasi')
+                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div class="w-full flex justify-end">
-                            <button class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 py-2 text-sm rounded-lg">Kirim</button>
+                            <button wire:click.prevent='createABK' type="submit" class="bg-gradient-to-br font-medium from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 py-2 text-sm rounded-lg">Kirim</button>
                         </div>
                     </form>
                 </div>

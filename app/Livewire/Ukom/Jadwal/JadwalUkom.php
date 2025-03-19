@@ -59,6 +59,8 @@ class JadwalUkom extends Component
         
         // Reset form & tutup modal
         $this->reset(['judul', 'tanggal_mulai', 'tanggal_akhir']);
+
+        $this->dispatch('showFlashMessage', 'Jadwal Berhasil Ditambahkan!', 'success');
     }
 
     public function render()

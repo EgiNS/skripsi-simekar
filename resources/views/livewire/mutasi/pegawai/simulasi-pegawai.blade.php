@@ -1,10 +1,13 @@
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'Mutasi')
+    @section('title', 'Simulasi Pegawai')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-5 overflow-x-auto">
                     @if ($step == 1)
-                        <p class="mb-5">Silakan pilih pegawai yang akan dimutasi beserta satker tujuannya</p>
+                        <p class="mb-5 text-sm">Silakan pilih pegawai yang akan dimutasi beserta satker tujuannya</p>
                     
                         <div class="space-y-3">
                             @foreach ($inputs as $index => $input)
@@ -58,11 +61,11 @@
                         </div>
                               
                         <div class="w-full flex justify-end mt-12 gap-x-4">
-                            <button wire:click="addInput" type="button" class="px-3 py-2 text-sm text-white rounded-lg bg-gradient-to-br from-[#A8B8D8] to-[#627594] hover:scale-105 transition">
+                            <button wire:click="addInput" type="button" class="font-medium px-3 py-2 text-sm text-white rounded-lg bg-gradient-to-br from-[#A8B8D8] to-[#627594] hover:scale-105 transition">
                                 Tambah Pegawai
                             </button>
                             @if(count($inputs) > 0)
-                                <button wire:click="nextPage" class="px-3 py-2 text-sm text-white rounded-lg bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition">Selanjutnya</button>
+                                <button wire:click="nextPage" class="font-medium px-3 py-2 text-sm text-white rounded-lg bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition">Selanjutnya</button>
                             @endif
                         </div>
                     @elseif ($step == 2)
@@ -96,19 +99,19 @@
                         
                                 <!-- Modal -->
                                 <div x-show="showSatker" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm"
+                                    x-on:close-modal.window="showSatker = false"
                                     x-transition:enter="transition ease-out duration-300"
                                     x-transition:enter-start="opacity-0"
                                     x-transition:enter-end="opacity-100"
                                     x-transition:leave="transition ease-in duration-300"
                                     x-transition:leave-start="opacity-100"
                                     x-transition:leave-end="opacity-0"
+                                    x-data="{ selectedSatker: '{{ $pegawai['satker_eligible'][0]['id'] ?? '' }}' }"
                                 >
                                     <div class="bg-white p-5 rounded-lg shadow-lg w-1/3 max-h-80 overflow-auto">
                                         <div class="flex flex-row justify-between mb-4 border-b-2 pb-2">
                                             <h2 class="text-lg font-semibold">Edit Satker Tujuan</h2> <hr>
-                                            <span @click="showSatker = false" class="bg-[#8392AB] rounded-sm flex items-center justify-center px-1 cursor-pointer">
-                                                <svg class="w-3 font-light" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
-                                            </span>
+                                            <button @click="showSatker = false" class="text-gray-500 hover:text-gray-700">&times;</button>
                                         </div>
 
                                         <table class="w-full">
@@ -124,15 +127,19 @@
                                             @endforeach
                                         </table>
 
-                                        <div class="mt-4">
+                                        <div class="mt-4 relative">
                                             <p class="mb-1">Pilih satker tujuan:</p>
-                                            <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10">
+                                            <select 
+                                                class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10"
+                                                x-model="selectedSatker"
+                                                @change="$wire.updateSatkerTujuan({{ $index }}, selectedSatker)"
+                                            >
                                                 @foreach ($pegawai['satker_eligible'] as $satker)
-                                                    <option value="">{{ $satker['nama'] }}</option>
+                                                    <option value="{{ $satker['id'] }}">{{ $satker['nama'] }}</option>
                                                 @endforeach
                                             </select>
                                             <!-- Chevron Icon -->
-                                            <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                            <div class="absolute inset-y-0 right-3 top-6 flex items-center pointer-events-none">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 transition-all" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                                 </svg>
@@ -140,9 +147,11 @@
                                         </div>
                         
                                         <!-- Tombol Tutup -->
-                                        <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded" @click="showSatker = false">
-                                            Tutup
-                                        </button>
+                                        <div class="mt-4 flex justify-end space-x-2">
+                                            <button @click="showSatker = false" class="px-3 py-1 text-sm bg-gray-500 text-white rounded hover:bg-gray-600">
+                                                Kembali
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -150,8 +159,8 @@
                         </div>                    
                 
                         <div class="w-full flex justify-between mt-12 gap-x-4">
-                            <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition">Kembali</button>
-                            <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm">Simpan & Lanjutkan</button>
+                            <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
+                            <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium">Simpan & Lanjutkan</button>
                         </div>
                 
                     @endif

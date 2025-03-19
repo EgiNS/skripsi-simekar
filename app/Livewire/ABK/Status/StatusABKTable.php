@@ -46,7 +46,8 @@ class StatusABKTable extends DataTableComponent
         $columns = [
             Column::make('Kode', 'id')
                 ->sortable()
-                ->searchable(), 
+                ->searchable()
+                ->hideIf(true), 
             Column::make('Satuan Kerja', 'nama')
                 ->sortable()
                 ->searchable(),

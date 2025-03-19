@@ -19,6 +19,9 @@
 </style>
 @endpush
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'Ujian Kompetensi')
+    @section('title', 'Jadwal Ukom')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex flex-row justify-between">
@@ -40,27 +43,35 @@
     <div>
         <div x-data x-show="$wire.showModal"
             class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
-            <div class="bg-white p-6 rounded-lg w-96 relative z-50">
-                <h2 class="text-xl font-bold mb-4">Tambah Event</h2>
+            <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-96 overflow-y-auto relative">
+                <!-- Header -->
+                <div class="flex justify-between items-center border-b pb-2 mb-3">
+                    <h2 class="text-lg font-semibold">Tambah Jadwal Ukom</h2>
+                    <button wire:click="$set('showModal', false)" class="text-gray-500 hover:text-gray-700">&times;</button>
+                </div>
                 
                 <!-- Form Input -->
                 <form wire:submit.prevent="tambahEvent">
-                    <label class="block mb-2">Judul:</label>
-                    <input type="text" wire:model="judul" class="w-full border rounded p-2 mb-2">
-                    
-                    <label class="block mb-2">Tanggal Mulai:</label>
-                    <input type="date" wire:model="tanggal_mulai" class="w-full border rounded p-2 mb-2">
-                    
-                    <label class="block mb-2">Tanggal Akhir:</label>
-                    <input type="date" wire:model="tanggal_akhir" class="w-full border rounded p-2 mb-4">
+                    <div class="w-full mb-3">
+                        <label class="text-xs">Judul</label>
+                        <input type="text" wire:model="judul" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    </div>
+                                        
+                    <div class="w-full mb-3">
+                        <label class="text-xs">Tanggal Mulai</label>
+                        <input type="date" wire:model="tanggal_mulai" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    </div>
 
-                    <div class="flex justify-end">
-                        <button type="button" wire:click="$set('showModal', false)"
-                            class="mr-2 bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600">
+                    <div class="w-full mb-3">
+                        <label class="text-xs">Tanggal Akhir</label>
+                        <input type="date" wire:model="tanggal_akhir" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    </div>
+
+                    <div class="mt-4 flex justify-end space-x-2 text-sm">
+                        <button wire:click="$set('showModal', false)" class="px-3 py-1 font-medium bg-gray-500 text-white rounded hover:bg-gray-600">
                             Batal
                         </button>
-                        <button type="submit"
-                            class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                        <button type="submit" class="px-3 py-1 bg-[#CB0C9F] font-medium hover:bg-[#b42f95] text-white rounded">
                             Simpan
                         </button>
                     </div>
@@ -87,11 +98,12 @@
                     window.FullCalendar.dayGridPlugin, 
                     window.FullCalendar.timeGridPlugin,
                     window.FullCalendar.listPlugin,
-                    window.FullCalendar.interactionPlugin
+                    window.FullCalendar.interactionPlugin,
                 ],
+                locale: window.FullCalendar.idLocale,
                 initialView: 'dayGridMonth',
                 events: events,
-                editable: true,
+                editable: false,
                 selectable: true
             });
             calendar.render();

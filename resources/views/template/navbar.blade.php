@@ -5,31 +5,23 @@
         <!-- breadcrumb -->
         <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
           <li class="leading-normal text-sm">
-            <a class="opacity-50 text-slate-700" href="javascript:;">Pages</a>
+            <a class="opacity-50 text-slate-700" href="javascript:;">{{ $beforeTitle }}</a>
           </li>
-          <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Dashboard</li>
+          <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">{{ $pageTitle }}</li>
         </ol>
-        <h6 class="mb-0 font-bold capitalize">Dashboard</h6>
+        <h6 class="mb-0 font-bold capitalize">{{ $pageTitle }}</h6>
       </nav>
 
-      <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-        <div class="flex items-center md:ml-auto md:pr-4">
-          <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease-soft">
-            <span class="text-sm ease-soft leading-5.6 absolute z-50 -ml-px flex h-full items-center whitespace-nowrap rounded-lg rounded-tr-none rounded-br-none border border-r-0 border-transparent bg-transparent py-2 px-2.5 text-center font-normal text-slate-500 transition-all">
-              <i class="fas fa-search"></i>
-            </span>
-            <input type="text" class="pl-8.75 text-sm focus:shadow-soft-primary-outline ease-soft w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" placeholder="Type here..." />
-          </div>
-        </div>
+      <div class="flex justify-end items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
         <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
           <!-- online builder btn  -->
           <!-- <li class="flex items-center">
             <a class="inline-block px-8 py-2 mb-0 mr-4 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro border-fuchsia-500 ease-soft-in text-xs hover:scale-102 active:shadow-soft-xs text-fuchsia-500 hover:border-fuchsia-500 active:bg-fuchsia-500 active:hover:text-fuchsia-500 hover:text-fuchsia-500 tracking-tight-soft hover:bg-transparent hover:opacity-75 hover:shadow-none active:text-white active:hover:bg-transparent" target="_blank" href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard&amp;_ga=2.76518741.1192788655.1647724933-1242940210.1644448053">Online Builder</a>
           </li> -->
           <li class="flex items-center">
-            <a href="../pages/sign-in.html" class="block px-0 py-2 font-semibold transition-all ease-nav-brand text-sm text-slate-500">
-              <i class="fa fa-user sm:mr-1"></i>
-              <span class="hidden sm:inline">Sign In</span>
+            <a href="../pages/sign-in.html" class="flex px-0 py-2 font-semibold transition-all ease-nav-brand text-sm text-slate-500 hover:text-slate-600">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width=20 viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/></svg>
+              <span class="hidden sm:inline ml-2">Logout</span>
             </a>
           </li>
           <li class="flex items-center pl-4 xl:hidden">

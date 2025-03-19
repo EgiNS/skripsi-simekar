@@ -11,16 +11,22 @@ use App\Livewire\Abk\Status\StatusABK;
 use App\Livewire\ABK\TabelABK;
 use App\Livewire\Abk\Tambah\TambahABK;
 use App\Livewire\AngkaKredit\Daftar\DaftarAngkaKredit;
+use App\Livewire\AngkaKredit\Pegawai\AngkaKredit;
 use App\Livewire\AngkaKredit\Upload\UploadAngkaKredit;
 use App\Livewire\Dashboard\Dashboard;
+use App\Livewire\Dashboard\DashboardPegawai;
 use App\Livewire\Karier\RekomendasiKarier;
+use App\Livewire\MinatKarir\TesMinatKarier;
 use App\Livewire\Mutasi\Kepala\SimulasiKepala;
+use App\Livewire\Mutasi\MutasiPegawai\MutasiPegawai;
 use App\Livewire\Mutasi\Pegawai\SimulasiPegawai;
 use App\Livewire\Mutasi\Usul\UsulMutasi;
 use App\Livewire\Ukom\Informasi\DetailInformasiUkom;
+use App\Livewire\Ukom\Informasi\EditInfoUkom;
 use App\Livewire\Ukom\Informasi\InformasiUkom;
 use App\Livewire\Ukom\Informasi\TambahInformasiUkom;
 use App\Livewire\Ukom\Jadwal\JadwalUkom;
+use App\Livewire\Ukom\Pegawai\InfoUkom;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,9 +58,15 @@ Route::get('/upload-angka-kredit', UploadAngkaKredit::class)->name('upload-angka
 Route::get('/jadwal-ukom', JadwalUkom::class)->name('jadwal-ukom');
 Route::get('/info-ukom', InformasiUkom::class)->name('info-ukom');
 Route::get('/tambah-info-ukom', TambahInformasiUkom::class)->name('tambah-info-ukom');
+Route::get('/edit-info-ukom/{id}', EditInfoUkom::class)->name('edit-info-ukom');
 Route::get('/info-ukom/{id}', DetailInformasiUkom::class)->name('detail-info');
 Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
 //user
 Route::get('/formasi', Formasi::class)->name('formasi');
 Route::get('/rekomendasi-karier', RekomendasiKarier::class)->name('rekomendasi-karier');
+Route::get('/mutasi', MutasiPegawai::class)->name('mutasi');
+Route::get('/angka-kredit-pegawai', AngkaKredit::class)->name('angka-kredit-pegawai');
+Route::get('/informasi-ukom', InfoUkom::class)->name('informasi-ukom');
+Route::get('/tes-minat-karier', TesMinatKarier::class)->name('tes-minat-karier');
+Route::get('/dashboard-pegawai', DashboardPegawai::class)->name('dashboard-pegawai');

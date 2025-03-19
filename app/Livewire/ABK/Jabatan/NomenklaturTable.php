@@ -12,6 +12,7 @@ class NomenklaturTable extends DataTableComponent
 
     public $nama_simpeg, $konversi, $nama_umum;
     public $showModalEdit = false;
+    public $editId;
 
     public function configure(): void
     {
@@ -43,11 +44,32 @@ class NomenklaturTable extends DataTableComponent
         ];
     }
 
-    public function openModalEdit($nama_simpeg, $konversi, $nama_umum)
+    public function openModalEdit($id, $nama_simpeg, $konversi, $nama_umum)
     {
+        $this->editId = $id;
         $this->nama_simpeg = $nama_simpeg;
         $this->konversi = $konversi;
         $this->nama_umum = $nama_umum;
         $this->showModalEdit = true;
+    }
+
+    public function saveEdit()
+    {
+        $this->validate([
+            'konversi'  => 'required|string|max:255',
+            'nama_simpeg' => 'required|string|max:255',
+            'nama_umum' => 'required|string|max:255',
+        ]);
+
+        if ($this->editId) {
+            $data = Jabatan::find($this->editId);
+            $data->konversi = $this->konversi;
+            $data->nama_simpeg = $this->nama_simpeg;
+            $data->nama_umum = $this->nama_umum;
+            $data->save();
+        }
+
+        $this->showModalEdit = false;
+        $this->dispatch('showFlashMessage', 'Jabatan berhasil diperbarui!', 'success');
     }
 }

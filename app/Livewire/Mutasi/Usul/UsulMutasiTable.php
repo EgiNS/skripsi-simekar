@@ -2,16 +2,20 @@
 
 namespace App\Livewire\Mutasi\Usul;
 
+use App\Models\Jabatan;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\UsulMutasi;
+use Carbon\Carbon;
 
 class UsulMutasiTable extends DataTableComponent
 {
-    public $nama;
     public $showModalEdit = false;
+    public $editId, $status;
 
     protected $model = UsulMutasi::class;
+
+    protected $listeners = ['refreshTable' => '$refresh'];
 
     public function configure(): void
     {
@@ -31,6 +35,9 @@ class UsulMutasiTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
             Column::make("Jabatan", "profile.jabatan")
+                ->sortable()
+                ->searchable(),
+            Column::make("Satker Asal", "profile.satker.nama")
                 ->sortable()
                 ->searchable(),
             Column::make("Jenis", "jenis")
@@ -58,11 +65,11 @@ class UsulMutasiTable extends DataTableComponent
                 ->hideIf(true),
             Column::make("Tanggal Tindaklanjut")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->tglTindak($row->updated_at, $row->created_at))
+                ->label(fn($row) => $this->tglTindak($row->created_at, $row->updated_at))
                 ->sortable(),
             Column::make('Aksi')
                 ->label(fn($row) => view('livewire.mutasi.usul.status-action-button', [
-                    'nama' => $row->nama,
+                    'id' => $row->id
                 ]))
         ];
     }
@@ -93,9 +100,22 @@ class UsulMutasiTable extends DataTableComponent
         return $usul == $tindak ? '-' : $tindak;
     }
 
-    public function openModalEdit($nama)
+    public function openModalEdit($id)
     {
-        $this->nama = $nama;
+        $this->editId = $id;
         $this->showModalEdit = true;
+    }
+
+    public function saveEdit()
+    {
+        if ($this->editId) {
+            $data = UsulMutasi::find($this->editId);
+            $data->status = $this->status;
+            $data->updated_at = Carbon::now();
+            $data->save();
+        }
+
+        $this->showModalEdit = false;
+        $this->dispatch('showFlashMessage', 'Status berhasil diperbarui!', 'success');
     }
 }

@@ -1,4 +1,16 @@
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'Mutasi')
+    @section('title', 'Usul Mutasi')
+
+    <span class="hidden text-xs px-2 rounded-lg bg-blue-500 text-white">Atas Permintaan Sendiri</span>
+    <span class="hidden text-xs px-2 rounded-lg bg-orange-300 text-white">Alasan Khusus</span>
+    <span class="hidden text-xs px-2 rounded-lg bg-fuchsia-400 text-white">Penugasan</span>
+
+    <span class="hidden text-xs px-2 rounded-lg bg-yellow-400 text-white">Belum Ditindaklanjuti</span>
+    <span class="hidden text-xs px-2 rounded-lg bg-green-400 text-white">Sudah Ditindaklanjuti</span>
+    <span class="hidden text-xs px-2 rounded-lg bg-[#F53939] text-white">Batal</span>
+
+
     <div class="flex-none w-full max-w-full px-3" x-data="{ showTambah: false }">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex flex-row justify-between">
@@ -11,8 +23,8 @@
                 </div>
             </div>
         </div>
-        <div x-show="showTambah" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+        <div x-show="showTambah" x-on:close-modal.window="showTambah = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-80 overflow-auto relative">
                 <!-- Header -->
                 <div class="flex justify-between items-center border-b pb-2">
                     <h2 class="text-lg font-semibold">Tambah Usul Mutasi</h2>
@@ -32,7 +44,7 @@
                         />
                         
                         <!-- Dropdown untuk rekomendasi -->
-                        <div x-show="open && @this.suggestionsNip.length" class="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                        <div x-show="open && @this.suggestionsNip.length" class="relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10">
                             <ul>
                                 @foreach($suggestionsNip as $suggestion)
                                     <li 
@@ -44,21 +56,33 @@
                                 @endforeach
                             </ul>
                         </div>
+
+                        @error('nip')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
                     </div>
                     
                     <div class="w-full mb-3">
                         <label class="text-xs">Nama</label>
                         <input type="text" wire:model="nama" readonly class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    
+                        @error('nama')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
                     </div>
                     
                     <div class="w-full mb-3">
                         <label class="text-xs">Jabatan</label>
                         <input type="text" wire:model="jabatan" readonly class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    
+                        @error('jabatan')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="w-full mb-3 relative">
                         <label class="text-xs">Jenis Usulan</label>
-                        <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
+                        <select wire:model="jenis" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
                             <option value=1>Atas Permintaan Sendiri</option>
                             <option value=2>Alasan Khusus</option>
                             <option value=3>Penugasan</option>
@@ -69,6 +93,10 @@
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </div>
+
+                        @error('jenis')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="w-full mb-3" x-data="{ open: false }">
@@ -83,7 +111,7 @@
                         />
                         
                         <!-- Dropdown untuk rekomendasi -->
-                        <div x-show="open && @this.suggestionsSatker.length" class="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                        <div x-show="open && @this.suggestionsSatker.length" class="relative w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
                             <ul>
                                 @foreach($suggestionsSatker as $suggestion)
                                     <li 
@@ -95,12 +123,29 @@
                                 @endforeach
                             </ul>
                         </div>
+
+                        @error('satker')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="w-full mb-3">
                         <label class="text-xs">Alasan</label>
-                        <Textarea class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                        <Textarea wire:model="alasan" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
                         </Textarea>
+
+                        @error('alasan')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mt-4 flex justify-end space-x-2">
+                        <button @click="showTambah = false" class="px-3 py-1 text-sm font-medium bg-gray-500 text-white rounded hover:bg-gray-600">
+                            Batal
+                        </button>
+                        <button wire:click="createUsul" class="px-3 py-1 text-sm font-medium bg-[#CB0C9F] hover:bg-[#b42f95] text-white rounded">
+                            Simpan
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,7 @@
 <div class="flex flex-wrap -mx-3">
+    @section('beforeTitle', 'Pages')
+    @section('title', 'Dashboard')
+
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words border-0 border-transparent border-solid rounded-2xl">
             <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
@@ -66,7 +69,7 @@
                                 @if(count($items))
                                     <ul>
                                         @foreach($items as $item)
-                                            <li class="flex justify-between mb-2">
+                                            <li class="flex justify-between mb-2 text-sm">
                                                 <span class="">{{ $item['satker'] }}</span>
                                                 <span>{{ $item['count'] }}</span>
                                             </li>
@@ -175,8 +178,8 @@
                                 <span class="bg-white p-1 rounded-full"></span>
                             </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">$2400, Design changes</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 DEC 7:20 PM</p>
+                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 1</h6>
+                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">20 Maret 2025</p>
                             </div>
                           </div>
                           <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
@@ -184,8 +187,8 @@
                                 {{-- <span class="bg-white p-1 rounded-full"></span> --}}
                             </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">$2400, Design changes</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 DEC 7:20 PM</p>
+                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 2</h6>
+                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">21 Maret 2025</p>
                             </div>
                           </div>
                           <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
@@ -193,8 +196,8 @@
                                 {{-- <span class="bg-white p-1 rounded-full"></span> --}}
                             </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">$2400, Design changes</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 DEC 7:20 PM</p>
+                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 3</h6>
+                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 Maret 2025</p>
                             </div>
                           </div>
                           <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
@@ -202,8 +205,8 @@
                                 {{-- <span class="bg-white p-1 rounded-full"></span> --}}
                             </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">$2400, Design changes</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 DEC 7:20 PM</p>
+                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 4</h6>
+                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">23 Maret 2025</p>
                             </div>
                           </div>
                           <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
@@ -211,8 +214,8 @@
                                 {{-- <span class="bg-white p-1 rounded-full"></span> --}}
                             </span>
                             <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">$2400, Design changes</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 DEC 7:20 PM</p>
+                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 5</h6>
+                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">25 Maret 2025</p>
                             </div>
                           </div>
                         </div>
