@@ -47,12 +47,8 @@ class MonitoringAngkaKredit extends DataTableComponent
                 ->searchable(),
             Column::make("Angka Kredit", "nilai")
                 ->sortable(),
-            Column::make("jenis", "jenis")
+            Column::make("Jenis", "jenis")
                 ->sortable()
-                ->hideIf(true),
-            Column::make("Jenis")
-                ->html()
-                ->label(fn($row) => $this->showJenis($row->jenis))
                 ->searchable(),
             Column::make("start", "periode_start")
                 ->sortable()
@@ -87,10 +83,10 @@ class MonitoringAngkaKredit extends DataTableComponent
 
     public function  showPeriode($jenis, $start, $end)
     {
-        if ($jenis == 3) {
+        if ($jenis == 'Konversi Tahunan') {
             $text = Carbon::parse($end)->format('Y');
             return $text;
-        } elseif ($jenis == 2 || $jenis == 1 || $jenis == 4) {
+        } else {
             $tgl_start = Carbon::parse($start)->locale('id');
             $tgl_end = Carbon::parse($end)->locale('id');
 
@@ -104,19 +100,6 @@ class MonitoringAngkaKredit extends DataTableComponent
     public function showLink($link)
     {
         return "<a href='{$link}'>{$link}</a>";
-    }
-
-    public function showJenis($jenis)
-    {
-        if ($jenis == 1) {
-            return '<span class="text-xs px-2 rounded-lg bg-blue-500 text-white">Integrasi</span>';
-        } elseif ($jenis == 2) {
-            return '<span class="text-xs px-2 rounded-lg bg-orange-300 text-white">Praintegrasi</span>';
-        } elseif ($jenis == 3) {
-            return '<span class="text-xs px-2 rounded-lg bg-fuchsia-400 text-white">Konversi Tahunan</span>';
-        } elseif ($jenis == 4) {
-            return '<span class="text-xs px-2 rounded-lg bg-teal-500 text-white">Konversi Periodik</span>';
-        }
     }
 
     public function showStatus($status) 

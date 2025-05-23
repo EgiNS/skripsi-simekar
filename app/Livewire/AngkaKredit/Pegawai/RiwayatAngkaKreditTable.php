@@ -3,14 +3,17 @@
 namespace App\Livewire\AngkaKredit\Pegawai;
 
 use Carbon\Carbon;
+use App\Models\Profile;
 use App\Models\AngkaKredit;
+use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Illuminate\Database\Eloquent\Builder;
 
 class RiwayatAngkaKreditTable extends DataTableComponent
 {
     protected $model = AngkaKredit::class;
+
+    protected $listeners = ['refreshTable' => '$refresh'];
 
     public function configure(): void
     {
@@ -19,7 +22,7 @@ class RiwayatAngkaKreditTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return AngkaKredit::where('nip', '12345');
+        return AngkaKredit::where(['nip'=>'198906132012111001']);
     }
 
     public function columns(): array
@@ -28,12 +31,8 @@ class RiwayatAngkaKreditTable extends DataTableComponent
             Column::make("Id", "id")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("jenis", "jenis")
+            Column::make("Jenis", "jenis")
                 ->sortable()
-                ->hideIf(true),
-            Column::make("Jenis")
-                ->html()
-                ->label(fn($row) => $this->showJenis($row->jenis))
                 ->searchable(),
             Column::make("Angka Kredit", "nilai")
                 ->sortable(),
@@ -66,10 +65,10 @@ class RiwayatAngkaKreditTable extends DataTableComponent
 
     public function  showPeriode($jenis, $start, $end)
     {
-        if ($jenis == 3) {
+        if ($jenis == 'Konversi Tahunan') {
             $text = Carbon::parse($end)->format('Y');
             return $text;
-        } elseif ($jenis == 1 || $jenis == 2 || $jenis == 4) {
+        } else {
             // Carbon::setLocale('id');
             
             $tgl_start = Carbon::parse($start)->locale('id');

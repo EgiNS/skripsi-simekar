@@ -5,6 +5,11 @@ namespace App\Livewire\Mutasi\Kepala;
 use Carbon\Carbon;
 use App\Models\Profile;
 use Livewire\Component;
+use ZipStream\ZipStream;
+use Maatwebsite\Excel\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\RotasiKepalaExport;
+use Illuminate\Support\Facades\App;
 
 class SimulasiKepala extends Component
 {
@@ -26,12 +31,13 @@ class SimulasiKepala extends Component
 
     public function prevPage()
     {
-        $this->step = 1; // Kembali ke halaman pertama
+        $this->step -= 1; // Kembali ke halaman pertama
     }
 
     public function updatedKandidat()
     {
-        $this->suggestions = Profile::where('nama', 'like', '%' . $this->kandidat . '%')
+        $this->suggestions = Profile::where('active',1)
+            ->where('nama', 'like', '%' . $this->kandidat . '%')
             ->whereBetween('id_golongan', [8, 13])
             ->limit(5)
             ->pluck('nama')
@@ -49,6 +55,7 @@ class SimulasiKepala extends Component
             'satker_asal' => $profile->satker->nama,
             'zona' => null,
             'tmt_jab' => $this->hitungMasaKerja($profile->tmt_jab, 'jab'),
+            'satker_tujuan' => '-'
         ];
         $this->suggestions = [];
     }
@@ -79,6 +86,55 @@ class SimulasiKepala extends Component
             unset($this->selectedData[$index]);
             $this->selectedData = array_values($this->selectedData); // Reset array keys
         }
+    }
+
+    public function pageHasil()
+    {
+        $this->step = 3;
+
+        $this->selectedData = collect($this->selectedData)->map(function ($item) {
+            $item['satker_tujuan'] = isset($item['satker_tujuan']) && $item['satker_tujuan'] != ''
+                ? \App\Models\Satker::find($item['satker_tujuan'])->nama ?? '-'
+                : '-';
+            return $item;
+        });        
+        
+    }
+
+    public function download() {
+        $data = collect($this->selectedData)->map(function ($item) {
+            return [
+                'nip'           => $item['nip'],
+                'nama'          => $item['nama'],
+                'jabatan'       => $item['jabatan'],
+                'satker_asal'   => $item['satker_asal'],
+                'satker_tujuan' => $item['satker_tujuan']
+            ];
+        })->toArray();
+    
+        // Generate PDF
+        $pdf = Pdf::loadView('livewire.mutasi.kepala.pdf', ['data' => $data])->output();
+
+        $excel = App::make(Excel::class);
+
+        $excelFile = $excel->raw(new RotasiKepalaExport($data), \Maatwebsite\Excel\Excel::XLSX);
+
+        // Buat ZIP
+        $zip = new ZipStream(
+            outputName: 'simulasi-mutasi-' . now()->format('dmy-His') . '.zip',
+        
+            // enable output of HTTP headers
+            sendHttpHeaders: true,
+        );
+
+        // Tambahkan PDF ke dalam ZIP
+        $zip->addFile('simulasi-mutasi-' . now()->format('dmy-His') . '.pdf', $pdf);
+
+        // Tambahkan Excel ke dalam ZIP
+        $zip->addFile('simulasi-mutasi-' . now()->format('dmy-His') . '.xlsx', $excelFile);
+
+        // Kirim ZIP ke browser
+        $zip->finish();
     }
 
     public function render()

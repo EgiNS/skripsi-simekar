@@ -11,7 +11,7 @@
             <div class="grid mb-5 grid-cols-3 space-x-2">
                 <div class="p-5 mb-0 bg-white rounded-2xl shadow-soft-xl flex flex-row items-center justify-between">
                     <div class="w-20 h-full text-white flex justify-center items-center text-4xl font-semibold text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
-                        6
+                       {{ $this->getTotalCountBulanIni() }}
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <p class="text-[#252F40] font-medium text-sm self-end text-end">Nominasi Pegawai Naik Pangkat Periode Selanjutnya</p>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="p-5 mb-0 bg-white rounded-2xl shadow-soft-xl flex flex-row items-center justify-between">
                     <div class="w-20 h-full text-white flex justify-center items-center text-4xl font-semibold text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
-                        2
+                        {{ $this->getUsulMutasi() }}
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <p class="text-[#252F40] font-medium text-sm self-end text-end">Usul Mutasi Pegawai Belum Ditindaklanjuti</p>
@@ -29,10 +29,10 @@
                 </div>
                 <div class="p-5 mb-0 bg-white rounded-2xl shadow-soft-xl flex flex-row items-center justify-between">
                     <div class="w-20 h-full text-white flex justify-center items-center text-4xl font-semibold text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
-                        6
+                        {{ $this->getApprovalPAK() }}
                     </div>
                     <div class="flex flex-col gap-y-3">
-                        <p class="text-[#252F40] font-medium text-sm self-end text-end">Pengajuan Angka Kredit Pegawai Masih Menunggu</p>
+                        <p class="text-[#252F40] font-medium text-sm self-end text-end">Approval Arsip PAK Pegawai Masih Menunggu</p>
                         <a href="" class="text-sm self-end hover:underline">Lihat detail →</a> 
                     </div>
                 </div>
@@ -41,10 +41,10 @@
                 <div class="flex flex-row justify-between relative mb-3">
                     <p class="font-semibold text-lg mb-5 text-[#252F40]">Pegawai yang Akan Naik Pangkat</p>
                     <div class="relative w-24">
-                        <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
-                            <option value="">2025</option>
-                            <option value="">2026</option>
-                            <option value="">2027</option>
+                        <select wire:model='tahun' wire:change='getNaikPangkat' class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
+                            <option value="{{ now()->year }}" selected>{{ now()->year }}</option>
+                            <option value="{{ now()->year + 1 }}">{{ now()->year + 1 }}</option>
+                            <option value="{{ now()->year + 2 }}">{{ now()->year + 2 }}</option>
                         </select>
                         <!-- Chevron Icon -->
                         <div class="absolute -top-2 inset-y-0 right-3 flex items-center pointer-events-none">
@@ -54,8 +54,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-4">
-                    @foreach ($monthData as $month => $items)
+                <div class="grid grid-cols-2 gap-4">
+                    @forelse ($groupedData[$tahun] as $month => $items)
                         <div x-data="{ open: false }" class="text-[#252F40]">
                             <!-- Header Accordion -->
                             <button @click="open = !open" class="w-full rounded-lg shadow px-4 py-2 bg-blue-50 text-left font-medium flex items-center justify-between">
@@ -63,24 +63,48 @@
                                 <span x-show="!open">+</span>
                                 <span x-show="open">–</span>
                             </button>
-                
+
                             <!-- Konten Accordion -->
                             <div x-show="open" x-collapse class="p-4 rounded-b-lg shadow">
-                                @if(count($items))
-                                    <ul>
-                                        @foreach($items as $item)
-                                            <li class="flex justify-between mb-2 text-sm">
-                                                <span class="">{{ $item['satker'] }}</span>
-                                                <span>{{ $item['count'] }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
+                                @if($items === null)
                                     <p class="text-gray-500">Tidak ada data</p>
+                                @else
+                                    @if(count($items))
+                                        <ul>
+                                            @foreach($items as $item)
+                                                @if ($item ==  null)
+                                                    <p class="text-gray-500">Tidak ada data</p>
+                                                @else
+                                                    <li class="flex justify-between mb-2 text-sm">
+                                                        <span class="">{{ $item['satker'] }}</span>
+                                                        <span>{{ $item['count'] }}</span>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p class="text-gray-500">Tidak ada data</p>
+                                    @endif
                                 @endif
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div x-data="{ open: false }" class="text-[#252F40]">
+                            <!-- Header Accordion -->
+                            <button @click="open = !open" class="w-full rounded-lg shadow px-4 py-2 bg-blue-50 text-left font-medium flex items-center justify-between">
+                                <span>{{ $month }}</span>
+                                <span x-show="!open">+</span>
+                                <span x-show="open">–</span>
+                            </button>
+
+                            <!-- Konten Accordion -->
+                            <div x-show="open" x-collapse class="p-4 rounded-b-lg shadow">
+                                <p class="text-gray-500">Tidak ada data</p>
+                            </div>
+                        </div>
+                    @endforelse
+
+
                 </div>             
             </div>
             <div class="grid grid-cols-3 gap-x-5">
@@ -94,7 +118,7 @@
                                         <th class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b border-b-solid text-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
                                             Satker
                                         </th>
-                                        <th class="px-6 py-3 pl-2 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b border-b-solid text-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                        <th class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b border-b-solid text-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
                                             Formasi
                                         </th>
                                         <th class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b border-b-solid text-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
@@ -115,7 +139,7 @@
                                         @endphp
                                         <tr>
                                             <!-- Nama Satker -->
-                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                            <td class="align-middle bg-transparent border-b whitespace-nowrap">
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <h6 class="mb-0 leading-normal text-sm font-medium">
@@ -126,22 +150,22 @@
                                             </td>
                                             
                                             <!-- Formasi -->
-                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                                <h6 class="mb-0 leading-normal text-sm">
+                                            <td class="leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap">
+                                                <span class="mb-0 leading-normal text-sm">
                                                     {{ $data['formasi'] }}
-                                                </h6>
+                                                </span>
                                             </td>
                                             
                                             <!-- Eksisting -->
-                                            <td class="p-2 leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap">
+                                            <td class="leading-normal text-center align-middle bg-transparent border-b text-sm whitespace-nowrap">
                                                 <span class="mb-0 leading-normal text-sm">
                                                     {{ $data['eksisting'] }}
                                                 </span>
                                             </td>
                                             
                                             <!-- Keterisian (Progress Bar) -->
-                                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                                <div class="w-3/4 mx-auto">
+                                            <td class="align-middle bg-transparent border-b whitespace-nowrap">
+                                                <div class="w-3/4 mx-auto flex flex-col items-center pb-1">
                                                     <!-- Angka Persentase -->
                                                     <div>
                                                         <span class="font-semibold leading-tight text-xs">
@@ -173,51 +197,29 @@
                     <p class="font-semibold text-lg mb-5 text-[#252F40]">Jadwal Ukom Terdekat</p>
                     <div class="flex-auto p-4">
                         <div class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
-                          <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                            <span class="w-5 h-5 text-base bg-gradient-to-tl from-purple-500 to-pink-500 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
-                                <span class="bg-white p-1 rounded-full"></span>
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 1</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">20 Maret 2025</p>
-                            </div>
-                          </div>
-                          <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                            <span class="w-5 h-5 text-base bg-slate-100 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
-                                {{-- <span class="bg-white p-1 rounded-full"></span> --}}
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 2</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">21 Maret 2025</p>
-                            </div>
-                          </div>
-                          <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                            <span class="w-5 h-5 text-base bg-slate-100 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
-                                {{-- <span class="bg-white p-1 rounded-full"></span> --}}
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 3</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">22 Maret 2025</p>
-                            </div>
-                          </div>
-                          <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                            <span class="w-5 h-5 text-base bg-slate-100 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
-                                {{-- <span class="bg-white p-1 rounded-full"></span> --}}
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 4</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">23 Maret 2025</p>
-                            </div>
-                          </div>
-                          <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                            <span class="w-5 h-5 text-base bg-slate-100 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
-                                {{-- <span class="bg-white p-1 rounded-full"></span> --}}
-                            </span>
-                            <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                              <h6 class="mb-0 font-semibold leading-normal text-sm text-slate-700">Jadwal Ukom 5</h6>
-                              <p class="mt-1 mb-0 font-semibold leading-tight text-xs text-slate-400">25 Maret 2025</p>
-                            </div>
-                          </div>
+                            @foreach ($ukom as $index => $item)
+                                @if ($index == 0)
+                                    <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
+                                    <span class="w-5 h-5 text-base bg-gradient-to-tl from-purple-500 to-pink-500 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
+                                        <span class="bg-white p-1 rounded-full"></span>
+                                    </span>
+                                    <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
+                                        <h6 class="mb-0 font-semibold leading-normal text-slate-700">{{ $item->judul }}</h6>
+                                        <p class="mt-1 mb-0 font-semibold leading-tight text-sm text-slate-400">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d F Y') }}</p>
+                                    </div>
+                                    </div>
+                                @else
+                                    <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
+                                    <span class="w-5 h-5 text-base bg-slate-100 absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full text-center font-semibold">
+                                        {{-- <span class="bg-white p-1 rounded-full"></span> --}}
+                                    </span>
+                                    <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
+                                        <h6 class="mb-0 font-semibold leading-normal text-slate-700">{{ $item->judul }}</h6>
+                                        <p class="mt-1 mb-0 font-semibold leading-tight text-sm text-slate-400">{{ \Carbon\Carbon::parse($item->tanggal_mulai)->format('d F Y') }}</p>
+                                    </div>
+                                    </div>   
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>

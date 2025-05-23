@@ -6,7 +6,7 @@
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent flex flex-row justify-between w-full">
                 <p class="font-semibold text-lg text-[#252F40]">Informasi Ujian Kompetensi</p>
-                <a href="{{ route('tambah-info-ukom') }}" wire:navigate class="cursor-pointer bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-sm font-semibold text-white px-4 py-2 rounded">
+                <a href="{{ route('tambah-info-ukom') }}" wire:navigate class="cursor-pointer bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-sm font-semibold text-white px-4 py-2 rounded-lg">
                 Tambah
                 </a>
             </div>
@@ -25,7 +25,7 @@
                                     <p class="text-[#252F40] text-sm">Diposting: {{ $item->created_at }}</p>
                                 </div>
                                 <div>
-                                    <span wire:click="openModalDelete('{{ $item->id }}')" class="cursor-pointer text-xs text-[#EA0606] font-semibold mr-4">DELETE</span>
+                                    <span wire:click="openModalDelete('{{ $item->id }}')" class="cursor-pointer text-xs text-[#EA0606] font-semibold mr-4">HAPUS</span>
                                     <a href="{{ route('edit-info-ukom', $item->id) }}" wire:navigate class="text-xs text-[#252F40] font-semibold cursor-pointer">EDIT</a>
                                 </div>
                             </div>

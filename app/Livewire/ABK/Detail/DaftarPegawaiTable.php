@@ -22,7 +22,7 @@ class DaftarPegawaiTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('nip')
+        $this->setPrimaryKey('id')
              ->setBulkActions([
                 'exportSelectedXlsx' => 'Export ke Excel',
                 ])
@@ -31,12 +31,16 @@ class DaftarPegawaiTable extends DataTableComponent
 
     public function builder(): EloquentBuilder
     {
-        return Profile::query()->orderBy('id_satker', 'asc');
+        return Profile::query()->where('active',1)->orderBy('id_satker', 'asc');
     }
 
     public function columns(): array
     {
         return [
+            Column::make("NIP BPS", "nip_bps")
+                ->sortable()
+                ->searchable()
+                ->deselected(),
             Column::make("NIP", "nip")
                 ->sortable()
                 ->searchable(),
@@ -102,6 +106,10 @@ class DaftarPegawaiTable extends DataTableComponent
                 ->searchable()
                 ->deselected(),
             Column::make("Agama", "agama")
+                ->sortable()
+                ->searchable()
+                ->deselected(),
+            Column::make("Username", "username")
                 ->sortable()
                 ->searchable()
                 ->deselected(),

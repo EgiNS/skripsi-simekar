@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ABKSeeder::class,
             GolonganSeeder::class,
             ProfileSeeder::class,
+            TesMinatKarierSeeder::class,
         ]);
     }
 }

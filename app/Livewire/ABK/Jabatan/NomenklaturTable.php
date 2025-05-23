@@ -17,6 +17,13 @@ class NomenklaturTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            return [
+                'default' => false,
+                'class' => 'px-6 py-3 text-sm font-medium dark:text-white',
+            ];
+        });
     }
 
     public function columns(): array
@@ -33,7 +40,7 @@ class NomenklaturTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make("Nama Umum", "nama_umum")
+            Column::make("Rumpun Fungsional", "nama_umum")
                 ->sortable()
                 ->searchable(),
 

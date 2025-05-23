@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->text('isi');
+            $table->json('files')->nullable();
             $table->timestamps();
         });
     }

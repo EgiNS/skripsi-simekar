@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('angka_kredit', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_pegawai');
             $table->string('nip');
-            $table->integer('jenis');
+            $table->string('jenis');
             $table->date('periode_start')->nullable();
             $table->date('periode_end')->nullable();
             $table->integer('nilai');
+            $table->integer('total_ak');
             $table->string('link_pak');
             $table->integer('status')->default(1);
-            $table->foreign('nip')->references('nip')->on('profile');
+            $table->foreign('id_pegawai')->references('id')->on('profile');
             $table->timestamps();
         });
     }

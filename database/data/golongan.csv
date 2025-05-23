@@ -1,15 +1,15 @@
-golongan,ak minimal
-II/a,25
-II/b,40
-II/c,60
-II/d,80
-III/a,100
-III/b,150
-III/c,200
-III/d,300
-IV/a,400
-IV/b,550
-IV/c,700
-IV/d,850
-IV/e,1050
-PPPK,0
+golongan,ak minimal,ak_dasar
+II/a,,
+II/b,,
+II/c,20,0
+II/d,40,20
+III/a,50,0
+III/b,100,50
+III/c,100,0
+III/d,200,100
+IV/a,150,0
+IV/b,300,150
+IV/c,450,300
+IV/d,200,0
+IV/e,0,0
+PPPK,0,

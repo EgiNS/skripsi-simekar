@@ -14,6 +14,6 @@ class AngkaKredit extends Model
 
     public function profile()
     {
-        return $this->belongsTo(Profile::class, 'nip', 'nip');
+        return $this->belongsTo(Profile::class, 'id_pegawai', 'id');
     }
 }

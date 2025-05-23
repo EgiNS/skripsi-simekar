@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('golongan', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->integer('ak_minimal');
+            $table->integer('ak_minimal')->nullable();
+            $table->integer('ak_dasar')->nullable();
             $table->timestamps();
         });
     }

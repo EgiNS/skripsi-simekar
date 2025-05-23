@@ -13,7 +13,7 @@
     $attributes->merge($customThAttributes)
         ->class([
             'text-gray-500 dark:bg-gray-800 dark:text-gray-400' => $this->isTailwind && (($customThAttributes['default-colors'] ?? true) || ($customThAttributes['default'] ?? true)),
-            'px-6 py-3 text-left text-xs font-medium whitespace-nowrap uppercase tracking-wider' => $this->isTailwind && (($customThAttributes['default-styling'] ?? true) || ($customThAttributes['default'] ?? true)),
+            'px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-5' => $this->isTailwind && (($customThAttributes['default-styling'] ?? true) || ($customThAttributes['default'] ?? true)),
             'hidden' => $this->isTailwind && $column->shouldCollapseAlways(),
             'hidden md:table-cell' => $this->isTailwind && $column->shouldCollapseOnMobile(),
             'hidden lg:table-cell' => $this->isTailwind && $column->shouldCollapseOnTablet(),

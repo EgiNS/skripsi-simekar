@@ -68,25 +68,30 @@ class DetailABKTable extends DataTableComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Formasi', 'formasi')
-                ->format(fn($value) => "<span class='font-semibold'>$value</span>")
+            Column::make('Formasi', 'formasi')  
+                ->format(fn($value) => '<span class="block text-center">'.$value.'</span>')
+                ->html()
                 ->footer(function($rows) {
-                    return $rows->sum('formasi');
-                })
-                ->html(),
+                    return '<span class="block text-center">'.$rows->sum('formasi').'</span>';
+                }),
             
             Column::make('Eksisting')
                 ->label(fn($row, Column $column) => $this->getEksistingLabel($row))
                 ->html()
                 ->footer(function($rows) {
-                    return $rows->reduce(fn($total, $row) => $total + $this->getEksisting($row->jabatan, $row->id_satker), 0);
+                    return '<span class="block text-center">'.$rows->reduce(fn($total, $row) => $total + $this->getEksisting($row->jabatan, $row->id_satker), 0).'</span>';
                 }),
+
+            Column::make('Selisih')
+                ->label(fn($row, Column $column) => $this->getSelisihLabel($row))
+                ->html(),
 
             // Column::make('Action')
             //     ->label(fn($row) => view('livewire.a-b-k.components.action-button', ['row' => $row]))
             //     ->html(),
 
             Column::make('Aksi')
+            ->setLabelAttributes(['class' => 'block text-center'])
             ->label(fn($row) => view('livewire.abk.detail.detail-action-button', [
                 'id' => $row->id,
                 'id_satker' => $row->id_satker,
@@ -134,14 +139,23 @@ class DetailABKTable extends DataTableComponent
         $eksisting = $this->getEksisting($row->jabatan, $row->id_satker);
         $warna = $eksisting > $row->formasi ? 'text-red-500' : '';
 
-        return "<span class='{$warna} font-semibold'>{$eksisting}</span>";
+        return "<span class='{$warna} block text-center'>{$eksisting}</span>";
     }
 
     // Fungsi untuk menghitung jumlah pegawai di tabel Profile
     public function getEksisting($jabatan, $satker)
     {
-        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker])
+        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker, 'active'=>1])
             ->count();
+    }
+
+    public function getSelisihLabel($row)
+    {
+        $eksisting = $this->getEksisting($row->jabatan, $row->id_satker);
+        $warna = $eksisting < $row->formasi ? 'text-green-500' : '';
+        $selisih = $row->formasi - $eksisting;
+        
+        return "<span class='{$warna} block text-center'>{$selisih}</span>";
     }
 
     public function loadPegawai($id_satker, $jabatan)
@@ -150,7 +164,7 @@ class DetailABKTable extends DataTableComponent
         $this->jabatan = $jabatan;
 
         // Ambil pegawai sesuai id_satker & jabatan
-        $this->pegawaiList = Profile::where('id_satker', $id_satker)
+        $this->pegawaiList = Profile::where(['id_satker'=>$id_satker, 'active'=>1])
             ->where('jabatan', $jabatan)
             ->get(['nama', 'nip']) // Sesuaikan dengan nama kolom di database
             ->toArray();

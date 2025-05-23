@@ -23,24 +23,39 @@ class KepalaTable extends DataTableComponent
              ->setBulkActions([
                 'simpanSelected' => 'Simulasi Rotasi', // Tambahkan aksi
              ]);
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            if ($this->hitungMasaKerja($row->tgl_lahir, 'tahun') >= 57) {
+                return [
+                  'default' => false,
+                  'class' => 'px-2 py-2 text-sm text-red-500 font-medium dark:text-white',
+                ];
+            }
+
+            return [
+                'default' => false,
+                'class' => 'px-2 py-2 text-sm font-medium dark:text-white',
+            ];
+        });
     }
 
     public function builder(): Builder
     {
-        return Profile::where('jabatan', 'Kepala BPS Kabupaten/Kota')->orderBy('tmt_jab', 'asc');
+        return Profile::where(['jabatan'=>'Kepala BPS Kabupaten/Kota', 'active'=>1])->orderBy('tmt_jab', 'asc');
     }
 
     public function columns(): array
     {
         return [
             Column::make("NIP", "nip")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Nama", "nama")
-                ->sortable(),
-            Column::make("Jabatan", "jabatan")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Satker", "satker.nama")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Jab", "tmt_jab")
                 ->sortable()
                 ->hideIf(true),
@@ -102,8 +117,10 @@ class KepalaTable extends DataTableComponent
 
         if ($jenis == "jab") {
             return "{$selisih->y} tahun {$selisih->m} bulan {$selisih->d} hari";
-        } else {
+        } elseif ($jenis == "umur") {
             return "{$selisih->y} tahun {$selisih->m} bulan";
+        } else {
+            return $selisih->y;
         }
     }
 }

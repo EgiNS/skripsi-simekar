@@ -16,6 +16,20 @@ class FormasiBySatker extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            if ($columnIndex == 2) {
+                return [
+                  'default' => false,
+                  'class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-white text-center',
+                ];
+            }
+
+            return [
+                'default' => false,
+                'class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-white',
+            ];
+        });
     }
 
     public function columns(): array
@@ -45,6 +59,9 @@ class FormasiBySatker extends DataTableComponent
                 ->label(fn($row, Column $column) => $this->getEksistingLabel($row))
                 ->html(),
 
+            Column::make('Selisih')
+                ->label(fn($row, Column $column) => $this->getSelisihLabel($row))
+                ->html(),
         ];
     }
 
@@ -71,13 +88,22 @@ class FormasiBySatker extends DataTableComponent
         $eksisting = $this->getEksisting($row->jabatan, $row->id_satker);
         $warna = $eksisting > $row->formasi ? 'text-red-500' : '';
 
-        return "<span class='{$warna} font-semibold'>{$eksisting}</span>";
+        return "<span class='{$warna} font-semibold text-center block'>{$eksisting}</span>";
     }
 
     // Fungsi untuk menghitung jumlah pegawai di tabel Profile
     public function getEksisting($jabatan, $satker)
     {
-        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker])
+        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker, 'active'=>1])
             ->count();
+    }
+
+    public function getSelisihLabel($row)
+    {
+        $eksisting = $this->getEksisting($row->jabatan, $row->id_satker);
+        $warna = $eksisting < $row->formasi ? 'text-green-500' : '';
+        $selisih = $row->formasi - $eksisting;
+        
+        return "<span class='{$warna} block text-center'>{$selisih}</span>";
     }
 }

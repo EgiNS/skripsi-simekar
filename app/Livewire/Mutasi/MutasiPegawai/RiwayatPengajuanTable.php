@@ -2,23 +2,57 @@
 
 namespace App\Livewire\Mutasi\MutasiPegawai;
 
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Models\Profile;
 use App\Models\UsulMutasi;
 use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class RiwayatPengajuanTable extends DataTableComponent
 {
     protected $model = UsulMutasi::class;
 
+    protected $listeners = ['refreshTable' => '$refresh'];
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+
+        $this->setTdAttributes(function(Column $column, $row, $columnIndex, $rowIndex) {
+            if ($columnIndex == 1) {
+                return [
+                  'default' => false,
+                  'class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-white',
+                ];
+            }
+
+            return [
+                'default' => false,
+                'class' => 'px-6 py-4 whitespace-nowrap text-sm font-medium dark:text-white',
+            ];
+        });
+        // class="text-gray-500 dark:text-gray-400 flex items-center space-x-1 text-left text-xs leading-4 font-medium uppercase tracking-wider group focus:outline-none"
+
+        $this->setThAttributes(function(Column $column) {
+            if ($column->isField('alasan')) {
+                return [
+                  'default' => false,
+                  'class' => 'text-red-500 dark:bg-gray-800 dark:text-gray-400 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider w-32',
+                ];
+            }
+
+            return [
+                'default' => false,
+                'class' => 'text-gray-500 dark:bg-gray-800 dark:text-gray-400 px-6 py-3 text-center text-xs font-medium uppercase tracking-wider w-5',
+            ];
+        });
     }
 
     public function builder(): Builder
     {
-        return UsulMutasi::where('usul_mutasi.nip', '12345');
+        $nip = Profile::find(2386)?->nip;
+
+        return UsulMutasi::where('nip', $nip);
     }
 
     public function columns(): array
@@ -29,16 +63,17 @@ class RiwayatPengajuanTable extends DataTableComponent
                 ->hideIf(true),
             Column::make("Jenis", "jenis")
                 ->sortable()
-                ->hideIf(true),
+                ->searchable(),
             Column::make("Status", "status")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("Jenis Usulan")
-                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showJenis($row->jenis)),
             Column::make("Alasan", "alasan")
-                ->sortable(),
-            Column::make("Satker Tujuan", "satker.nama")
+                ->sortable()
+                ->deselected(),
+            Column::make("Provinsi Tujuan", "prov_tujuan")
+                ->sortable()
+                ->searchable(),
+            Column::make("Kabupaten Tujuan", "kab_tujuan")
                 ->sortable()
                 ->searchable(),
             Column::make("Status")
@@ -55,5 +90,20 @@ class RiwayatPengajuanTable extends DataTableComponent
                 ->label(fn($row) => $this->tglTindak($row->updated_at, $row->created_at))
                 ->sortable(),
         ];
+    }
+
+    public function showStatus($status) 
+    {  
+        if ($status ==  1) {
+            return '<span class="text-xs px-2 rounded-lg bg-yellow-400 text-white">Belum Ditindaklanjuti</span>';
+        } elseif ($status == 2) {
+            return '<span class="text-xs px-2 rounded-lg bg-green-400 text-white">Sudah Ditindaklanjuti</span>';
+        } elseif ($status == 3) {
+            return '<span class="text-xs px-2 rounded-lg bg-[#F53939] text-white">Batal</span>';
+        }
+    }
+
+    public function tglTindak($usul, $tindak) {
+        return $usul == $tindak ? '-' : $tindak;
     }
 }

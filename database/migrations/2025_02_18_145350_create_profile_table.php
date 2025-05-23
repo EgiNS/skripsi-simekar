@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profile', function (Blueprint $table) {
-            $table->string('nip')->primary();
+            $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_satker');
             $table->unsignedBigInteger('id_golongan');
+            $table->string('nip');
+            $table->string('nip_bps');
             $table->string('nama');
             $table->string('kode_org');
             $table->string('jabatan');
@@ -29,6 +31,9 @@ return new class extends Migration
             $table->date('tgl_lahir');
             $table->string('jk');
             $table->string('agama');
+            $table->string('username');
+            $table->integer('flag');
+            $table->integer('active');
             $table->timestamps();
             $table->foreign('id_user')->references('id')->on('users');
             $table->foreign('id_satker')->references('id')->on('satker');

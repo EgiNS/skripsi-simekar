@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('usul_mutasi', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_pegawai');
             $table->string('nip');
-            $table->unsignedBigInteger('satker_tujuan');
-            $table->integer('jenis');
+            $table->string('prov_tujuan');
+            $table->string('kab_tujuan');
+            $table->string('jenis');
             $table->string('alasan');
             $table->integer('status')->default(1);
-            $table->foreign('nip')->references('nip')->on('profile');
-            $table->foreign('satker_tujuan')->references('id')->on('satker');
+            $table->foreign('id_pegawai')->references('id')->on('profile');
             $table->timestamps();
         });
     }

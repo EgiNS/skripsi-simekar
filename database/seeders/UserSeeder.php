@@ -20,8 +20,8 @@ class UserSeeder extends Seeder
         while (($data = fgetcsv($csvFile, 2000, ",")) !== FALSE) {
             if (!$firstline) {
                 User::create([
-                    "username" => $data['16'],
-                    "password" => Hash::make($data['17'])
+                    "username" => $data['17'],
+                    "password" => Hash::make($data['18'])
                 ]);
             }
             $firstline = false;

@@ -9,31 +9,53 @@
                     @if ($step == 1)
                         <p class="font-semibold text-lg text-[#252F40] mb-5">Daftar Kepala BPS Kabupaten/Kota Se-Aceh</p>
                         <livewire:Mutasi.Kepala.Kepala-Table />
-                    @else
-                        <div x-data="{ showSatker: false }">
+                    @elseif ($step == 2)
+                            <div x-data="{ 
+                                showSatker : false,
+                                selectedSatker: [], 
+                                setSatker(id, cardIndex) {
+                                    if (id) {
+                                        this.selectedSatker[cardIndex] = id; // Simpan pilihan berdasarkan index card
+                                    }
+                                },
+                                hapusSatker(cardIndex) {
+                                    this.selectedSatker.splice(cardIndex, 1); // Hapus pilihan dari array
+                                }
+                            }">
                             <p class="font-semibold text-lg text-[#252F40] mb-4">Simulasi Rotasi Kepala</p>
 
                                 <div class="grid grid-cols-3 gap-2">
-                                    @foreach ($selectedData as $kepala)
-                                        <div x-data="{ isDisabled: false }" :class="{ 'opacity-50': isDisabled }" class="p-4 text-sm border border-gray-300 rounded-lg shadow-md flex flex-col justify-between">
+                                    @foreach ($selectedData as $index => $kepala)
+                                        <div x-data="{ isDisabled: false }" :class="{ 'opacity-50': isDisabled }" :class="{ 'opacity-50': selectedSatker.includes(selectedSatker[{{ $index }}]) }" class="p-4 text-sm border border-gray-300 rounded-lg shadow-md flex flex-col justify-between">
                                             <div class="flex flex-col justify-between">
                                                 <div>
                                                     <p>Nama: <span class="text-[#252F40] font-semibold ml-2">{{ $kepala['nama'] }}</span></p>
                                                     <p>NIP: <span class="text-[#252F40] font-semibold ml-2">{{ $kepala['nip'] }}</span></p>
                                                     <p>Jabatan: <span class="text-[#252F40] font-semibold">{{ $kepala['jabatan'] }}</span></p>
-                                                    <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $kepala['satker_asal'] }} {{ $kepala['zona'] ? '(Zona ' . $kepala['zona'] . ')' : '' }}</span></p>
+                                                    <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $kepala['satker_asal'] }} {{ isset($kepala['zona']) ? '(Zona ' . $kepala['zona'] . ')' : '' }}</span></p>
                                                     <p>Masa kerja jabatan saat ini: <br> <span class="text-[#252F40] font-semibold">{{ $kepala['tmt_jab'] }}</span></p>
                                                     <p>Riwayat jabatan: -</p>
                                                 </div>
                                             
                                                 <div class="border-t mt-2 pt-2 relative w-full">
                                                     <label class="mb-1">Pilih satker tujuan:</label>
-                                                    <select :disabled="isDisabled" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10">
+                                                    <select 
+                                                        x-model="selectedSatker[{{ $index }}]" 
+                                                        @change="setSatker($event.target.value, {{ $index }})"
+                                                        wire:model.defer="selectedData.{{ $index }}.satker_tujuan"
+                                                        class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10">
+                                                        
+                                                        <option value="-" selected>-- Pilih Tujuan --</option>
                                                         @foreach ($allSatker as $satker)
-                                                            <option value="{{ $satker['id'] }}">{{ $satker['nama'] . ' (Zona ' . $satker['zona'] . ')' }}</option>
+                                                            <option 
+                                                                value="{{ $satker['id'] }}" 
+                                                                :disabled="selectedSatker.includes('{{ $satker['id'] }}')"
+                                                            >
+                                                                {{ $satker['nama'] . ' (Zona ' . $satker['zona'] . ')' }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
-                                                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                                    <div class="absolute inset-y-0 right-3 -top-1 flex items-center pointer-events-none">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 transition-all" viewBox="0 0 20 20" fill="currentColor">
                                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                                         </svg>
@@ -49,7 +71,7 @@
                                                         </button>
                                                 
                                                     @else
-                                                        <button wire:click="hapusData('{{ $kepala['nip'] }}')" class="bg-[#EF5350] place-self-end text-white rounded-lg px-3 py-1 text-sm font-semibold mt-3">
+                                                        <button wire:click="hapusData('{{ $kepala['nip'] }}')" @click="hapusSatker({{ $index }})" class="bg-[#EF5350] place-self-end text-white rounded-lg px-3 py-1 text-sm font-semibold mt-3">
                                                             Hapus
                                                         </button>
                                                     @endif
@@ -61,7 +83,10 @@
                                 
                                 <div class="w-full flex justify-between mt-12 gap-x-4">
                                     <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
-                                    <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium" @click="showSatker = true">Tambah Kandidat</button>
+                                    <div>
+                                        <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#A8B8D8] to-[#627594] hover:scale-105 transition text-white rounded-lg text-sm font-medium" @click="showSatker = true">Tambah Kandidat</button>
+                                        <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium" wire:click="pageHasil">Simpan & Selanjutnya</button>
+                                    </div>
                                 </div>
 
                                 <div x-data="{ search: '' }" x-show="showSatker" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm">
@@ -105,6 +130,38 @@
                                         </div>
                                     </div>
                                 </div>
+                        </div>
+                    
+                    @elseif($step==3)
+                        <p class="font-semibold text-lg text-[#252F40] mb-10">Hasil Simulasi Rotasi</p>
+
+                        <table class="w-full border-collapse border rounded border-gray-300 mt-4 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700 text-left">
+                                    <th class="border border-gray-300 px-4 py-2 text-center">NIP</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Nama</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Jabatan</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Satker Asal</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Satker Tujuan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($selectedData as $index => $item)
+                                    <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['nip'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['nama'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['jabatan'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['satker_asal'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['satker_tujuan'] }}</td>                                        
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+
+                        <div class="w-full flex justify-between mt-12 gap-x-4">
+                            <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
+                            <button wire:click="download" class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium">Unduh</button>
                         </div>
                     @endif
                 </div>

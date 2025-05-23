@@ -7,6 +7,12 @@ use App\Models\ABK;
 use App\Models\Satker;
 use App\Models\Profile;
 use Livewire\Component;
+use ZipStream\ZipStream;
+use Maatwebsite\Excel\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
+use App\Exports\MutasiPegawaiExport;
+use App\Livewire\Mutasi\MutasiPegawai\MutasiPegawai;
 
 class SimulasiPegawai extends Component
 {
@@ -15,10 +21,19 @@ class SimulasiPegawai extends Component
     public $suggestionsNama = [];
     public $detailedData = [];
     public $step = 1;
+
+    protected $listeners = ['sendSelectedData' => 'handleSelectedData'];
     
     public function mount()
     {
-        $this->inputs[] = ['nama' => '', 'satker' => '']; // Mulai dengan satu input
+        // Ambil data dari session
+        $this->inputs = session()->pull('selectedData', []); // Hapus setelah diambil
+
+        // Jika kosong, set default satu input kosong
+        if (empty($this->inputs)) {
+            $this->inputs[] = ['nama' => '', 'satker' => ''];
+        }
+
         $this->allSatker = Satker::all();
     }
 
@@ -37,7 +52,8 @@ class SimulasiPegawai extends Component
     {
         if (strpos($index, '.nama') !== false) {
             $key = explode('.', $index)[0]; // Ambil index angka
-            $this->suggestionsNama[$key] = Profile::where('nama', 'like', '%' . $value . '%')
+            $this->suggestionsNama[$key] = Profile::where('active',1)
+                ->where('nama', 'like', '%' . $value . '%')
                 ->distinct()
                 ->limit(5)
                 ->pluck('nama')
@@ -92,7 +108,8 @@ class SimulasiPegawai extends Component
                     'satker_tujuan' => Satker::find($satkerTujuan)->nama ?? 'Tidak Ditemukan',
                     'formasi' => $satkerTerpilih['formasi'],
                     'eksisting' => $satkerTerpilih['eksisting'],
-                    'satker_eligible' => $satkerList, // Simpan semua satker yang eligible
+                    'satker_eligible' => $satkerList,
+                    'keputusan' => $pegawai->keputusan ?? '',
                 ];
             }
         }
@@ -103,12 +120,12 @@ class SimulasiPegawai extends Component
 
     public function prevPage()
     {
-        $this->step = 1; // Kembali ke halaman pertama
+        $this->step -= 1; // Kembali ke halaman pertama
     }
 
     public function getEksisting($jabatan, $satker)
     {
-        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker])
+        return Profile::where(['jabatan'=>$jabatan, 'id_satker'=>$satker, 'active'=>1])
             ->count();
     }
 
@@ -141,6 +158,48 @@ class SimulasiPegawai extends Component
         $pegawai['status'] = ($pegawai['formasi'] > $pegawai['eksisting']) ? 'Eligible' : 'Tidak Eligible';
 
         $this->dispatch('close-modal');
+    }
+
+    public function pageHasil()
+    {
+        $this->step = 3;
+    }
+
+    public function download() {
+        $data = collect($this->detailedData)->map(function ($item) {
+            return [
+                'nip'           => $item['nip'],
+                'nama'          => $item['nama'],
+                'jabatan'       => $item['jabatan'],
+                'satker_asal'   => $item['satker_asal'],
+                'satker_tujuan' => $item['satker_tujuan'],
+                'keputusan'     => $item['keputusan'] ?? 'Belum Ditentukan',
+            ];
+        })->toArray();
+    
+        // Generate PDF
+        $pdf = Pdf::loadView('livewire.mutasi.pegawai.pdf', ['data' => $data])->output();
+
+        $excel = App::make(Excel::class);
+
+        $excelFile = $excel->raw(new MutasiPegawaiExport($data), \Maatwebsite\Excel\Excel::XLSX);
+
+        // Buat ZIP
+        $zip = new ZipStream(
+            outputName: 'simulasi-mutasi-' . now()->format('dmy') . '.zip',
+        
+            // enable output of HTTP headers
+            sendHttpHeaders: true,
+        );
+
+        // Tambahkan PDF ke dalam ZIP
+        $zip->addFile('simulasi-mutasi-' . now()->format('dmy') . '.pdf', $pdf);
+
+        // Tambahkan Excel ke dalam ZIP
+        $zip->addFile('simulasi-mutasi-' . now()->format('dmy') . '.xlsx', $excelFile);
+
+        // Kirim ZIP ke browser
+        $zip->finish();
     }
 
     public function render()

@@ -39,6 +39,13 @@ class StatusABKTable extends DataTableComponent
              ->setBulkActions([
                 'exportSelectedXlsx' => 'Export ke Excel',
              ]);
+
+        $this->setThAttributes(function(Column $column) {
+            return [
+                'default' => false,
+                'class' => 'text-gray-500 dark:bg-gray-800 dark:text-gray-400 px-3 py-3 text-center text-xs font-medium uppercase tracking-wider w-5',
+            ];
+        });
     }
 
     public function columns(): array
@@ -55,7 +62,8 @@ class StatusABKTable extends DataTableComponent
     
         foreach ($this->namaUmumList as $namaUmum) {
             $columns[] = Column::make($namaUmum)
-                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->html()
+                ->setLabelAttributes(['class' => 'text-center block'])
                 ->label(fn($row) => $this->hitungSelisih($row->id, $namaUmum));
         }
     
@@ -81,7 +89,7 @@ class StatusABKTable extends DataTableComponent
 
         // Hitung jumlah pegawai berdasarkan konversi jabatan dan id_satker
         $jumlahPegawai = Profile::whereIn('jabatan', $jabatanKonversiList)
-            ->where('id_satker', $id_satker)
+            ->where(['id_satker'=>$id_satker, 'active'=>1])
             ->count();
 
         // Hitung jumlah formasi berdasarkan konversi jabatan dan id_satker
@@ -91,21 +99,21 @@ class StatusABKTable extends DataTableComponent
 
         // Jika tidak ada formasi, tampilkan "-"
         if ($jumlahFormasi == 0) {
-            return "-";
+            return "<span class='text-center block'>-</span>";
         }
 
         // Jika tidak ada pegawai, tampilkan selisih sebagai -jumlahFormasi
         if ($jumlahPegawai == 0) {
-            return "<span class=''>-$jumlahFormasi</span>";
+            return "<span class='text-center block'>-$jumlahFormasi</span>";
         }
 
         // Hitung selisih pegawai - formasi
         $selisih = $jumlahPegawai - $jumlahFormasi;
 
         return $selisih == 0 
-            ? "0" 
+            ? "<span class='text-center block'>0</span>"
             : ($selisih > 0 
-                ? "<span class='text-red-500'>+$selisih</span>" 
-                : "<span class=''>$selisih</span>");
+                ? "<span class='text-red-500 text-center block'>+$selisih</span>" 
+                : "<span class='text-center block'>$selisih</span>");
     }
 }

@@ -3,15 +3,21 @@
 namespace App\Livewire\Mutasi\Usul;
 
 use App\Models\Jabatan;
+use App\Models\Profile;
+use App\Models\Satker;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\UsulMutasi;
 use Carbon\Carbon;
+use Rappasoft\LaravelLivewireTables\Traits\WithBulkActions;
 
 class UsulMutasiTable extends DataTableComponent
 {
+    use WithBulkActions;
+
     public $showModalEdit = false;
     public $editId, $status;
+    public $selectedData = [];
 
     protected $model = UsulMutasi::class;
 
@@ -19,7 +25,10 @@ class UsulMutasiTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id');
+        $this->setPrimaryKey('id')
+            ->setBulkActions([
+                'simpanSelected' => 'Simulasi Mutasi', // Tambahkan aksi
+            ]);
     }
 
     public function columns(): array
@@ -40,18 +49,18 @@ class UsulMutasiTable extends DataTableComponent
             Column::make("Satker Asal", "profile.satker.nama")
                 ->sortable()
                 ->searchable(),
-            Column::make("Jenis", "jenis")
+            Column::make("Jenis Usulan", "jenis")
                 ->sortable()
-                ->hideIf(true),
+                ->searchable(),
             Column::make("Status", "status")
                 ->sortable()
                 ->hideIf(true),
-            Column::make("Jenis Usulan")
-                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showJenis($row->jenis)),
             Column::make("Alasan", "alasan")
                 ->sortable(),
-            Column::make("Satker Tujuan", "satker.nama")
+            Column::make("Provinsi Tujuan", "prov_tujuan")
+                ->sortable()
+                ->searchable(),
+            Column::make("Kabupaten Tujuan", "kab_tujuan")
                 ->sortable()
                 ->searchable(),
             Column::make("Status")
@@ -72,6 +81,26 @@ class UsulMutasiTable extends DataTableComponent
                     'id' => $row->id
                 ]))
         ];
+    }
+
+    public function simpanSelected()
+    {
+        $this->selectedData = [];
+
+        foreach ($this->getSelected() as $selected) {
+            $pegawai = UsulMutasi::where('id', $selected)->first();
+            
+            if ($pegawai) {
+                $this->selectedData[] = [
+                    'nama' => Profile::where('nip', $pegawai->nip)->value('nama'),
+                    'satker' => Satker::where('nama', $pegawai->satker_tujuan)->value('id'),
+                ];
+            }
+        }
+    
+        session()->put('selectedData', $this->selectedData);
+
+        $this->dispatch('navigateTo', '/simulasi-pegawai');
     }
 
     public function showJenis($jenis) 

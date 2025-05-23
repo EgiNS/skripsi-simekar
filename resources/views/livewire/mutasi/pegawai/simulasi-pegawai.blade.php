@@ -75,8 +75,8 @@
                             @foreach ($detailedData as $index => $pegawai)
                             <div class="p-4 text-sm border border-gray-300 rounded-lg shadow-md flex flex-col justify-between" x-data="{ showSatker: false }">
                                 <div>
-                                    <p>Nama: <span class="text-[#252F40] font-semibold ml-2">{{ $pegawai['nama'] }}</span></p>
-                                    <p>NIP: <span class="text-[#252F40] font-semibold ml-2">{{ $pegawai['nip'] }}</span></p>
+                                    <p>Nama: <span class="text-[#252F40] font-semibold">{{ $pegawai['nama'] }}</span></p>
+                                    <p>NIP: <span class="text-[#252F40] font-semibold">{{ $pegawai['nip'] }}</span></p>
                                     <p>Jabatan: <span class="text-[#252F40] font-semibold">{{ $pegawai['jabatan'] }}</span></p>
                                     <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $pegawai['satker_asal'] }}</span></p>
                                     <p>Masa kerja jabatan saat ini: <br> <span class="text-[#252F40] font-semibold">{{ $pegawai['tmt_jab'] }}</span></p>
@@ -86,16 +86,25 @@
                                     <p>Formasi: <span class="text-[#252F40] font-semibold">{{ $pegawai['formasi'] }}</span></p>
                                     <p>Eksisting: <span class="text-[#252F40] font-semibold">{{ $pegawai['eksisting'] }}</span></p>
                                     <p>Status: 
-                                        <span class="{{ ($pegawai['formasi'] > $pegawai['eksisting']) ? 'bg-green-400 text-white' : 'bg-red-500 text-white' }} text-xs px-3 rounded-xl font-semibold">
+                                        <span class="{{ ($pegawai['formasi'] > $pegawai['eksisting']) ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }} text-xs px-3 rounded-xl font-semibold">
                                             {{ ($pegawai['formasi'] > $pegawai['eksisting']) ? 'Eligible' : 'Tidak Eligible' }}
                                         </span>
                                     </p>
                                 </div>
                                 
                                 <!-- Tombol Edit untuk membuka modal -->
-                                <button class="mt-2 w-20 place-self-end border font-semibold border-[#8392AB] px-2 py-1 rounded-lg text-xs" @click="showSatker = true">
-                                    Edit
-                                </button>
+                                <div class="flex justify-between mt-4">
+                                    <button class="w-20 place-self-end border font-semibold border-[#CB0C9F] text-[#CB0C9F] px-2 py-1 rounded-lg text-xs" @click="showSatker = true">
+                                        Edit
+                                    </button>
+    
+                                    <select wire:model.defer="detailedData.{{ $index }}.keputusan" class="border px-2 border-gray-300 text-xs rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300 focus:transition-shadow">
+                                        <option value="" selected>-- Keputusan --</option>
+                                        <option value="Disetujui">Disetujui</option>
+                                        <option value="Tidak Disetujui">Tidak Disetujui</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                </div>
                         
                                 <!-- Modal -->
                                 <div x-show="showSatker" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm"
@@ -160,14 +169,44 @@
                 
                         <div class="w-full flex justify-between mt-12 gap-x-4">
                             <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
-                            <button class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium">Simpan & Lanjutkan</button>
+                            <button wire:click="pageHasil" class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium">Simpan & Lanjutkan</button>
                         </div>
-                
-                    @endif
-                
+                    
+                    @elseif($step==3)
+                        <p class="font-semibold text-lg text-[#252F40] mb-10">Hasil Simulasi Mutasi Pegawai</p>
 
+                        <table class="w-full border-collapse border rounded border-gray-300 mt-4 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100 text-gray-700 text-left">
+                                    <th class="border border-gray-300 px-4 py-2 text-center">NIP</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Nama</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Jabatan</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Satker Asal</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Satker Tujuan</th>
+                                    <th class="border border-gray-300 px-4 py-2 text-center">Keputusan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($detailedData as $index => $item)
+                                    <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['nip'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['nama'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['jabatan'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['satker_asal'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2">{{ $item['satker_tujuan'] }}</td>
+                                        <td class="border border-gray-300 px-4 py-2 text-center font-semibold">{{ $item['keputusan'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+
+                        <div class="w-full flex justify-between mt-12 gap-x-4">
+                            <button wire:click="prevPage" class="mt-3 px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 transition font-medium">Kembali</button>
+                            <button wire:click="download" class="mt-3 px-4 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white rounded-lg text-sm font-medium">Unduh</button>
+                        </div>
+                    @endif
                 </div>
-                
             </div>
         </div>
     </div>
