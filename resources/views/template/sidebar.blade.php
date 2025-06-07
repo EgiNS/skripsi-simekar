@@ -162,21 +162,21 @@
             </li>
 
             <li class="mt-0.5 w-full" 
-                x-data="{ open: {{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak')) ? 'true' : 'false' }} }">
+                x-data="{ open: {{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') || request()->routeIs('update-kinerja')) ? 'true' : 'false' }} }">
                 
                 <a @click="open = !open"
                 class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center justify-between whitespace-nowrap px-4 transition-colors cursor-pointer 
-                        {{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak')) ? 'rounded-lg bg-white font-semibold text-slate-700 shadow-soft-xl' : '' }}">
+                        {{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') || request()->routeIs('update-kinerja')) ? 'rounded-lg bg-white font-semibold text-slate-700 shadow-soft-xl' : '' }}">
                     <div class="flex items-center">
-                        <div class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak')) ? 'bg-gradient-to-tl from-purple-700 to-pink-500' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                        <div class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') || request()->routeIs('update-kinerja')) ? 'bg-gradient-to-tl from-purple-700 to-pink-500' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                           <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>document</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                               <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                 <g transform="translate(1716.000000, 291.000000)">
                                   <g transform="translate(154.000000, 300.000000)">
-                                    <path class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak')) ? '' :  'fill-slate-800'}} opacity-60" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"></path>
-                                    <path class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak')) ? '' :  'fill-slate-800'}}" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                    <path class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') || request()->routeIs('update-kinerja')) ? '' :  'fill-slate-800'}} opacity-60" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z"></path>
+                                    <path class="{{ (request()->routeIs('angka-kredit') || request()->routeIs('upload-angka-kredit') || request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') || request()->routeIs('update-kinerja')) ? '' :  'fill-slate-800'}}" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
                                   </g>
                                 </g>
                               </g>
@@ -210,6 +210,13 @@
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
                               {{ request()->routeIs('buat-pak') || request()->routeIs('hasil-pak') ? 'font-semibold border-[#CB0C9F]' : '' }}">
                           Buat PAK
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{ route('update-kinerja') }}" wire:navigate
+                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                              {{ request()->routeIs('update-kinerja') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                          Update Nilai Kinerja
                       </a>
                     </li>
                 </ul>

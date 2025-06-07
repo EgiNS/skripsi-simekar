@@ -9,7 +9,11 @@
     ">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
             <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                <p class="font-semibold text-lg text-[#252F40]">PAK {{ $jenis }}</p>
+                @if ($jenis == 'Pengangkatan Kembali')
+                    <p class="font-semibold text-lg text-[#252F40]">PAK Pengangkatan Kembali ({{ $jenis_angkat_kembali }})</p>
+                @else
+                    <p class="font-semibold text-lg text-[#252F40]">PAK {{ $jenis }}</p>
+                @endif
             </div>
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-5 overflow-x-auto">
@@ -24,17 +28,13 @@
                                         <td class="px-4 py-2">GOLONGAN</td>
                                         <td class="px-4 py-2">JENJANG TUJUAN</td>
                                     @endif
-                                    @if ($jenis != 'Perpindahan Jabatan' && $jenis_angkat_kembali != 'CLTN')
-                                        <td class="px-4 py-2">PREDIKAT</td>
-                                        <td class="px-4 py-2">PERIODE</td>
-                                    @endif
+                                    <td class="px-4 py-2">PREDIKAT</td>
+                                    <td class="px-4 py-2">PERIODE</td>
                                     {{-- @if ($jenis == 'Pengangkatan Kembali')
                                         <td class="px-4 py-2">JENJANG JFT LAMA</td>
                                     @endif --}}
                                     <td class="px-4 py-2">ANGKA KREDIT</td>
-                                    @if ($jenis == 'Tahunan' || $jenis == 'Periodik')
-                                        <td class="px-4 py-2">TOTAL ANGKA KREDIT</td>    
-                                    @endif
+                                    <td class="px-4 py-2">TOTAL ANGKA KREDIT</td>    
                                     <td class="px-4 py-2">AKSI</td>
                                 </tr>
                             </thead>
@@ -50,21 +50,17 @@
                                             <td class="px-4 py-2">{{ ucwords($profile['jenjang_tujuan']) }}</td>
                                         @endif
 
-                                        @if ($jenis != 'Perpindahan Jabatan' && $jenis_angkat_kembali != 'CLTN')
-                                            <td class="px-4 py-2 text-center">{{ $profile['predikat'] }}</td>
-                                        @endif
+                                        <td class="px-4 py-2 text-center">{{ $profile['predikat'] }}</td>
 
                                         @if ($jenis == 'Tahunan')
                                             <td class="px-4 py-2 text-center">{{ $profile['periode'] }}</td>
-                                        @elseif ($jenis == 'Periodik' || $jenis == 'Pengangkatan Pertama' || $jenis_angkat_kembali == 'Struktural ke JFT' || $jenis_angkat_kembali == 'Tugas Belajar')
+                                        @elseif ($jenis == 'Periodik' || $jenis == 'Pengangkatan Pertama' || $jenis == 'Perpindahan Jabatan' || $jenis_angkat_kembali == 'Struktural ke JFT' || $jenis_angkat_kembali == 'CLTN' || $jenis_angkat_kembali == 'Tugas Belajar')
                                             <td class="px-4 py-2 text-center">{{ $profile['mulai']->translatedFormat('M Y') . ' - ' . $profile['akhir']->translatedFormat('M Y') }}</td>
                                         @endif
 
-                                        <td class="px-4 py-2 text-center">{{ $profile['angka_kredit'] }}</td>
+                                        <td class="px-4 py-2 text-center">{{ rtrim(rtrim(number_format($profile['angka_kredit'], 3, '.', ''), '0'), '.') }}</td>
 
-                                        @if ($jenis == 'Tahunan' || $jenis == 'Periodik')
-                                            <td class="px-4 py-2 text-center">{{ $profile['angka_kredit'] + $profile['ak_awal'] }}</td>
-                                        @endif
+                                        <td class="px-4 py-2 text-center">{{ rtrim(rtrim(number_format($profile['angka_kredit'] + $profile['ak_awal'], 3, '.', ''), '0'), '.') }}</td>
 
                                         <td class="px-4 py-2 flex justify-center gap-x-2 items-center h-full">
                                             <div class="px-3 py-1 cursor-pointer text-xs bg-[#FB8A33] text-white rounded-lg hover:bg-[#e8863c]" 
@@ -190,6 +186,32 @@
                             <p class="text-red-500 text-xs">{{ $message }}</p>
                         @enderror
                     </div>
+                @elseif ($jenis_angkat_kembali == 'CLTN')
+                    <div class="w-full mb-3">
+                        <label class="text-xs">Pengangkatan Kembali</label>
+                        <input 
+                            type="month" 
+                            wire:model="mulai_periode" wire:change="componentChanged"
+                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" 
+                        />
+
+                        @error('akhir')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="w-full mb-3">
+                        <label class="text-xs">Periode Akhir</label>
+                        <input 
+                            type="month" 
+                            wire:model="akhir_periode" wire:change="componentChanged"
+                            class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" 
+                        />
+
+                        @error('akhir')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
+                    </div>
                 @elseif ($jenis_angkat_kembali == 'Tugas Belajar')
                     <div class="w-full mb-3">
                         <label class="text-xs">Angka Kredit Sebelum TB</label>
@@ -268,7 +290,6 @@
                     </div>
                 @endif
 
-                @if ($jenis != 'Perpindahan Jabatan' && $jenis_angkat_kembali != 'CLTN')
                     <div class="w-full mb-3 relative">
                         <label class="text-xs">Predikat</label>
                         <select wire:model="predikat" wire:change="componentChanged" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" >
@@ -289,7 +310,6 @@
                             <p class="text-red-500 text-xs">{{ $message }}</p>
                         @enderror
                     </div>
-                @endif
     
                 <div class="w-full mb-3">
                     <label class="text-xs">Angka Kredit</label>

@@ -65,7 +65,7 @@
                     <label class="text-xs">Tanggal Pelantikan</label>
                     <input 
                         type="date" 
-                        wire:model="tgl_pengangkatan"
+                        wire:model="tgl_pelantikan"
                         class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" 
                     />
 
@@ -95,7 +95,7 @@
                     </div>
                 </div>
 
-                <div x-show="@this.jenis_angkat_kembali == 'Struktural ke JFT'" class="w-full mb-3">
+                <div x-show="@this.jenis == 'Pengangkatan Kembali' && (@this.jenis_angkat_kembali == 'Struktural ke JFT' || @this.jenis_angkat_kembali == 'CLTN')" class="w-full mb-3">
                     <label class="text-xs">Tanggal Pengangkatan Kembali</label>
                     <input 
                         type="date" 

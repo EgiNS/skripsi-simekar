@@ -9,11 +9,12 @@ use App\Models\Profile;
 use Livewire\Component;
 use App\Models\Golongan;
 use App\Models\AngkaKredit;
+use App\Models\NilaiKinerja;
 
 class BuatPAK extends Component
 {
     public $jenis = 'Tahunan';
-    public $akhir_periode, $tgl_pengangkatan;
+    public $akhir_periode, $tgl_pengangkatan, $tgl_pelantikan;
     public $jenis_angkat_kembali = 'CLTN';
     public $tgl_mulai_tb, $tgl_akhir_tb;
     public $is_cumlaude = false;
@@ -36,6 +37,13 @@ class BuatPAK extends Component
         'ahli muda' => 25,
         'ahli madya' => 37.5,
         'ahli utama' => 50,
+    ];
+    public array $persenPredikat = [
+        'sangat kurang' => 0.25,
+        'kurang' => 0.5,
+        'cukup' => 0.75,
+        'baik' => 1,
+        'sangat baik' => 1.5,
     ];
     public array $gol_jenjang = [
         'II/c' => ['terampil'],
@@ -73,7 +81,7 @@ class BuatPAK extends Component
         if ($this->jenis == 'Tahunan') {
             foreach ($this->selectedProfiles as &$profile) {
                 $profile['jenjang'] = $this->getJenjangFromJabatan($profile['jabatan'] ?? '');
-                $profile['predikat'] = 'Baik';
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
                 $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
                 $profile['periode'] = date('Y') - 1;
 
@@ -87,20 +95,20 @@ class BuatPAK extends Component
                         $last_periode =  Carbon::parse($ak_before->periode_end)->startOfMonth()->addMonth();
                         $akhir_tahun = $last_periode->copy()->endOfYear();
                         
-                        $profile['selisih_bulan'] = $last_periode->diffInMonths($akhir_tahun) + 1;    
-                        $profile['angka_kredit'] = (($profile['selisih_bulan']/12) * 1 * $this->nilaiJenjang[$profile['jenjang']]);
+                        $profile['selisih_bulan'] = $last_periode->diffInMonths($akhir_tahun) + 1;
+                        $profile['angka_kredit'] = (($profile['selisih_bulan']/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']]);
                     } else {
-                        $profile['angka_kredit'] = $this->nilaiJenjang[$profile['jenjang']];
+                        $profile['angka_kredit'] = $this->nilaiJenjang[$profile['jenjang']] * $this->persenPredikat[strtolower($profile['predikat'])];
                     }
                 } else {
                     $profile['ak_awal'] = 0;
-                    $profile['angka_kredit'] = $this->nilaiJenjang[$profile['jenjang']];
+                    $profile['angka_kredit'] = $this->nilaiJenjang[$profile['jenjang']] * $this->persenPredikat[strtolower($profile['predikat'])];
                 }
             }
         } elseif ($this->jenis == 'Periodik') {
             foreach ($this->selectedProfiles as &$profile) {
                 $profile['jenjang'] = $this->getJenjangFromJabatan($profile['jabatan'] ?? '');
-                $profile['predikat'] = 'Baik';
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
                 $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
 
                 $ak_before = AngkaKredit::where('nip', $profile['nip'])
@@ -116,7 +124,7 @@ class BuatPAK extends Component
                     $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
 
                     $profile['ak_awal'] = $ak_before->total_ak;
-                    $profile['angka_kredit'] = (($selisih_bulan/12) * 1 * $this->nilaiJenjang[$profile['jenjang']]);
+                    $profile['angka_kredit'] = (($selisih_bulan/12) *  $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']]);
                 } else {
                     $profile['mulai'] = Carbon::now()->startOfYear();
                     $profile['akhir'] = Carbon::parse($this->akhir_periode . '-01')->endOfMonth();
@@ -125,40 +133,85 @@ class BuatPAK extends Component
                     $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
 
                     $profile['ak_awal'] = 0;
-                    $profile['angka_kredit'] = ($selisih_bulan/12) * 1 * $this->nilaiJenjang[$profile['jenjang']];
+                    $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']];
                 }
             }
         } elseif ($this->jenis == 'Pengangkatan Pertama') {
             foreach ($this->selectedProfiles as &$profile) {
-                $profile['predikat'] = 'Baik';
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
                 $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
                 $profile['golongan'] = Golongan::where('id', $profile['id_golongan'])->value('nama'); 
                 $profile['jenjang_tujuan'] = $this->gol_jenjang[$profile['golongan']][0];
                 
                 $profile['mulai'] = Carbon::parse($profile['tmt_gol']);
-                $profile['akhir'] =  Carbon::parse($this->tgl_pengangkatan)->subMonth()->endOfMonth();
+                $profile['akhir'] =  Carbon::parse($this->tgl_pelantikan)->subMonth()->endOfMonth();
 
                 $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
 
                 $ak_dasar = Golongan::where('nama', $profile['golongan'])->value('ak_dasar'); 
 
-                $profile['angka_kredit'] = ($selisih_bulan/12) * 1 * $this->nilaiJenjang[$profile['jenjang_tujuan']] + $ak_dasar;
+                $profile['ak_dasar'] = $ak_dasar;
+                $profile['ak_awal'] = 0;
+                $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang_tujuan']] + $ak_dasar;
             }
-        } elseif ($this->jenis == 'Perpindahan Jabatan' || ($this->jenis_angkat_kembali == 'CLTN')) {
+        } elseif ($this->jenis == 'Perpindahan Jabatan') {
             foreach ($this->selectedProfiles as &$profile) {
                 $profile['jenjang'] = $this->getJenjangFromJabatan($profile['jabatan'] ?? '');
-                $profile['predikat'] = 'Baik';
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
                 $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
-                $ak = AngkaKredit::where('nip', $profile['nip'])
+
+                $ak_before = AngkaKredit::where('nip', $profile['nip'])
                     ->orderBy('id', 'desc')
                     ->first();
 
-                $profile['ak_awal'] = 0;
+                if ($ak_before) {
+                    $profile['mulai'] = Carbon::parse($ak_before->periode_end)->startOfMonth()->addMonth();
+                    $profile['akhir'] = Carbon::parse($this->akhir_periode . '-01')->endOfMonth();
 
-                if ($ak) {
-                    $profile['angka_kredit'] = $ak->total_ak;
+                    // Hitung selisih bulan
+                    $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
+
+                    $profile['ak_awal'] = $ak_before->total_ak;
+                    $profile['angka_kredit'] = (($selisih_bulan/12) *  $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']]);
                 } else {
-                    $profile['angka_kredit'] = 0;
+                    $profile['mulai'] = Carbon::now()->startOfYear();
+                    $profile['akhir'] = Carbon::parse($this->akhir_periode . '-01')->endOfMonth();
+
+                    // Hitung selisih bulan
+                    $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
+
+                    $profile['ak_awal'] = 0;
+                    $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']];
+                }
+            }
+        } elseif(($this->jenis_angkat_kembali == 'CLTN')) {
+            foreach ($this->selectedProfiles as &$profile) {
+                $profile['jenjang'] = $this->getJenjangFromJabatan($profile['jabatan'] ?? '');
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
+                $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
+
+                $ak_before = AngkaKredit::where('nip', $profile['nip'])
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                if ($ak_before) {
+                    $profile['mulai'] = Carbon::parse($this->tgl_pengangkatan)->addMonthNoOverflow()->startOfMonth();
+                    $profile['akhir'] = Carbon::parse($this->akhir_periode . '-01')->endOfMonth();
+
+                    // Hitung selisih bulan
+                    $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
+
+                    $profile['ak_awal'] = $ak_before->total_ak;
+                    $profile['angka_kredit'] = (($selisih_bulan/12) *  $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']]);
+                } else {
+                    $profile['mulai'] = Carbon::parse($this->tgl_pengangkatan)->addMonthNoOverflow()->startOfMonth();
+                    $profile['akhir'] = Carbon::parse($this->akhir_periode . '-01')->endOfMonth();
+
+                    // Hitung selisih bulan
+                    $selisih_bulan = $profile['mulai']->diffInMonths($profile['akhir']) + 1;
+
+                    $profile['ak_awal'] = 0;
+                    $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']];
                 }
             }
         } elseif ($this->jenis_angkat_kembali == 'Tugas Belajar') {
@@ -189,18 +242,20 @@ class BuatPAK extends Component
                 if ($ak_before) {
                     $ak_pend = 0.25 * Golongan::where('nama', $profile['golongan'])->value('ak_minimal');
 
+                    $profile['ak_pend'] = $ak_pend;
                     $profile['ak_awal'] = $ak_before->total_ak;
-                    $profile['angka_kredit'] = $profile['ak_awal'] + $ak_pend + ($profile['lama_tb'])/12 * $persentase * $this->nilaiJenjang[$profile['jenjang']];
+                    $profile['angka_kredit'] = $ak_pend + ($profile['lama_tb'])/12 * $persentase * $this->nilaiJenjang[$profile['jenjang']];
                 } else {
                     $ak_pend = 0.25 * Golongan::where('nama', $profile['golongan'])->value('ak_minimal');
 
+                    $profile['ak_pend'] = $ak_pend;
                     $profile['ak_awal'] = 0;
                     $profile['angka_kredit'] = $ak_pend + (($profile['lama_tb'])/12 * $persentase * $this->nilaiJenjang[$profile['jenjang']]);
                 }
             }
         } elseif ($this->jenis_angkat_kembali == 'Struktural ke JFT') {
             foreach ($this->selectedProfiles as &$profile) {  
-                $profile['predikat'] = 'Baik';
+                $profile['predikat'] = NilaiKinerja::where('nip', $profile['nip'])->value('predikat') ?? 'Baik';
                 $profile['satker'] = Satker::where('id', $profile['id_satker'])->value('nama');
                 $profile['golongan'] = Golongan::where('id', $profile['id_golongan'])->value('nama'); 
                 $profile['jenjang'] = $this->gol_jenjang[$profile['golongan']][0];
@@ -216,16 +271,13 @@ class BuatPAK extends Component
 
                 if ($ak_before) {
                     $profile['ak_awal'] = $ak_before->total_ak;
-                    $profile['angka_kredit'] = $profile['ak_awal'] + ($selisih_bulan/12) * 1 * $this->nilaiJenjang[$profile['jenjang']];
+                    $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']];
                 } else {
                     $profile['ak_awal'] = 0;
-                    $profile['angka_kredit'] = $profile['ak_awal'] + ($selisih_bulan/12) * 1 * $this->nilaiJenjang[$profile['jenjang']];
+                    $profile['angka_kredit'] = ($selisih_bulan/12) * $this->persenPredikat[strtolower($profile['predikat'])] * $this->nilaiJenjang[$profile['jenjang']];
                 }
             }
         }
-
-        // dd($this->selectedProfiles);
-
 
         session()->put('selectedProfiles', $this->selectedProfiles);
         session()->put('jenis', $this->jenis);

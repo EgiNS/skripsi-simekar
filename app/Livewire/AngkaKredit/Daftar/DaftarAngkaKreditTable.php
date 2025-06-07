@@ -108,7 +108,11 @@ class DaftarAngkaKreditTable extends DataTableComponent
             Column::make("Satker", "profile.satker.nama ")
                 ->sortable()
                 ->searchable(),
-            Column::make("Angka Kredit", "total_ak"),
+            Column::make("Angka Kredit", "total_ak")
+                ->hideIf(true),
+            Column::make("Angka Kredit")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showAk($row->total_ak)),
             Column::make("start", "periode_start")
                 ->sortable()
                 ->hideIf(true),
@@ -158,6 +162,11 @@ class DaftarAngkaKreditTable extends DataTableComponent
     public function showLink($link)
     {
         return "<a href='{$link}'>{$link}</a>";
+    }
+
+    public function showAk($ak)
+    {
+        return rtrim(rtrim(number_format($ak, 3, '.', ''), '0'), '.');
     }
 
     public function naikPangkat($ak, $id_pegawai, $periode_end)

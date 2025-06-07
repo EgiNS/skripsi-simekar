@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('jenis');
             $table->date('periode_start')->nullable();
             $table->date('periode_end')->nullable();
-            $table->integer('nilai');
-            $table->integer('total_ak');
+            $table->decimal('nilai', 10, 3);
+            $table->decimal('total_ak', 10, 3);
             $table->string('link_pak');
             $table->integer('status')->default(1);
             $table->foreign('id_pegawai')->references('id')->on('profile');
