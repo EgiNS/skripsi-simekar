@@ -99,7 +99,8 @@ class BuatPAKTable extends DataTableComponent
                             }
 
                             if ($value === 'Fungsional') {
-                                $q->where(function ($sub) {
+                                $q->where('id_golongan', '!=', 14)
+                                  ->where(function ($sub) {
                                     $sub->whereRaw("LOWER(jabatan) LIKE '%terampil%'")
                                         ->orWhereRaw("LOWER(jabatan) LIKE '%mahir%'")
                                         ->orWhereRaw("LOWER(jabatan) LIKE '%penyelia%'")
@@ -111,7 +112,8 @@ class BuatPAKTable extends DataTableComponent
                             }
 
                             if ($value === 'Pelaksana') {
-                                $q->whereRaw("LOWER(jabatan) NOT LIKE '%terampil%'")
+                                $q->where('id_golongan', '!=', 14)
+                                    ->whereRaw("LOWER(jabatan) NOT LIKE '%terampil%'")
                                     ->whereRaw("LOWER(jabatan) NOT LIKE '%mahir%'")
                                     ->whereRaw("LOWER(jabatan) NOT LIKE '%penyelia%'")
                                     ->whereRaw("LOWER(jabatan) NOT LIKE '%ahli pertama%'")

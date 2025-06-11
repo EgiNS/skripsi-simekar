@@ -3,15 +3,20 @@
 namespace App\Livewire\AngkaKredit\Buat;
 
 use COM;
+use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Satker;
+use App\Models\Jabatan;
 use App\Models\Profile;
 use Livewire\Component;
 use App\Models\Golongan;
+use ZipStream\ZipStream;
 use App\Models\AngkaKredit;
-use Illuminate\Support\Arr;
 use Livewire\WithPagination;
+use ZipStream\Option\Archive;
+use App\Models\PakNomorTracking;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class HasilPAK extends Component
 {
@@ -25,6 +30,9 @@ class HasilPAK extends Component
     public $ak_before_tb, $lama_tb, $ak_jft;
     public $mulai_periode, $akhir_periode;
     public $selectedNip;
+    public $page = 1;
+    protected $queryString = ['page'];
+
     public array $persenPredikat = [
         'Sangat Kurang' => 0.25,
         'Kurang' => 0.5,
@@ -51,6 +59,19 @@ class HasilPAK extends Component
         'IV/a' => 450,
         'IV/b' => 450,
         'IV/c' => 450,
+    ];
+    public array $gol_jenjang = [
+        'II/c' => ['terampil'],
+        'II/d' => ['terampil'],
+        'III/a' => ['ahli pertama', 'mahir'],
+        'III/b' => ['ahli pertama', 'mahir'],
+        'III/c' => ['ahli muda', 'penyelia'],
+        'III/d' => ['ahli muda', 'penyelia'],
+        'IV/a' => ['ahli madya'],
+        'IV/b' => ['ahli madya'],
+        'IV/c' => ['ahli madya'],
+        'IV/d' => ['ahli utama'],
+        'IV/e' => ['ahli utama'],
     ];
 
     public function mount()
@@ -210,7 +231,7 @@ class HasilPAK extends Component
         $this->dispatch('close-modal');
     }
 
-    public function export($nip)
+    public function generateWordFile($nip, $nomor)
     {
         $templatePath = storage_path('app/template_pak_bps.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
@@ -279,7 +300,7 @@ class HasilPAK extends Component
 
             if ($ak_before) {
                 $baris[0]['data_th'] = Carbon::parse($ak_before->periode_end)->year;
-                $baris[0]['data_ak'] = $ak_before->total_ak;
+                $baris[0]['data_ak'] = number_format($ak_before->total_ak, 3, ',', '.');
                 $baris[0]['data_periodik'] = Carbon::parse($ak_before->periode_start)->translatedFormat('F') . '-' . Carbon::parse($ak_before->periode_end)->translatedFormat('F');
             } else {
                 $baris[0]['data_th'] = $profile['mulai']->year - 1;
@@ -510,8 +531,10 @@ class HasilPAK extends Component
 
         if ($selisih_pangkat > 0) {
             $status_pangkat = 'Kelebihan ';
+            $dipertimbangkan = 'Dapat';
         } else {
             $status_pangkat = 'Kekurangan ';
+            $dipertimbangkan = 'Belum Dapat';
         }
 
         if ($selisih_jenjang > 0) {
@@ -520,13 +543,42 @@ class HasilPAK extends Component
             $status_jenjang = 'Kekurangan ';
         }
 
+        $gol_sekarang = $gol->nama; // Misal: 'III/b'
+        $jabatan = strtolower($profile['jabatan']); // contoh: 'Statistisi Ahli Pertama'
+
+        // Cari indeks golongan sekarang
+        $keys = array_keys($this->gol_jenjang);
+        $currentIndex = array_search($gol_sekarang, $keys);
+
+        // Inisialisasi nilai default
+        $next_gol = null;
+        $next_jenjang = null;
+
+        // Jika ada golongan setelahnya
+        if ($currentIndex !== false && isset($keys[$currentIndex + 1])) {
+            $next_gol = $keys[$currentIndex + 1];
+            $jenjangOptions = $this->gol_jenjang[$next_gol];
+
+            // Tentukan indeks jenjang
+            if (str_contains($jabatan, 'ahli') || str_contains($jabatan, 'terampil')) {
+                $next_jenjang = $jenjangOptions[0] ?? null;
+            } else {
+                $next_jenjang = $jenjangOptions[1] ?? $jenjangOptions[0] ?? null;
+            }
+
+            $next_gol_lengkap = Golongan::where('nama', $next_gol)->value('jenis') . ' / (' . $next_gol . ')';
+            $rumpun = Jabatan::where('konversi', $profile['jabatan'])->value('nama_umum');
+            $next_jenjang_lengkap = $rumpun . " " . ucwords($next_jenjang);
+        }
+
         $data = [
+            'nomor' => $nomor,
             'nama' => $profile['nama'],
             'nip' => $profile['nip'],
             'tempat_lahir' => $profile['tempat_lahir'],
             'tgl_lahir' => Carbon::parse($profile['tgl_lahir'])->format('d-m-Y'),
             'jk' => $profile['jk'] == 'PR' ? 'Perempuan' : 'Laki-laki',
-            'gol' => $gol->nama,
+            'gol' => $gol->jenis . " (" . $gol->nama . ")",
             'tmt_gol' => Carbon::parse($profile['tmt_gol'])->format('d-m-Y'),
             'jabatan' => $profile['jabatan'],
             'tmt_jab' => Carbon::parse($profile['tmt_jab'])->format('d-m-Y'),
@@ -536,6 +588,7 @@ class HasilPAK extends Component
             'koef' => number_format($this->nilaiJenjang[$jenjang], 3, ',', '.'),
             'ak' => number_format($ak, 3, ',', '.'),
             'periode' => $periode ?? '',
+            'tanggal' => Carbon::now()->translatedFormat('d F Y'),
             'total_ak' => number_format($profile['ak_awal'] + $profile['angka_kredit'], 3, ',', '.'),
             'ak_dasar' => $ak_dasar ?? '',
             'konv_lama' => isset($konv_lama) ? number_format($konv_lama, 3, ',', '.') : '',
@@ -552,7 +605,10 @@ class HasilPAK extends Component
             'selisih_pangkat' => $selisih_pangkat,
             'selisih_jenjang' => $selisih_jenjang,
             'status_pangkat' => $status_pangkat,
-            'status_jenjang' => $status_jenjang
+            'status_jenjang' => $status_jenjang,
+            'dipertimbangkan' => $dipertimbangkan,
+            'next_jenjang' => $next_jenjang_lengkap,
+            'next_pangkat' => $next_gol_lengkap,
         ];
 
         // dd($data);
@@ -564,15 +620,73 @@ class HasilPAK extends Component
         $outputPath = storage_path('app/public/export_pak_' . $profile['nip'] . '.docx');
         $templateProcessor->saveAs($outputPath);
 
-        return response()->download($outputPath)->deleteFileAfterSend(true);
+        // return response()->download($outputPath)->deleteFileAfterSend(true);
+        return $outputPath;
+    }
+
+    public function export($nip)
+    {
+        $tracking = PakNomorTracking::firstOrCreate([], ['last_number' => 0]);
+        $nomor = $tracking->last_number + 1;
+        $tracking->last_number = $nomor;
+        $tracking->save();
+
+        $filePath = $this->generateWordFile($nip, $nomor);
+
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+    public function exportAll()
+    {
+        ini_set('memory_limit', '2048M');
+        set_time_limit(420);
+
+        $zipFileName = 'pak_exports_' . now()->format('Ymd_His') . '.zip';
+        $zipFilePath = storage_path('app/public/' . $zipFileName);
+        $tempDir = storage_path('app/public/temp_exports');
+
+        if (!file_exists($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
+        $tracking = PakNomorTracking::firstOrCreate([], ['last_number' => 0]);
+        $nomor = $tracking->last_number;
+
+        $zip = new ZipArchive;
+        if ($zip->open($zipFilePath, ZipArchive::CREATE) === TRUE) {
+            foreach ($this->inputs as $input) {
+                $nip = $input['nip'];
+                $nomor++;
+                $docxPath = $this->generateWordFile($nip, $nomor);
+                $fileNameInZip = basename($docxPath); // pak_1234567890.docx
+                $zip->addFile($docxPath, $fileNameInZip);
+            }
+
+            $zip->close();
+
+            $tracking->last_number = $nomor;
+            $tracking->save();
+
+            // Hapus semua file Word setelah dimasukkan ke ZIP
+            foreach (glob($tempDir . '/*.docx') as $tempFile) {
+                unlink($tempFile);
+            }
+
+            // Hapus folder jika kosong
+            @rmdir($tempDir);
+
+            return response()->download($zipFilePath)->deleteFileAfterSend(true);
+        } else {
+            return response()->json(['error' => 'Gagal membuat file ZIP.'], 500);
+        }
     }
 
     public function render()
     {
         // Konversi array ke Collection dan pagination manual
-        $perPage = 10;
+        $items = collect(session()->get('selectedProfiles', []));
+        $perPage = 1000;
         $currentPage = $this->page ?? 1;
-        $items = collect($this->inputs);
         $paginated = $items->forPage($currentPage, $perPage);
 
         return view('livewire.angka-kredit.buat.hasil-p-a-k', [

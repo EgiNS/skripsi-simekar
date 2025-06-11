@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('golongan', function (Blueprint $table) {
+        Schema::create('pak_nomor_trackings', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('jenis');
-            $table->integer('ak_minimal')->nullable();
-            $table->integer('ak_dasar')->nullable();
+            $table->integer('last_number')->default(0); 
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('golongan');
+        Schema::dropIfExists('pak_nomor_trackings');
     }
 };

@@ -15,6 +15,25 @@
                     <p class="font-semibold text-lg text-[#252F40]">PAK {{ $jenis }}</p>
                 @endif
             </div>
+            <div class="px-5 mt-5 flex justify-between">
+                <div class="w-1/3">
+                    <input type="text" wire:model="search" placeholder="Cari ..." class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                </div>
+                <div>
+<button
+    wire:click="exportAll"
+    wire:loading.attr="disabled"
+    class="relative bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg">
+    <span wire:loading.remove>Unduh Semua</span>
+    <span wire:loading>Memproses...</span>
+</button>
+
+                    <button 
+                        class="bg-gradient-to-br from-[#98EC2D] to-[#17AD37] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg">
+                        Finalisasi
+                    </button>
+                </div>
+            </div>
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-5 overflow-x-auto">
                     <div class="">
@@ -92,7 +111,7 @@
             </div>
         </div>
 
-        <div x-show="showEdit" x-on:close-modal.window="showEdit = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
+        <div x-show="showEdit" x-cloak x-on:close-modal.window="showEdit = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-96 overflow-y-auto relative">
                 <!-- Header -->
                 <div class="flex justify-between items-center border-b pb-2">
