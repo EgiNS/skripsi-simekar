@@ -22,11 +22,12 @@
                     </div>
 
                     <div class="w-full mb-3 grid grid-cols-7 items-center">
-                        <label class="text-sm">Provinsi</label>
+                        <label class="text-sm">Satker Tujuan</label>
                         <select wire:model.live="provinsi" class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
-                            <option value="">Pilih Provinsi</option>
+                            <option value="">Pilih Satker</option>
+                            <option value="10">BPS RI/POLSTAT STIS/PUSDIKLAT</option>
                             @foreach($provinsiList as $prov)
-                                <option value="{{ $prov['id'] }}">{{ $prov['nama'] }}</option>
+                                <option value="{{ $prov['id'] }}">BPS PROVINSI {{ $prov['nama'] }}</option>
                             @endforeach
                         </select>
 
@@ -35,21 +36,29 @@
                         @enderror
                     </div>
 
-                    <div class="w-full mb-3 grid grid-cols-7 items-center">
-                        <label class= "text-sm">Kabupaten</label>
-                        <select wire:model="kabupaten" class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300" wire:key="kabupaten-select">
-                            <option value="">Pilih Kabupaten</option>
-                            @foreach($kabupatenList as $kab)
-                                <option value="{{ $kab['id'] }}">{{ $kab['nama'] }}</option>
-                            @endforeach
+                    <div 
+                        x-data 
+                        x-show="$wire.provinsi"
+                        x-transition 
+                        class="w-full mb-3 grid grid-cols-7 items-center"
+                    >
+                        <label class="text-sm"></label>
+                        <select wire:model="kabupaten" wire:key="kabupaten-select"
+                            class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
+                            <option value="">Pilih Satker</option>
+                            @if ($id_prov == '10')
+                                @foreach($kabupatenList as $kab)
+                                    <option value="{{ $kab['id'] }}">{{ $kab['nama'] }}</option>
+                                @endforeach
+                            @else
+                                @foreach($kabupatenList as $kab)
+                                    <option value="{{ $kab['id'] }}">BPS {{ $kab['nama'] }}</option>
+                                @endforeach
+                            @endif
+                        </select>
 
-                            @error('kabupaten')
-                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
-                        @enderror
-                        </select>  
-                        
                         @error('kabupaten')
-                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
                         @enderror
                     </div>
 

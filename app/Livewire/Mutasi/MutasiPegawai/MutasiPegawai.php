@@ -15,7 +15,7 @@ class MutasiPegawai extends Component
     public $search = '';
     public $suggestionsNama = [];
     public $suggestionsSatker = [];
-    public $provinsi;
+    public $provinsi, $id_prov;
     public $kabupaten;
     public $provinsiList = [];
     public $kabupatenList = [];
@@ -27,7 +27,7 @@ class MutasiPegawai extends Component
         $this->provinsiList = Http::get('https://ibnux.github.io/data-indonesia/provinsi.json')->json();
         $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
 
-        array_unshift($this->provinsiList, ['id' => '10', 'nama' => 'BPS RI/POLSTAT STIS/PUSDIKLAT']);
+        // array_unshift($this->provinsiList, ['id' => '10', 'nama' => 'BPS RI/POLSTAT STIS/PUSDIKLAT']);
     }
 
 
@@ -57,6 +57,7 @@ class MutasiPegawai extends Component
 
     public function updatedProvinsi($provId)
     {
+        $this->id_prov = $provId;
         // Reset pilihan kabupaten saat provinsi berubah
         $this->kabupaten = null;
         $this->kabupatenList = []; // Pastikan daftar kabupaten kosong dulu

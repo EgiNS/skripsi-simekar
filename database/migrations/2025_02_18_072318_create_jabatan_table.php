@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_simpeg');
             $table->string('konversi')->nullable();
             $table->string('nama_umum');
+            $table->string('kode')->nullable();
             $table->timestamps();
         });
     }

@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
 use App\Exports\MutasiPegawaiExport;
 use App\Livewire\Mutasi\MutasiPegawai\MutasiPegawai;
+use App\Models\NilaiKinerja;
 
 class SimulasiPegawai extends Component
 {
@@ -105,6 +106,9 @@ class SimulasiPegawai extends Component
                     'satker_asal' => $profile->satker->nama,
                     'tmt_jab' => $this->hitungMasaKerja($profile->tmt_jab),
                     'tmt_cpns' => $this->hitungMasaKerja($profile->tmt_cpns),
+                    'nilai_perilaku' => NilaiKinerja::where('nip', $profile->nip)->value('nilai_perilaku'),
+                    'nilai_kinerja' => NilaiKinerja::where('nip', $profile->nip)->value('nilai_kinerja'),
+                    'predikat' => NilaiKinerja::where('nip', $profile->nip)->value('predikat'),
                     'satker_tujuan' => Satker::find($satkerTujuan)->nama ?? 'Tidak Ditemukan',
                     'formasi' => $satkerTerpilih['formasi'],
                     'eksisting' => $satkerTerpilih['eksisting'],

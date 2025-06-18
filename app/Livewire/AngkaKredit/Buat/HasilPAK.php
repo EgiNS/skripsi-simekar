@@ -93,7 +93,7 @@ class HasilPAK extends Component
         $this->selectedNip = $nip;
         $this->predikat = $profile['predikat'];
         $this->angka_kredit = $profile['angka_kredit'];
-        $this->angka_kredit_awal = $profile['angka_kredit'];
+        $this->angka_kredit_awal = $this->nilaiJenjang[$profile['jenjang']];
 
         if ($this->jenis == 'Periodik') {
             $this->mulai_periode = $profile['mulai']->format('Y-m');
@@ -573,6 +573,8 @@ class HasilPAK extends Component
 
         $data = [
             'nomor' => $nomor,
+            'kode' => Jabatan::where('konversi', $profile['jabatan'])->value('kode'),
+            'tahun' => Carbon::now()->year,
             'nama' => $profile['nama'],
             'nip' => $profile['nip'],
             'tempat_lahir' => $profile['tempat_lahir'],
@@ -634,6 +636,72 @@ class HasilPAK extends Component
         $filePath = $this->generateWordFile($nip, $nomor);
 
         return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+    public function finalisasi()
+    {
+        foreach ($this->inputs as $profile) {
+            // dd($profile);
+            $secondLatest = Profile::where('nip', $profile['nip'])
+                ->orderBy('created_at', 'desc')
+                ->skip(1)
+                ->take(1)
+                ->first()
+                ?? Profile::where('nip', $profile['nip'])
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
+            $golongan = Golongan::where('id', $profile['id_golongan'])->value('nama');
+            
+            if ($secondLatest->golongan->nama != $golongan) {
+                if ($golongan == 'III/a' || $golongan == 'III/c' || $golongan == 'IV/a' || $golongan == 'IV/d' || $golongan == 'IV/e' ) {
+                    $ak_total = $profile['angka_kredit'];
+                }
+            } else {
+                $ak_before = AngkaKredit::where('nip', $profile['nip'])
+                    ->orderBy('id', 'desc')
+                    ->value('total_ak') ?? 0;        
+
+                $ak_total = $ak_before + $profile['angka_kredit'];
+            }
+
+            if ($this->jenis == 'Tahunan') {
+                AngkaKredit::create([
+                    'id_pegawai' => $profile['id'],
+                    'nip' => $profile['nip'],
+                    'jenis' => $this->jenis,
+                    'status' => 2,
+                    'nilai' => $profile['angka_kredit'],
+                    'total_ak' => $ak_total,
+                    'periode_start' => $profile['periode'] . '-01-01',
+                    'periode_end' => $profile['periode'] . '-12-31',
+                ]);
+            } elseif ($this->jenis == 'Periodik'  || $this->jenis == 'Perpindahan Jabatan' || $this->jenis == 'Pengangkatan Kembali') {
+                AngkaKredit::create([
+                    'id_pegawai' => $profile['id'],
+                    'nip' => $profile['nip'],
+                    'jenis' => $this->jenis,
+                    'status' => 2,
+                    'nilai' => $profile['angka_kredit'],
+                    'total_ak' => $ak_total,
+                    'periode_start' => $profile['mulai']->startOfMonth(),
+                    'periode_end' => $profile['akhir']->endOfMonth(),
+                ]);
+            } elseif ($this->jenis == 'Pengangkatan Pertama') {
+                AngkaKredit::create([
+                    'id_pegawai' => $profile['id'],
+                    'nip' => $profile['nip'],
+                    'jenis' => $this->jenis,
+                    'status' => 2,
+                    'nilai' => $profile['angka_kredit'],
+                    'total_ak' => $ak_total,
+                    'periode_start' => $profile['mulai'],
+                    'periode_end' => $profile['akhir'],
+                ]);
+            }
+        }
+
+        $this->dispatch('showFlashMessage', 'Angka Kredit Berhasil Difinalisasi!', 'success');
     }
 
     public function exportAll()

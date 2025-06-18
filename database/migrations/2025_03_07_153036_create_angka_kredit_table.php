@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('periode_end')->nullable();
             $table->decimal('nilai', 10, 3);
             $table->decimal('total_ak', 10, 3);
-            $table->string('link_pak');
+            $table->string('link_pak')->nullable();
             $table->integer('status')->default(1);
             $table->foreign('id_pegawai')->references('id')->on('profile');
             $table->timestamps();

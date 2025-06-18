@@ -50,9 +50,7 @@ class RiwayatPengajuanTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        $nip = Profile::find(2386)?->nip;
-
-        return UsulMutasi::where('nip', $nip);
+        return UsulMutasi::where('nip', 198906132012111001);
     }
 
     public function columns(): array

@@ -80,7 +80,10 @@
                                     <p>Jabatan: <span class="text-[#252F40] font-semibold">{{ $pegawai['jabatan'] }}</span></p>
                                     <p>Satker saat ini: <span class="text-[#252F40] font-semibold">{{ $pegawai['satker_asal'] }}</span></p>
                                     <p>Masa kerja jabatan saat ini: <br> <span class="text-[#252F40] font-semibold">{{ $pegawai['tmt_jab'] }}</span></p>
-                                    <p class="border-b pb-2">Masa kerja keseluruhan: <br> <span class="text-[#252F40] font-semibold">{{ $pegawai['tmt_cpns'] }}</span></p>
+                                    <p>Masa kerja keseluruhan: <br> <span class="text-[#252F40] font-semibold">{{ $pegawai['tmt_cpns'] }}</span></p>
+                                    <p>Nilai Perilaku: <span class="text-[#252F40] font-semibold">{{ $pegawai['nilai_perilaku'] }}</span></p>
+                                    <p>Nilai Kinerja: <span class="text-[#252F40] font-semibold">{{ $pegawai['nilai_kinerja'] }}</span></p>
+                                    <p class="border-b pb-2">Predikat: <span class="text-[#252F40] font-semibold">{{ $pegawai['predikat'] }}</span></p>
 
                                     <p class="mt-2">Satker tujuan: <span class="text-[#252F40] font-semibold">{{ $pegawai['satker_tujuan'] }}</span></p>
                                     <p>Formasi: <span class="text-[#252F40] font-semibold">{{ $pegawai['formasi'] }}</span></p>

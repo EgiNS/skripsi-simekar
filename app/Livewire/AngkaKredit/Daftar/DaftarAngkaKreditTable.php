@@ -3,8 +3,9 @@
 namespace App\Livewire\AngkaKredit\Daftar;
 
 use Carbon\Carbon;
-use App\Models\AngkaKredit;
 use App\Models\Profile;
+use App\Models\AngkaKredit;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -84,7 +85,14 @@ class DaftarAngkaKreditTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return AngkaKredit::where('angka_kredit.status', '2')->orderBy('id', 'desc');
+        $sub = DB::table('angka_kredit')
+            ->select(DB::raw('MAX(id) as id'))
+            ->where('status', '2')
+            ->groupBy('nip');
+
+        return AngkaKredit::query()
+            ->joinSub($sub, 'latest', fn($join) => $join->on('angka_kredit.id', '=', 'latest.id'))
+            ->orderBy('angka_kredit.id', 'desc');
     }
 
     public function columns(): array
@@ -132,16 +140,15 @@ class DaftarAngkaKreditTable extends DataTableComponent
             Column::make("Periode PAK")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
                 ->label(fn($row) => $this->showPeriode($row->jenis, $row->periode_start, $row->periode_end)),
-            Column::make("Link PAK")
-                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showLink($row->link_pak))
-                ->deselected(),
             Column::make("Perkiraan Kenaikan Pangkat")
                 ->label(fn($row) => $this->naikPangkat($row->total_ak, $row->id_pegawai, $row->periode_end))
                 ->sortable(),
             Column::make("Perkiraan Kenaikan Jenjang")
                 ->label(fn($row) => $this->naikJenjang($row->total_ak, $row->id_pegawai, $row->periode_end))
                 ->sortable(),
+            Column::make("PAK")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showLink($row->link_pak)),
             Column::make("Waktu Upload", "created_at")
                 ->sortable()
                 ->deselected(),
@@ -161,7 +168,11 @@ class DaftarAngkaKreditTable extends DataTableComponent
 
     public function showLink($link)
     {
-        return "<a href='{$link}'>{$link}</a>";
+        if ($link) {
+            return "<a class='bg-[#CB0C9F] block whitespace-nowrap text-center text-sm text-white px-2 py-1 rounded-lg' href='{$link}'>Lihat PAK</a>";
+        } else {
+            return "<span class='bg-[#FB8A33] block whitespace-nowrap text-center text-sm text-white px-2 py-1 rounded-lg'>Belum Upload</span>";
+        }
     }
 
     public function showAk($ak)

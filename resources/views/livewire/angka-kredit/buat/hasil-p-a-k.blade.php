@@ -8,29 +8,29 @@
         });
     ">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-            <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                @if ($jenis == 'Pengangkatan Kembali')
-                    <p class="font-semibold text-lg text-[#252F40]">PAK Pengangkatan Kembali ({{ $jenis_angkat_kembali }})</p>
-                @else
-                    <p class="font-semibold text-lg text-[#252F40]">PAK {{ $jenis }}</p>
-                @endif
-            </div>
-            <div class="px-5 mt-5 flex justify-between">
-                <div class="w-1/3">
-                    <input type="text" wire:model="search" placeholder="Cari ..." class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+            <div class="flex justify-between">
+                <div class="p-5 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    @if ($jenis == 'Pengangkatan Kembali')
+                        <p class="font-semibold text-lg text-[#252F40]">PAK Pengangkatan Kembali ({{ $jenis_angkat_kembali }})</p>
+                    @else
+                        <p class="font-semibold text-lg text-[#252F40]">PAK {{ $jenis }}</p>
+                    @endif
                 </div>
-                <div>
-<button
-    wire:click="exportAll"
-    wire:loading.attr="disabled"
-    class="relative bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg">
-    <span wire:loading.remove>Unduh Semua</span>
-    <span wire:loading>Memproses...</span>
-</button>
+                <div class="p-5 pb-0 mb-0">
+                    <button
+                        wire:click="exportAll"
+                        wire:loading.attr="disabled"
+                        class="relative bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg">
+                        <span wire:loading.remove wire:target="exportAll">Unduh Semua</span>
+                        <span wire:loading wire:target="exportAll">Memproses...</span>
+                    </button>
 
-                    <button 
+                    <button
+                        wire:click="finalisasi"
+                        wire:loading.attr="disabled"
                         class="bg-gradient-to-br from-[#98EC2D] to-[#17AD37] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg">
-                        Finalisasi
+                        <span wire:loading.remove wire:target="finalisasi">Finalisasi</span>
+                        <span wire:loading wire:target="finalisasi">Memproses...</span>
                     </button>
                 </div>
             </div>
