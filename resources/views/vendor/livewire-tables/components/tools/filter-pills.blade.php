@@ -7,7 +7,7 @@
             'mb-3' => $isBootstrap,
         ]) x-cloak x-show="!currentlyReorderingStatus">
             <small @class([
-                'text-gray-700 dark:text-white' => $isTailwind,
+                'text-gray-700' => $isTailwind,
                 '' =>  $isBootstrap,
             ])>
                 {{ __($this->getLocalisationPath.'Applied Filters') }}:

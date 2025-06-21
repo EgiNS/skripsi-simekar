@@ -4,6 +4,7 @@ namespace App\Livewire\Mutasi\MutasiPegawai;
 
 use App\Models\Profile;
 use App\Models\UsulMutasi;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -50,7 +51,8 @@ class RiwayatPengajuanTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return UsulMutasi::where('nip', 198906132012111001);
+        $user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
+        return UsulMutasi::where('nip', $user->nip);
     }
 
     public function columns(): array

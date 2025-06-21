@@ -5,29 +5,33 @@
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative text-[#252F40] text-sm flex flex-col min-w-0 mb-6 break-words border-0 border-transparent border-solid rounded-2xl">
             <div class="mb-5 bg-white rounded-2xl shadow-soft-xl">
-                <div class="p-5 pb-3">
-                    <p>Halo, <span class="font-medium">{{ $user->nama }}</span> ! Jabatan anda saat ini adalah <span class="font-medium">{{ $user->jabatan }}</span></p>
-                    <p class="mt-2">Berdasarkan <span class="font-medium">Peraturan XXX</span>, syarat kenaikan jenjang ke <span class="font-medium">{{ $nextJabatan }}</span> :</p>
-                    <div class="mt-3">
-                      <p class="mb-2 bg-[#FAFAFA] p-2 rounded"><span class="text-xs text-white font-medium rounded-full bg-[#cb0c9ec2] mr-2 py-1 px-2">1.</span> Angka kredit minimal {{ $akMinimal }}</p>
-                      @foreach ($rekom->syarat['syarat'] as $index => $item)
-                          <p class="mb-2 bg-[#FAFAFA] p-2 rounded"><span class="text-xs text-white font-medium rounded-full bg-[#cb0c9ec2] mr-2 py-1 px-2">{{ $index+2 }}.</span> {{ $item }}</p>
-                      @endforeach
-                    </div>
-                </div>
-            </div>
+                  <div class="p-5 pb-3">
+                      <p>Halo, <span class="font-medium">{{ $user->nama }}</span> ! Jabatan anda saat ini adalah <span class="font-medium">{{ $user->jabatan }}</span></p>
+                      @if ($rekom)
+                      <p class="mt-2">Berdasarkan <span class="font-medium">Peraturan XXX</span>, syarat kenaikan jenjang ke <span class="font-medium">{{ $nextJabatan }}</span> :</p>
+                      <div class="mt-3">
+                        <p class="mb-2 bg-[#FAFAFA] p-2 rounded"><span class="text-xs text-white font-medium rounded-full bg-[#cb0c9ec2] mr-2 py-1 px-2">1.</span> Angka kredit minimal {{ $akMinimal }}</p>
+                        @foreach ($rekom->syarat['syarat'] as $index => $item)
+                            <p class="mb-2 bg-[#FAFAFA] p-2 rounded"><span class="text-xs text-white font-medium rounded-full bg-[#cb0c9ec2] mr-2 py-1 px-2">{{ $index+2 }}.</span> {{ $item }}</p>
+                        @endforeach
+                      </div>
+                      @endif
+                  </div>
+              </div>
             <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
               <p>Perkiraan kenaikan pangkat: <span class="font-semibold">{{ $this->perkiraan_kp }}</span></p>
               <p>Perkiraan kenaikan jenjang: <span class="font-semibold">{{ $this->perkiraan_kj }}</span></p>  
               <p>Prediksi periode kenaikan pangkat terdekat pada {{ $this->periode_kp['periode'] }}. Harap kumpulkan berkas paling lambat {{ $this->periode_kp['deadline'] }}</p>
             </div>
-            <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
-                {{-- <p>Jika syarat ketiga terpenuhi, maka seluruh syarat untuk kenaikan pangkat telah <span class="font-medium">TERPENUHI</span>. Silakan mendaftar Ujian Kompetensi Terdekat bagi Pranata Komputer pada <span class="font-medium">Agustus 2024</span> dan mengajukan kenaikan pangkat pada <span class="font-medium">Desember 2024</span> bila dinyatakan <span class="font-medium">LULUS</span> Ujian Kompetensi. </p>
-                <p class="mt-4">Untuk <span class="font-medium">Kenaikan Pangkat Periode Desember 2024</span> <br> 
-                    Batas Akhir Pengiriman Usulan KP dan upload data E-Files tanggal <span class="font-medium">1 September 2024</span> (termasuk Rekon SKP Tahun 2022 dan 2023).
-                </p> --}}
-                {!! $rekom->rekomendasi !!}
-            </div>
+            @if ($rekom)
+              <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
+                  {{-- <p>Jika syarat ketiga terpenuhi, maka seluruh syarat untuk kenaikan pangkat telah <span class="font-medium">TERPENUHI</span>. Silakan mendaftar Ujian Kompetensi Terdekat bagi Pranata Komputer pada <span class="font-medium">Agustus 2024</span> dan mengajukan kenaikan pangkat pada <span class="font-medium">Desember 2024</span> bila dinyatakan <span class="font-medium">LULUS</span> Ujian Kompetensi. </p>
+                  <p class="mt-4">Untuk <span class="font-medium">Kenaikan Pangkat Periode Desember 2024</span> <br> 
+                      Batas Akhir Pengiriman Usulan KP dan upload data E-Files tanggal <span class="font-medium">1 September 2024</span> (termasuk Rekon SKP Tahun 2022 dan 2023).
+                  </p> --}}
+                  {!! $rekom->rekomendasi !!}
+              </div>
+            @endif
             <div class="grid grid-cols-2 gap-x-5">
                 <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl max-h-72 overflow-auto">
                     <p class="mb-4">Formasi yang tersedia untuk <span class="font-medium">{{ $user->jabatan }}</span></p>

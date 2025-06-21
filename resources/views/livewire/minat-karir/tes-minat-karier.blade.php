@@ -19,7 +19,7 @@
                 </div>    
 
                 <div class="col-span-2 mb-5 bg-white rounded-2xl shadow-soft-xl">
-                    <p class="font-semibold text-lg p-5 pb-0 text-[#252F40]">Riwayat Impor Data</p>
+                    <p class="font-semibold text-lg p-5 pb-0 text-[#252F40]">Riwayat Tes Minat Karier</p>
                     <div class="flex-auto p-6 px-0 pb-2 max-h-96 overflow-y-auto">
                         <div class="overflow-x-auto">
                             <table class="items-center w-full mb-0 align-top text-slate-500">
@@ -43,7 +43,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($riwayat as $index => $item)
+                                    @forelse($riwayat as $index => $item)
                                         <tr>
                                             <td class="leading-normal py-2 text-center align-middle bg-transparent border-b text-sm whitespace-nowrap">
                                                 <span class="mb-0 leading-normal text-sm">
@@ -75,7 +75,13 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center font-medium text-gray-400 py-4">
+                                                Data tidak ditemukan.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -180,7 +186,8 @@
                         @endforeach
                     </div>
                     <div class="w-full flex justify-between mt-5">
-                        <button wire:click="prevPage" class="px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 font-semibold transition">Kembali</button>                    </div>
+                        <a href="{{ route('tes-minat-karier') }}" wire:navigate class="px-4 py-2 bg-[#8392AB] text-white rounded-lg text-sm hover:scale-105 font-semibold transition">Kembali</a>                    
+                    </div>
                 </div>
             
             {{-- @elseif ($step == 3)

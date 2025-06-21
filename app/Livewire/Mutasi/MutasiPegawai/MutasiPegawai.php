@@ -6,6 +6,7 @@ use App\Models\Satker;
 use App\Models\Profile;
 use Livewire\Component;
 use App\Models\UsulMutasi;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 
@@ -25,7 +26,7 @@ class MutasiPegawai extends Component
     {
         // Ambil daftar provinsi dari API saat komponen dimuat
         $this->provinsiList = Http::get('https://ibnux.github.io/data-indonesia/provinsi.json')->json();
-        $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
 
         // array_unshift($this->provinsiList, ['id' => '10', 'nama' => 'BPS RI/POLSTAT STIS/PUSDIKLAT']);
     }

@@ -7,10 +7,14 @@ use App\Models\Ukom;
 use App\Models\Profile;
 use Livewire\Component;
 use App\Models\AngkaKredit;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DashboardPegawai extends Component
 {
-    public $user, $ak, $kp, $kj, $pensiun, $ukom;
+    public $user, $ak, $kp, $kj, $pensiun, $ukom, $isFungsional;
+    public $passwordDefault = false;
 
     public array $nilaiJenjang = [
         'terampil' => 5,
@@ -50,12 +54,38 @@ class DashboardPegawai extends Component
 
     public function mount()
     {
-        $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
-        $this->ak = AngkaKredit::where('nip', $this->user->nip)->orderBy('id', 'desc')->first();
-        $this->kp = $this->naikPangkat($this->ak->total_ak, $this->ak->periode_end);
-        $this->kj = $this->naikJenjang($this->ak->total_ak, $this->ak->periode_end);
-        $this->pensiun = $this->getPensiun($this->user->jabatan)->translatedFormat('d F Y');
-        $this->ukom =  Ukom::latest()->take(5)->get()->sortBy('id')->values();
+        // dd(Auth::user());
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
+
+        $keywords = [
+            'terampil', 'mahir', 'penyelia',
+            'ahli pertama', 'ahli muda', 'ahli madya', 'ahli utama'
+        ];
+
+        $jabatan = strtolower($this->user->jabatan); // pastikan lowercase
+
+        // Cek apakah jabatan mengandung salah satu keyword
+        $this->isFungsional = collect($keywords)->contains(function ($keyword) use ($jabatan) {
+            return Str::contains($jabatan, strtolower($keyword));
+        });
+
+        if ($this->isFungsional) {
+            $this->ak = AngkaKredit::where('nip', $this->user->nip)->orderBy('id', 'desc')->first();
+            if ($this->ak) {
+                $this->kp = $this->naikPangkat($this->ak->total_ak, $this->ak->periode_end);
+                $this->kj = $this->naikJenjang($this->ak->total_ak, $this->ak->periode_end);
+                $this->pensiun = $this->getPensiun($this->user->jabatan)->translatedFormat('d F Y');
+            } else {
+                $this->kp = '-';
+                $this->kj = '-';
+                $this->pensiun = '-';
+            }
+            $this->ukom =  Ukom::latest()->take(5)->get()->sortBy('id')->values();
+        }
+
+        if (Hash::check($this->user->nip, Auth::user()->password)) {
+            $this->passwordDefault = true;
+        }
     }
 
     public function naikPangkat($ak, $periode_end)
@@ -69,7 +99,8 @@ class DashboardPegawai extends Component
 
         $perkiraan_kp = Carbon::parse($periode_end)->startOfMonth()->addMonths($pred_kp);
 
-        return $perkiraan_kp->format('F Y');
+        Carbon::setLocale('id');
+        return $perkiraan_kp->translatedFormat('F Y');
     }
 
     public function naikJenjang($ak, $periode_end)
@@ -83,7 +114,8 @@ class DashboardPegawai extends Component
 
         $perkiraan_kj = Carbon::parse($periode_end)->startOfMonth()->addMonths($pred_kj);
 
-        return $perkiraan_kj->format('F Y');
+        Carbon::setLocale('id');
+        return $perkiraan_kj->translatedFormat('F Y');
     }
 
     public function getPensiun($jab)
@@ -121,6 +153,10 @@ class DashboardPegawai extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.dashboard-pegawai')->extends('layouts.user');
+        if ($this->isFungsional) {
+            return view('livewire.dashboard.dashboard-pegawai')->extends('layouts.user');
+        } else {
+            return view('livewire.dashboard.dashboard-nonfungsional')->extends('layouts.user');
+        }
     }
 }

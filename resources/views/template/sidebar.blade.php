@@ -192,17 +192,10 @@
                 
                 <ul x-show="open" x-transition class="ml-10 mt-1 space-y-0">
                     <li>
-                      <a href="{{ route('angka-kredit') }}" wire:navigate
+                      <a href="{{ route('update-kinerja') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('angka-kredit') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Daftar Angka Kredit
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('upload-angka-kredit') }}" wire:navigate
-                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('upload-angka-kredit') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Approval Angka Kredit
+                              {{ request()->routeIs('update-kinerja') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                          Update Nilai Kinerja
                       </a>
                     </li>
                     <li>
@@ -213,10 +206,17 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{{ route('update-kinerja') }}" wire:navigate
+                      <a href="{{ route('upload-angka-kredit') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('update-kinerja') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Update Nilai Kinerja
+                              {{ request()->routeIs('upload-angka-kredit') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                          Approval Angka Kredit
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{ route('angka-kredit') }}" wire:navigate
+                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                              {{ request()->routeIs('angka-kredit') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                          Daftar Angka Kredit
                       </a>
                     </li>
                 </ul>

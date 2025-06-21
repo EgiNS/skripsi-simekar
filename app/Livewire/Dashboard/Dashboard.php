@@ -4,42 +4,20 @@ namespace App\Livewire\Dashboard;
 
 use Carbon\Carbon;
 use App\Models\ABK;
+use App\Models\Ukom;
+use App\Models\Profile;
 use Livewire\Component;
 use App\Models\UsulMutasi;
 use App\Models\AngkaKredit;
-use App\Models\Ukom;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Component
 {
+    public $user;
     public $dataSatker;
     public $groupedData = [];
     public $tahun, $ukom;
-    public $monthData = [
-        'Februari' => [
-            ['satker' => 'Satker C', 'count' => 7],
-            ['satker' => 'Satker D', 'count' => 8],
-        ],
-        'April' => [
-            ['satker' => 'Satker F', 'count' => 9],
-            ['satker' => 'Satker G', 'count' => 12],
-        ],
-        'Juni' => [
-            ['satker' => 'Satker J', 'count' => 11],
-        ],
-        'Agustus' => [
-            ['satker' => 'Satker M', 'count' => 6],
-            ['satker' => 'Satker N', 'count' => 8],
-        ],
-        'Oktober' => [
-            ['satker' => 'Satker P', 'count' => 10],
-            ['satker' => 'Satker Q', 'count' => 3],
-        ],
-        'Desember' => [
-            ['satker' => 'Satker S', 'count' => 7],
-            ['satker' => 'Satker T', 'count' => 6],
-        ],
-    ];
 
     public array $nilaiJenjang = [
         'terampil' => 5,
@@ -79,10 +57,12 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
         $this->tahun = now()->year;
         $this->getNaikPangkat();
         $this->setDataSatker();
-        $this->ukom =  Ukom::latest()->take(5)->get()->sortBy('id')->values();
+        Carbon::setLocale('id');
+        $this->ukom = Ukom::latest()->take(5)->get()->sortBy('id')->values();
     }
 
     // Method untuk menangani perubahan tahun

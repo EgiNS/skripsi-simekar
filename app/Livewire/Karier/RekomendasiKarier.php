@@ -7,13 +7,15 @@ use App\Models\ABK;
 use App\Models\Satker;
 use App\Models\Profile;
 use Livewire\Component;
-use App\Models\AngkaKredit;
 use App\Models\Golongan;
+use App\Models\AngkaKredit;
 use App\Models\RekomKarier;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class RekomendasiKarier extends Component
 {
-    public $user;
+    public $user, $isFungsional, $isAk;
     public $nextJabatan;
     public $rekom, $akMinimal, $rumpun;
     public $formasiSaatIni;
@@ -22,13 +24,33 @@ class RekomendasiKarier extends Component
 
     public function mount()
     {
-        $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
-        $this->nextJabatan = $this->getNextJenjang($this->user->jabatan);
-        $this->rekom = $this->getSyaratRekomendasi($this->user->jabatan);
-        $this->akMinimal = $this->getAngkaKredit($this->user->jabatan, $this->rekom->syarat);
-        $this->formasiSaatIni = $this->loadFormasiTersedia($this->user->jabatan);
-        $this->formasiNextJenjang = $this->loadFormasiTersedia($this->nextJabatan);
-        $this->getPrediksi();
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
+
+        $keywords = [
+            'terampil', 'mahir', 'penyelia',
+            'ahli pertama', 'ahli muda', 'ahli madya', 'ahli utama'
+        ];
+
+        $jabatan = strtolower($this->user->jabatan); // pastikan lowercase
+
+        // Cek apakah jabatan mengandung salah satu keyword
+        $this->isFungsional = collect($keywords)->contains(function ($keyword) use ($jabatan) {
+            return Str::contains($jabatan, strtolower($keyword));
+        });
+
+        $this->isAk = AngkaKredit::where('nip', $this->user->nip)->orderBy('id', 'desc')->first();
+
+        if ($this->isFungsional && $this->isAk) {
+            $this->nextJabatan = $this->getNextJenjang($this->user->jabatan);
+            $this->rekom = $this->getSyaratRekomendasi($this->user->jabatan);
+            if ($this->rekom) {
+                $this->akMinimal = $this->getAngkaKredit($this->user->jabatan, $this->rekom->syarat);
+            }
+            $this->formasiSaatIni = $this->loadFormasiTersedia($this->user->jabatan);
+            $this->formasiNextJenjang = $this->loadFormasiTersedia($this->nextJabatan);
+            $this->getPrediksi();
+        }
+
     }
 
     public function getNextJenjang($jabatan)
@@ -286,6 +308,12 @@ class RekomendasiKarier extends Component
 
     public function render()
     {
-        return view('livewire.karier.rekomendasi-karier')->extends('layouts.user');
+        if (!$this->isAk) {
+            return view('livewire.karier.nonakredit')->extends('layouts.user');
+        } elseif ($this->isFungsional) {
+            return view('livewire.karier.rekomendasi-karier')->extends('layouts.user');
+        } else {
+            return view('livewire.karier.nonfungsional')->extends('layouts.user');
+        }
     }
 }

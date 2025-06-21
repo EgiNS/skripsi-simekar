@@ -8,6 +8,7 @@ use App\Models\Profile;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\TesMinatKarier as ModelsTesMinatKarier;
+use Illuminate\Support\Facades\Auth;
 
 class TesMinatKarier extends Component
 {
@@ -20,7 +21,7 @@ class TesMinatKarier extends Component
 
     public function mount()
     {
-        $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
         $this->riwayat = HasilTesMinatKarier::where('nip', $this->user->nip)->get();
     }
 

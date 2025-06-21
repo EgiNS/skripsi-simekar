@@ -4,7 +4,7 @@
     <div>
         @if ($this->sortingPillsAreEnabled() && $this->hasSorts())
             <div class="mb-4 px-4 md:p-0" x-cloak x-show="!currentlyReorderingStatus">
-                <small class="text-gray-700 dark:text-white">{{ __($this->getLocalisationPath.'Applied Sorting') }}:</small>
+                <small class="text-gray-700">{{ __($this->getLocalisationPath.'Applied Sorting') }}:</small>
 
                 @foreach($this->getSorts() as $columnSelectName => $direction)
                     @php($column = $this->getColumnBySelectName($columnSelectName) ?? $this->getColumnBySlug($columnSelectName))
@@ -15,7 +15,7 @@
 
                     <span
                         wire:key="{{ $tableName }}-sorting-pill-{{ $columnSelectName }}"
-                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-indigo-100 text-indigo-800 capitalize dark:bg-indigo-200 dark:text-indigo-900"
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-indigo-100 text-indigo-800 capitalize"
                     >
                         {{ $column->getSortingPillTitle() }}: {{ $column->getSortingPillDirectionLabel($direction, $this->getDefaultSortingLabelAsc, $this->getDefaultSortingLabelDesc) }}
 
@@ -34,7 +34,7 @@
                     wire:click.prevent="clearSorts"
                     class="focus:outline-none active:outline-none"
                 >
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                         {{ __($this->getLocalisationPath.'Clear') }}
                     </span>
                 </button>

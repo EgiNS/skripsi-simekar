@@ -17,7 +17,7 @@
                         <p class="leading-5 text-sm">{{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 250) }}</p>
                     </div>
                     <div class="w-full flex justify-end mt-4">
-                        <a href="{{ route('detail-info', $item->id) }}" wire:navigate
+                        <a href="{{ route('detail-informasi', $item->id) }}" wire:navigate
                             class="rounded-lg px-3 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white text-sm shadow-sm font-semibold">
                             Selengkapnya
                          </a>                                 

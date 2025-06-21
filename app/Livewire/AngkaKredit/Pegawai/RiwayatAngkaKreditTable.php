@@ -5,12 +5,16 @@ namespace App\Livewire\AngkaKredit\Pegawai;
 use Carbon\Carbon;
 use App\Models\Profile;
 use App\Models\AngkaKredit;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class RiwayatAngkaKreditTable extends DataTableComponent
 {
+    public $showModalEdit = false;
+    public $editId, $link_pak;
+
     protected $model = AngkaKredit::class;
 
     protected $listeners = ['refreshTable' => '$refresh'];
@@ -22,7 +26,9 @@ class RiwayatAngkaKreditTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return AngkaKredit::where(['nip'=>'198906132012111001']);
+        $user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
+
+        return AngkaKredit::where(['nip'=>$user->nip]);
     }
 
     public function columns(): array
@@ -48,18 +54,26 @@ class RiwayatAngkaKreditTable extends DataTableComponent
             Column::make("status", "status")
                 ->sortable()
                 ->hideIf(true),
+            Column::make("tanggal", "created_at")
+                ->sortable()
+                ->hideif(true),
             Column::make("Periode PAK")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
                 ->label(fn($row) => $this->showPeriode($row->jenis, $row->periode_start, $row->periode_end)),
             Column::make("Link PAK")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
                 ->label(fn($row) => $this->showLink($row->link_pak)),
-            Column::make("Tanggal Upload", "created_at")
-                ->sortable(),
+            Column::make("Tanggal Dikeluarkan")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showLink($row->link_pak)),
             Column::make("Status")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showStatus($row->status))
+                ->label(fn($row) => $this->showStatus($row->created_at))
                 ->sortable(),
+            Column::make('Aksi')
+                ->label(fn($row) => view('livewire.angka-kredit.pegawai.edit', [
+                    'data' => $row
+                ])),
         ];
     }
 
@@ -86,6 +100,11 @@ class RiwayatAngkaKreditTable extends DataTableComponent
         return "<a href='{$link}'>{$link}</a>";
     }
 
+    public function showTanggal($tgl)
+    {
+        return Carbon::parse($tgl)->format('d-m-Y');
+    }
+
     public function showJenis($jenis)
     {
         if ($jenis == 1) {
@@ -108,5 +127,27 @@ class RiwayatAngkaKreditTable extends DataTableComponent
         } elseif ($status == 3) {
             return '<span class="text-xs px-2 rounded-lg bg-[#F53939] text-white">Ditolak</span>';
         }
+    }
+
+    public function openModalEdit($id)
+    {
+        $this->editId = $id;
+        $this->showModalEdit = true;
+    }
+
+    public function saveEdit()
+    {
+        $this->validate([
+            'link_pak'  => 'required|string',
+        ]);
+
+        if ($this->editId) {
+            $data = AngkaKredit::find($this->editId);
+            $data->link_pak = $this->link_pak;
+            $data->save();
+        }
+
+        $this->showModalEdit = false;
+        $this->dispatch('showFlashMessage', 'Link PAK berhasil diperbarui!', 'success');
     }
 }

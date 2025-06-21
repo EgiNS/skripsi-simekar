@@ -7,6 +7,7 @@ use App\Models\Profile;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Models\AngkaKredit as ModelsAngkaKredit;
+use Illuminate\Support\Facades\Auth;
 
 class AngkaKredit extends Component
 {
@@ -23,7 +24,7 @@ class AngkaKredit extends Component
 
     public function mount()
     {
-        $this->user = Profile::where(['nip'=>'198906132012111001', 'active'=>1])->first();
+        $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
     }
 
     public function updatedJenisAngkaKredit($value)

@@ -5,12 +5,16 @@ namespace App\Livewire\Ukom\Jadwal;
 use Carbon\Carbon;
 use App\Models\Ukom;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class JadwalUkom extends Component
 {
     public $events = [];
     public $judul, $tanggal_mulai, $tanggal_akhir;
     public $showModal = false;
+    public $editId, $editTitle, $editStart, $editEnd;
+
+    protected $listeners = ['openEditModal'];
 
     public function mount()
     {
@@ -24,6 +28,7 @@ class JadwalUkom extends Component
             $sudahSelesai = now()->greaterThan($tanggalAkhir);
 
             return [
+                'id'    => $ukom->id,
                 'title' => $ukom->judul,
                 'start' => $ukom->tanggal_mulai,
                 'end' => date('Y-m-d', strtotime($ukom->tanggal_akhir . ' +1 day')), // FullCalendar butuh end+1 hari
@@ -61,6 +66,66 @@ class JadwalUkom extends Component
         $this->reset(['judul', 'tanggal_mulai', 'tanggal_akhir']);
 
         $this->dispatch('showFlashMessage', 'Jadwal Berhasil Ditambahkan!', 'success');
+    }
+
+    #[On('openEditModal')]
+    public function openEditModal($id, $title, $start, $end)
+    {
+        $this->editId = $id;
+        $this->editTitle = $title;
+        $this->editStart = substr($start, 0, 10);
+        $this->editEnd = date('Y-m-d', strtotime($end . ' -1 day'));
+
+        $this->dispatch('show-edit-modal');
+    }
+
+    public function updateEvent()
+    {
+        Ukom::find($this->editId)->update([
+            'judul' => $this->editTitle,
+            'tanggal_mulai' => $this->editStart,
+            'tanggal_akhir' => $this->editEnd,
+        ]);
+
+        // Load ulang event
+        $events = Ukom::all()->map(function ($ukom) {
+            $tanggalAkhir = $ukom->tanggal_akhir ?? $ukom->tanggal_mulai;
+            return [
+                'id' => $ukom->id,
+                'title' => $ukom->judul,
+                'start' => $ukom->tanggal_mulai,
+                'end' => date('Y-m-d', strtotime($ukom->tanggal_akhir . ' +1 day')),
+                'color' => now()->greaterThan($tanggalAkhir) ? '#BFBFBF' : ''
+            ];
+        });
+
+        $this->dispatch('calendar-refresh', $events);
+        $this->dispatch('hide-edit-modal');
+        $this->dispatch('showFlashMessage', 'Jadwal Berhasil Diubah!', 'success');
+    }
+
+    public function deleteEvent()
+    {
+        // Pastikan ada ID yang akan dihapus
+        if ($this->editId) {
+            Ukom::find($this->editId)?->delete(); // Gunakan model kamu
+
+            $events = Ukom::all()->map(function ($ukom) {
+                $tanggalAkhir = $ukom->tanggal_akhir ?? $ukom->tanggal_mulai;
+                return [
+                    'id' => $ukom->id,
+                    'title' => $ukom->judul,
+                    'start' => $ukom->tanggal_mulai,
+                    'end' => date('Y-m-d', strtotime($ukom->tanggal_akhir . ' +1 day')),
+                    'color' => now()->greaterThan($tanggalAkhir) ? '#BFBFBF' : ''
+                ];
+            });
+
+            $this->dispatch('calendar-refresh', $events);
+            $this->dispatch('hide-edit-modal');
+
+            $this->dispatch('showFlashMessage', 'Jadwal Berhasil Dihapus!', 'success');
+        }
     }
 
     public function render()

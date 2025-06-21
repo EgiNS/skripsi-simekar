@@ -3,7 +3,7 @@
 <span
     wire:key="{{ $tableName }}-filter-pill-{{ $filterSelectName }}"
     @class([
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-indigo-100 text-indigo-800 capitalize dark:bg-indigo-200 dark:text-indigo-900' => $isTailwind,
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-indigo-100 text-indigo-800 capitalize' => $isTailwind,
         'badge badge-pill badge-info d-inline-flex align-items-center' => $isBootstrap4,
         'badge rounded-pill bg-info d-inline-flex align-items-center' => $isBootstrap5,
     ])
