@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             if (!$firstline) {
                 User::create([
                     "username" => $data['17'],
-                    "password" => Hash::make($data['18'])
+                    "password" => Hash::make($data['1'])
                 ]);
             }
             $firstline = false;

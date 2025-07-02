@@ -619,10 +619,9 @@ class HasilPAK extends Component
             $templateProcessor->setValue($key, $value);
         }
 
-        $outputPath = storage_path('app/public/export_pak_' . $profile['nip'] . '.docx');
+        $outputPath = storage_path('app/public/' . $profile['nama'] . '-PAK (' . $periode . ')' . '.docx');
         $templateProcessor->saveAs($outputPath);
 
-        // return response()->download($outputPath)->deleteFileAfterSend(true);
         return $outputPath;
     }
 
@@ -709,7 +708,7 @@ class HasilPAK extends Component
         ini_set('memory_limit', '2048M');
         set_time_limit(420);
 
-        $zipFileName = 'pak_exports_' . now()->format('Ymd_His') . '.zip';
+        $zipFileName = 'PAK_' . now()->format('Ymd_His') . '.zip';
         $zipFilePath = storage_path('app/public/' . $zipFileName);
         $tempDir = storage_path('app/public/temp_exports');
 

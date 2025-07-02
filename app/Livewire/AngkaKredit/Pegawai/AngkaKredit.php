@@ -49,8 +49,6 @@ class AngkaKredit extends Component
     public function createAngkaKredit()
     {
         $this->validate([
-            'nip'  => ['required', Rule::exists('profile', 'nip')],
-            'jabatan' => 'required|string|max:255',
             'link_pak' => 'required|string',
             'jenis' => 'required',
             'nilai' => 'required',
@@ -65,14 +63,20 @@ class AngkaKredit extends Component
                 ->orderBy('created_at', 'desc')
                 ->first();    
         
-        if ($secondLatest->golongan->nama != $this->user->golongan) {
-            if ($this->user->golongan == 'III/a' || $this->user->golongan == 'III/c' || $this->user->golongan == 'IV/a' || $this->user->golongan == 'IV/d' || $this->user->golongan == 'IV/e' ) {
+        if ($secondLatest->golongan->nama != $this->user->golongan->nama) {
+            if ($this->user->golongan->nama == 'III/a' || $this->user->golongan->nama == 'III/c' || $this->user->golongan->nama == 'IV/a' || $this->user->golongan->nama == 'IV/d' || $this->user->golongan->nama == 'IV/e' ) {
                 $ak_total = $this->nilai;
+            } else {
+                $ak_before = ModelsAngkaKredit::where('nip', $this->nip)
+                    ->orderBy('id', 'desc')
+                    ->value('total_ak') ?? 0;   
+
+                $ak_total = $ak_before + $this->nilai;
             }
         } else {
             $ak_before = ModelsAngkaKredit::where('nip', $this->nip)
                 ->orderBy('id', 'desc')
-                ->value('total_ak') ?? 0;        
+                ->value('total_ak') ?? 0;   
 
             $ak_total = $ak_before + $this->nilai;
         }
@@ -83,11 +87,11 @@ class AngkaKredit extends Component
             ]);
 
             ModelsAngkaKredit::create([
-                'id_pegawai' => $this->user->id_pegawai,
+                'id_pegawai' => $this->user->id,
                 'nip' => $this->user->nip,
                 'link_pak' => $this->link_pak,
                 'jenis' => $this->jenis,
-                'status' => 2,
+                'status' => 1,
                 'nilai' => $this->nilai,
                 'total_ak' => $ak_total,
                 'periode_start' => $this->tahun . '-01-01',
@@ -100,11 +104,11 @@ class AngkaKredit extends Component
             ]);
 
             ModelsAngkaKredit::create([
-                'id_pegawai' => $this->user->id_pegawai,
+                'id_pegawai' => $this->user->id,
                 'nip' => $this->user->nip,
                 'link_pak' => $this->link_pak,
                 'jenis' => $this->jenis,
-                'status' => 2,
+                'status' => 1,
                 'nilai' => $this->nilai,
                 'total_ak' => $ak_total,
                 'periode_start' => Carbon::parse($this->periodeMulai . '-01')->startOfMonth(),
@@ -117,19 +121,17 @@ class AngkaKredit extends Component
             ]);
 
             ModelsAngkaKredit::create([
-                'id_pegawai' => $this->user->id_pegawai,
+                'id_pegawai' => $this->user->id,
                 'nip' => $this->user->nip,
                 'link_pak' => $this->link_pak,
                 'jenis' => $this->jenis,
-                'status' => 2,
+                'status' => 1,
                 'nilai' => $this->nilai,
                 'total_ak' => $ak_total,
                 'periode_start' => $this->tmt_gol,
                 'periode_end' => $this->tgl_pengangkatan,
             ]);
         }
-
-        $this->resetPage();
 
         // Reset form
         $this->reset(['nip', 'nama', 'jabatan', 'satker', 'jenis', 'periodeMulai', 'periodeAkhir', 'tahun', 'nilai', 'link_pak']);

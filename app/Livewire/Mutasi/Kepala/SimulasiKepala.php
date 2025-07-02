@@ -55,7 +55,7 @@ class SimulasiKepala extends Component
             'satker_asal' => $profile->satker->nama,
             'zona' => null,
             'tmt_jab' => $this->hitungMasaKerja($profile->tmt_jab, 'jab'),
-            'satker_tujuan' => '-'
+            'satker_tujuan' => '-',
         ];
         $this->suggestions = [];
     }

@@ -10,12 +10,16 @@
                     <p class="text-sm mb-4">
                         Tes Minat Karier ini ditujukan untuk melihat jalur karier mana yang paling sesuai dengan diri Anda selaku ASN di lingkungan Badan Pusat Statistik. Pernyataan-pernyataan dalam tes ini dibuat berdasarkan butir-butir kegiatan beberapa jenis jabatan fungsional. 
                     </p>
-                    <p class="text-sm">
-                        Dari setiap halaman, silakan pilih tiga pernyataan yang paling sesuai dengan diri Anda. Klik <span class="font-semibold">Mulai</span> jika sudah siap untuk memulai tes
-                    </p>
-                    <div class="w-full flex justify-end mt-5">
-                        <button class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-6 font-semibold py-2 text-sm rounded-lg" wire:click="nextPage">Mulai</button>
-                    </div>
+                    @if (!$this->exist)
+                        <p class="text-sm">
+                            Dari setiap halaman, silakan pilih tiga pernyataan yang paling sesuai dengan diri Anda. Klik <span class="font-semibold">Mulai</span> jika sudah siap untuk memulai tes
+                        </p>
+                        <div class="w-full flex justify-end mt-5">
+                            <button class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-6 font-semibold py-2 text-sm rounded-lg" wire:click="nextPage">Mulai</button>
+                        </div>
+                    @else
+                        <p class="text-base font-semibold text-end">Coming Soon...</p>
+                    @endif
                 </div>    
 
                 <div class="col-span-2 mb-5 bg-white rounded-2xl shadow-soft-xl">

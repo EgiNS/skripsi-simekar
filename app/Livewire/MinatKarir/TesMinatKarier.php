@@ -16,13 +16,14 @@ class TesMinatKarier extends Component
     public $currentPage = 1;
     public $totalPages;
     public $selectedOptions = [];
-    public $user;
+    public $user, $exist;
     public $hasil, $riwayat;
 
     public function mount()
     {
         $this->user = Profile::where(['username'=>Auth::user()->username, 'active'=>1])->first();
         $this->riwayat = HasilTesMinatKarier::where('nip', $this->user->nip)->get();
+        $this->exist = ModelsTesMinatKarier::all()->isEmpty();
     }
 
     public function getSoalPageProperty()

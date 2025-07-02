@@ -40,8 +40,18 @@ class RiwayatAngkaKreditTable extends DataTableComponent
             Column::make("Jenis", "jenis")
                 ->sortable()
                 ->searchable(),
-            Column::make("Angka Kredit", "nilai")
-                ->sortable(),
+            Column::make("ak", "nilai")
+                ->sortable()
+                ->hideIf(true),
+            Column::make("total ak", "total_ak")
+                ->sortable()
+                ->hideIf(true),
+            Column::make("Angka Kredit")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showAk($row->nilai)),
+            Column::make("Total Angka Kredit")
+                ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
+                ->label(fn($row) => $this->showAk($row->total_ak)),
             Column::make("start", "periode_start")
                 ->sortable()
                 ->hideIf(true),
@@ -65,10 +75,10 @@ class RiwayatAngkaKreditTable extends DataTableComponent
                 ->label(fn($row) => $this->showLink($row->link_pak)),
             Column::make("Tanggal Dikeluarkan")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showLink($row->link_pak)),
+                ->label(fn($row) => $this->showTanggal($row->created_at)),
             Column::make("Status")
                 ->html() // Tambahkan ini agar HTML tidak dianggap teks biasa
-                ->label(fn($row) => $this->showStatus($row->created_at))
+                ->label(fn($row) => $this->showStatus($row->status))
                 ->sortable(),
             Column::make('Aksi')
                 ->label(fn($row) => view('livewire.angka-kredit.pegawai.edit', [
@@ -93,6 +103,11 @@ class RiwayatAngkaKreditTable extends DataTableComponent
 
             return "{$tgl_start->format('j M Y')} - {$tgl_end->format('j M Y')}";
         }
+    }
+
+    public function showAk($ak)
+    {
+        return rtrim(rtrim(number_format($ak, 3, '.', ''), '0'), '.');
     }
 
     public function showLink($link)

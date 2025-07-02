@@ -50,6 +50,8 @@ class DaftarAngkaKreditTable extends DataTableComponent
         'IV/c' => 450,
     ];
 
+    protected $listeners = ['refreshTable' => '$refresh'];
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
@@ -169,7 +171,7 @@ class DaftarAngkaKreditTable extends DataTableComponent
     public function showLink($link)
     {
         if ($link) {
-            return "<a class='bg-[#CB0C9F] block whitespace-nowrap text-center text-sm text-white px-2 py-1 rounded-lg' href='{$link}'>Lihat PAK</a>";
+            return "<a class='bg-[#17C1E8] block whitespace-nowrap text-center text-sm text-white px-2 py-1 rounded-lg' href='{$link}'>Lihat PAK</a>";
         } else {
             return "<span class='bg-[#FB8A33] block whitespace-nowrap text-center text-sm text-white px-2 py-1 rounded-lg'>Belum Upload</span>";
         }

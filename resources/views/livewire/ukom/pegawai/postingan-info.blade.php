@@ -9,7 +9,7 @@
 
     <div class="flex-auto px-0 pt-0 pb-2">
         <div class="p-5 overflow-x-auto">
-            @foreach ($info as $item)
+            @forelse ($info as $item)
                 <div class="w-full bg-[#F8F9FA] rounded-lg p-6 mb-3">
                     <p class="font-semibold text-[#252F40]">{{ $item->judul }}</p>
                     <p class="text-[#252F40] text-sm">Diposting: {{ $item->created_at }}</p>
@@ -17,13 +17,15 @@
                         <p class="leading-5 text-sm">{{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 250) }}</p>
                     </div>
                     <div class="w-full flex justify-end mt-4">
-                        <a href="{{ route('detail-informasi', $item->id) }}" wire:navigate
+                        <a href="{{ route('detail-info', $item->id) }}" wire:navigate
                             class="rounded-lg px-3 py-2 bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white text-sm shadow-sm font-semibold">
                             Selengkapnya
                          </a>                                 
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p>Belum ada informasi ukom</p>
+            @endforelse
         </div>
     </div>
 </div>

@@ -32,7 +32,7 @@
                   {!! $rekom->rekomendasi !!}
               </div>
             @endif
-            <div class="grid grid-cols-2 gap-x-5">
+            <div class="grid md:grid-cols-2 md:gap-x-5 grid-cols-1 gap-x-0">
                 <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl max-h-72 overflow-auto">
                     <p class="mb-4">Formasi yang tersedia untuk <span class="font-medium">{{ $user->jabatan }}</span></p>
                     <table class="w-full">

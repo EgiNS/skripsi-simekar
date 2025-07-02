@@ -15,7 +15,7 @@
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <p class="text-[#252F40] font-medium text-sm self-end text-end">Nominasi Pegawai Naik Pangkat Periode Selanjutnya</p>
-                        <a href="" class="text-sm self-end hover:underline">Lihat detail →</a> 
+                        <a href="/angka-kredit" wire:navigate class="text-sm self-end hover:underline">Lihat detail →</a> 
                     </div>
                 </div>
                 <div class="p-5 mb-0 bg-white rounded-2xl shadow-soft-xl flex flex-row items-center justify-between">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <p class="text-[#252F40] font-medium text-sm self-end text-end">Usul Mutasi Pegawai Belum Ditindaklanjuti</p>
-                        <a href="" class="text-sm self-end hover:underline">Lihat detail →</a> 
+                        <a href="/usul-mutasi" wire:navigate class="text-sm self-end hover:underline">Lihat detail →</a> 
                     </div>
                 </div>
                 <div class="p-5 mb-0 bg-white rounded-2xl shadow-soft-xl flex flex-row items-center justify-between">

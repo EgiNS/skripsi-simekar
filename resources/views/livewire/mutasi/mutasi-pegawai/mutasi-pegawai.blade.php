@@ -7,9 +7,9 @@
             <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
                 <p class="font-semibold text-lg text-[#252F40]">Pengajuan Mutasi</p>
                 <div class="mt-5">
-                    <div class="w-full mb-3 grid grid-cols-7 items-center">
-                        <label class="text-sm">Jenis Usulan</label>
-                        <select wire:model.live="jenis" class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
+                    <div class="w-full mb-3 grid md:grid-cols-7 grid-cols-1 items-center">
+                        <label class="text-sm md:mb-0 mb-1">Jenis Usulan</label>
+                        <select wire:model.live="jenis" class="md:col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
                             <option value="">Pilih Jenis Usulan</option>
                             <option value="Atas Permintaan Sendiri">Atas Permintaan Sendiri</option>
                             <option value="Alasan Khusus">Alasan Khusus</option>
@@ -17,13 +17,13 @@
                         </select>
 
                         @error('jenis')
-                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
+                            <p class="text-red-500 text-xs md:col-span-6">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="w-full mb-3 grid grid-cols-7 items-center">
-                        <label class="text-sm">Satker Tujuan</label>
-                        <select wire:model.live="provinsi" class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
+                    <div class="w-full mb-3 grid md:grid-cols-7 grid-cols-1 items-center">
+                        <label class="text-sm md:mb-0 mb-1">Satker Tujuan</label>
+                        <select wire:model.live="provinsi" class="md:col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
                             <option value="">Pilih Satker</option>
                             <option value="10">BPS RI/POLSTAT STIS/PUSDIKLAT</option>
                             @foreach($provinsiList as $prov)
@@ -32,7 +32,7 @@
                         </select>
 
                         @error('provinsi')
-                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
+                            <p class="text-red-500 text-xs md:col-span-6">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -40,11 +40,11 @@
                         x-data 
                         x-show="$wire.provinsi"
                         x-transition 
-                        class="w-full mb-3 grid grid-cols-7 items-center"
+                        class="w-full mb-3 grid md:grid-cols-7 grid-cols-1 items-center"
                     >
                         <label class="text-sm"></label>
                         <select wire:model="kabupaten" wire:key="kabupaten-select"
-                            class="col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
+                            class="md:col-span-6 text-gray-700 px-3 py-2 text-sm block w-full p-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-300 focus:border-fuchsia-300">
                             <option value="">Pilih Satker</option>
                             @if ($id_prov == '10')
                                 @foreach($kabupatenList as $kab)
@@ -58,17 +58,17 @@
                         </select>
 
                         @error('kabupaten')
-                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
+                            <p class="text-red-500 text-xs md:col-span-6">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="w-full mb-3 grid grid-cols-7">
-                        <label class="text-sm">Alasan</label>
-                        <Textarea wire:model="alasan" rows="5" class="col-span-6 focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+                    <div class="w-full mb-3 grid md:grid-cols-7 grid-cols-1">
+                        <label class="text-sm md:mb-0 mb-1">Alasan</label>
+                        <Textarea wire:model="alasan" rows="5" class="md:col-span-6 focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
                         </Textarea>
 
                         @error('alasan')
-                            <p class="text-red-500 text-xs col-span-6">{{ $message }}</p>
+                            <p class="text-red-500 text-xs md:col-span-6">{{ $message }}</p>
                         @enderror
                     </div>
 

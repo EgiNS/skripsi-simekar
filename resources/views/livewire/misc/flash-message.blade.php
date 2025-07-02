@@ -1,5 +1,7 @@
 <div
     x-data="{ show: @entangle('show') }"
+    x-init="if (show) { setTimeout(() => show = false, 3000); }"
+    x-effect="if (show) { setTimeout(() => show = false, 3000); }"
     x-show="show"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 translate-y-4"

@@ -36,6 +36,7 @@ use App\Livewire\Ukom\Informasi\EditInfoUkom;
 use App\Livewire\Ukom\Informasi\InformasiUkom;
 use App\Livewire\Ukom\Informasi\TambahInformasiUkom;
 use App\Livewire\Ukom\Jadwal\JadwalUkom;
+use App\Livewire\Ukom\Pegawai\DetailInformasiUkom as PegawaiDetailInformasiUkom;
 use App\Livewire\Ukom\Pegawai\InfoUkom;
 use Illuminate\Support\Facades\Route;
 
@@ -49,10 +50,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('app');
-// });
 
 //admin
 Route::middleware(['auth', 'role:1,2'])->group(function () {
@@ -73,6 +70,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::get('/update-kinerja', UpdateKinerja::class)->name('update-kinerja');
     Route::get('/jadwal-ukom', JadwalUkom::class)->name('jadwal-ukom');
     Route::get('/info-ukom', InformasiUkom::class)->name('info-ukom');
+    Route::get('/informasi-ukom/{id}', DetailInformasiUkom::class)->name('detail-informasi');
     Route::get('/tambah-info-ukom', TambahInformasiUkom::class)->name('tambah-info-ukom');
     Route::get('/edit-info-ukom/{id}', EditInfoUkom::class)->name('edit-info-ukom');
     Route::get('/info-ukom/{id}', DetailInformasiUkom::class)->name('detail-info');
@@ -89,7 +87,7 @@ Route::middleware(['auth', 'role:1,2,3'])->group(function () {
     Route::get('/mutasi', MutasiPegawai::class)->name('mutasi');
     Route::get('/angka-kredit-pegawai', AngkaKredit::class)->name('angka-kredit-pegawai');
     Route::get('/informasi-ukom', InfoUkom::class)->name('informasi-ukom');
-    Route::get('/informasi-ukom/{id}', DetailInformasiUkom::class)->name('detail-informasi');
+    Route::get('/info-ukom/{id}', PegawaiDetailInformasiUkom::class)->name('detail-info');
     Route::get('/tes-minat-karier', TesMinatKarier::class)->name('tes-minat-karier');
     Route::get('/profile', Profile::class)->name('profile');
     Route::get('/dashboard-pegawai', DashboardPegawai::class)->name('dashboard-pegawai');

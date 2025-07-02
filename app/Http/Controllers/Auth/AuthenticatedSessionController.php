@@ -32,15 +32,7 @@ class AuthenticatedSessionController extends Controller
         // Ambil role user yang sudah login
         $user = Auth::user();
 
-        // Redirect berdasarkan role
-        switch ($user->role) {
-            case '1':
-                return redirect()->intended('/dashboard');
-            case '2':
-                return redirect()->intended('/dashboard');
-            default:
-                return redirect()->intended('/dashboard-pegawai');
-        }
+        return redirect()->intended('/dashboard-pegawai');
     }
 
     /**

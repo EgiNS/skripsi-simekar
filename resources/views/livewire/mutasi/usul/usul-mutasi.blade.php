@@ -132,7 +132,7 @@
                             </div>
                           </div>
                     @empty
-                        
+                        <p>Belum ada pengajuan mutasi</p>
                     @endforelse
 
                 </div>

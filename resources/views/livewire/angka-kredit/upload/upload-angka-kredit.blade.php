@@ -18,11 +18,10 @@
                     wire:model.live.debounce.300ms="search"
                     class="focus:shadow-soft-primary-outline w-2/5 text-sm leading-5.6 ease-soft block appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" 
                 />                
-                <button class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg" @click="showTambah = true">Tambah</button>
+                {{-- <button class="bg-gradient-to-br from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 font-semibold py-2 text-sm rounded-lg" @click="showTambah = true">Tambah</button> --}}
             </div>
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-5 grid grid-cols-3 space-x-3">
-                    {{-- <livewire:Mutasi.Usul.Usul-Mutasi-Table /> --}}
                     @forelse ($allApproval as $item)
                         <div wire:key="{{ $item->id }}" class="relative p-4 bg-white rounded-xl shadow-md">             
 
@@ -96,7 +95,7 @@
             </div>
         </div>
 
-        <div x-show="showTambah" x-on:close-modal.window="showTambah = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
+        {{-- <div x-show="showTambah" x-on:close-modal.window="showTambah = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-96 overflow-y-auto relative">
                 <!-- Header -->
                 <div class="flex justify-between items-center border-b pb-2">
@@ -295,7 +294,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div x-data="{ open: @entangle('showModalEdit') }">
             <div x-show="open" class="fixed z-50 inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm">

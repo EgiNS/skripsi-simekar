@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Livewire\Ukom\Informasi;
+namespace App\Livewire\Ukom\Pegawai;
 
 use Livewire\Component;
 use App\Models\InfoUkom;
-use Illuminate\Support\Facades\Auth;
 
 class DetailInformasiUkom extends Component
 {
@@ -17,6 +16,6 @@ class DetailInformasiUkom extends Component
 
     public function render()
     {
-        return view('livewire.ukom.informasi.detail-informasi-ukom')->extends('layouts.app');
+        return view('livewire.ukom.pegawai.detail-informasi-ukom')->extends('layouts.user');
     }
 }

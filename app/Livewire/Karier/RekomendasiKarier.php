@@ -238,6 +238,52 @@ class RekomendasiKarier extends Component
     }
     
 
+    // public function getPeriodeDanDeadline(Carbon $perkiraan_kp): array
+    // {
+    //     $periode = [
+    //         'Februari' => '15 December',
+    //         'April'    => '15 February',
+    //         'Juni'     => '15 April',
+    //         'Agustus'  => '15 June',
+    //         'Oktober'  => '15 August',
+    //         'Desember' => '15 October',
+    //     ];
+    
+    //     $today = Carbon::now();
+    //     $year  = $perkiraan_kp->year;
+    
+    //     foreach ($periode as $bulan => $deadline) {
+    //         $monthMap = [
+    //             'Februari' => 2,
+    //             'April'    => 4,
+    //             'Juni'     => 6,
+    //             'Agustus'  => 8,
+    //             'Oktober'  => 10,
+    //             'Desember' => 12,
+    //         ];
+    
+    //         $periodeBulan = Carbon::createFromDate($year, $monthMap[$bulan], 1);
+    
+    //         // Adjust deadline year: Desember's deadline is in the previous year
+    //         $deadlineYear = ($bulan === 'Februari') ? $year - 1 : $year;
+    //         $deadlineDate = Carbon::parse("{$deadline} {$deadlineYear}");
+   
+    //         if ($perkiraan_kp->lessThanOrEqualTo($periodeBulan) && $perkiraan_kp->lessThan($deadlineDate)) {
+    //             return [
+    //                 'periode' => "$bulan $year",
+    //                 'deadline' => $deadlineDate->translatedFormat('d F Y'),
+    //             ];
+    //         }
+    //     }
+    
+    //     // Jika tidak ada yang cocok, berikan periode berikutnya tahun depan
+    //     $nextYear = $year + 1;
+    //     return [
+    //         'periode' => "Februari $nextYear",
+    //         'deadline' => Carbon::parse(($nextYear - 1) . '-12-15')->translatedFormat('d F Y'),
+    //     ];
+    // }
+
     public function getPeriodeDanDeadline(Carbon $perkiraan_kp): array
     {
         $periode = [
@@ -248,10 +294,13 @@ class RekomendasiKarier extends Component
             'Oktober'  => '15 August',
             'Desember' => '15 October',
         ];
-    
+
         $today = Carbon::now();
-        $year  = $perkiraan_kp->year;
-    
+
+        // Gunakan acuan sekarang jika perkiraan sudah lewat
+        $acuan = $perkiraan_kp->greaterThanOrEqualTo($today) ? $perkiraan_kp : $today;
+        $year = $acuan->year;
+
         foreach ($periode as $bulan => $deadline) {
             $monthMap = [
                 'Februari' => 2,
@@ -261,26 +310,40 @@ class RekomendasiKarier extends Component
                 'Oktober'  => 10,
                 'Desember' => 12,
             ];
-    
+
             $periodeBulan = Carbon::createFromDate($year, $monthMap[$bulan], 1);
-    
-            // Adjust deadline year: Desember's deadline is in the previous year
-            $deadlineYear = ($bulan === 'Februari') ? $year - 1 : $year;
+
+            // Deadline biasanya di tahun yang sama, kecuali Februari → Desember tahun sebelumnya
+            $deadlineYear = $bulan === 'Februari' ? $year - 1 : $year;
             $deadlineDate = Carbon::parse("{$deadline} {$deadlineYear}");
-    
-            if ($perkiraan_kp->lessThanOrEqualTo($periodeBulan) && $perkiraan_kp->lessThan($deadlineDate)) {
+
+            // LOGIKA KHUSUS DESEMBER
+            if (
+                $acuan->month === 12 &&
+                $acuan->greaterThan(Carbon::createFromDate($acuan->year, 12, 15))
+            ) {
+                // Setelah 15 Desember → masuk periode APRIL tahun depan
+                $periodeBulan = Carbon::createFromDate($year + 1, 4, 1);
+                $deadlineDate = Carbon::createFromDate($year + 1, 2, 15);
+                return [
+                    'periode' => "April " . ($year + 1),
+                    'deadline' => $deadlineDate->translatedFormat('d F Y'),
+                ];
+            }
+
+            if ($acuan->lessThanOrEqualTo($periodeBulan) && $acuan->lessThan($deadlineDate)) {
                 return [
                     'periode' => "$bulan $year",
                     'deadline' => $deadlineDate->translatedFormat('d F Y'),
                 ];
             }
         }
-    
-        // Jika tidak ada yang cocok, berikan periode berikutnya tahun depan
+
+        // Jika tidak cocok, fallback ke Februari tahun depan
         $nextYear = $year + 1;
         return [
             'periode' => "Februari $nextYear",
-            'deadline' => Carbon::parse(($nextYear - 1) . '-12-15')->translatedFormat('d F Y'),
+            'deadline' => Carbon::createFromDate($year, 12, 15)->translatedFormat('d F Y'),
         ];
     }
 

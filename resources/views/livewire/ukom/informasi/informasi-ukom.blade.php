@@ -17,7 +17,7 @@
 
             <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-5 overflow-x-auto">
-                    @foreach ($info as $item)
+                    @forelse ($info as $item)
                         <div class="w-full bg-[#F8F9FA] rounded-lg p-6 mb-3">
                             <div class="flex flex-row justify-between w-full content-center items-center">
                                 <div>
@@ -61,7 +61,9 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <p>Belum ada informasi ukom</p>
+                    @endforelse
                 </div>
             </div>
         </div>
