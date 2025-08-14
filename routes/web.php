@@ -22,6 +22,7 @@ use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Dashboard\DashboardPegawai;
 use App\Livewire\Karier\AdminRekomKarier;
 use App\Livewire\Karier\EditRekomKarier;
+use App\Livewire\Karier\PrediksiKP;
 use App\Livewire\Karier\RekomendasiKarier;
 use App\Livewire\Karier\TambahRekomKarier;
 use App\Livewire\MinatKarir\AdminTesMinatKarir;
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'role:1,2'])->group(function () {
     Route::get('/edit-info-ukom/{id}', EditInfoUkom::class)->name('edit-info-ukom');
     Route::get('/info-ukom/{id}', DetailInformasiUkom::class)->name('detail-info');
     Route::get('/karier', AdminRekomKarier::class)->name('karier');
+    Route::get('/prediksi-kpkj', PrediksiKP::class)->name('prediksi-kpkj');
     Route::get('/tambah-rekom-karier', TambahRekomKarier::class)->name('tambah-rekom-karier');
     Route::get('/edit-rekom-karier/{id}', EditRekomKarier::class)->name('edit-rekom-karier');
     Route::get('/admin-minat-karier', AdminTesMinatKarir::class)->name('admin-minat-karier');

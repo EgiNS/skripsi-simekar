@@ -83,27 +83,33 @@
                             Detail ABK
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('tambah-abk') }}" wire:navigate
+                    @unless(auth()->user()->role == 1)
+                      <li>
+                          <a href="{{ route('tambah-abk') }}" wire:navigate
+                          class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                                  {{ request()->routeIs('tambah-abk') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                              Tambah Jabatan
+                          </a>
+                      </li>
+                    @endunless
+                    @unless (auth()->user()->role == 1)
+                      <li>
+                        <a href="{{ route('update-pegawai') }}" wire:navigate
                         class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                                {{ request()->routeIs('tambah-abk') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                            Tambah Jabatan
+                                {{ request()->routeIs('update-pegawai') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                              Update Pegawai
                         </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('update-pegawai') }}" wire:navigate
-                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('update-pegawai') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                            Update Pegawai
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{{ route('update-nomenklatur') }}" wire:navigate
-                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('update-nomenklatur') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                            Update Nomenklatur
-                      </a>
-                    </li>
+                      </li>
+                    @endunless
+                    @unless (auth()->user()->role == 1)
+                      <li>
+                        <a href="{{ route('update-nomenklatur') }}" wire:navigate
+                        class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                                {{ request()->routeIs('update-nomenklatur') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                              Update Nomenklatur
+                        </a>
+                      </li>
+                    @endunless
                 </ul>
             </li>
 
@@ -191,6 +197,7 @@
                 </a>
                 
                 <ul x-show="open" x-transition class="ml-10 mt-1 space-y-0">
+                  @unless (auth()->user()->role == 1)
                     <li>
                       <a href="{{ route('update-kinerja') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
@@ -198,6 +205,8 @@
                           Update Nilai Kinerja
                       </a>
                     </li>
+                  @endunless
+                  @unless (auth()->user()->role == 1)
                     <li>
                       <a href="{{ route('buat-pak') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
@@ -205,6 +214,8 @@
                           Buat PAK
                       </a>
                     </li>
+                  @endunless
+                  @unless (auth()->user()->role == 1)
                     <li>
                       <a href="{{ route('upload-angka-kredit') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
@@ -212,33 +223,34 @@
                           Approval Angka Kredit
                       </a>
                     </li>
+                  @endunless
                     <li>
                       <a href="{{ route('angka-kredit') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
                               {{ request()->routeIs('angka-kredit') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Daftar Angka Kredit
+                          Riwayat Angka Kredit
                       </a>
                     </li>
                 </ul>
             </li>
 
             <li class="mt-0.5 w-full" 
-                x-data="{ open: {{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier')) ? 'true' : 'false' }} }">
+                x-data="{ open: {{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj')) ? 'true' : 'false' }} }">
                 
                 <a @click="open = !open"
                 class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center justify-between whitespace-nowrap px-4 transition-colors cursor-pointer 
-                        {{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier')) ? 'rounded-lg bg-white font-semibold text-slate-700 shadow-soft-xl' : '' }}">
+                        {{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj')) ? 'rounded-lg bg-white font-semibold text-slate-700 shadow-soft-xl' : '' }}">
                     <div class="flex items-center">
-                        <div class="{{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier')) ? 'bg-gradient-to-tl from-purple-700 to-pink-500' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                        <div class="{{ (request()->routeIs('karier') || request()->routeIs('admin-minat-karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj')) ? 'bg-gradient-to-tl from-purple-700 to-pink-500' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                           <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>settings</title>
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                               <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
                                 <g transform="translate(1716.000000, 291.000000)">
                                   <g transform="translate(304.000000, 151.000000)">
-                                    <polygon class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') ? '' :  'fill-slate-800'}} opacity-60" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                                    <path class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') ? '' :  'fill-slate-800'}} opacity-60" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"></path>
-                                    <path class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') ? '' :  'fill-slate-800'}}" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                                    <polygon class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj') ? '' :  'fill-slate-800'}} opacity-60" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                                    <path class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj') ? '' :  'fill-slate-800'}} opacity-60" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"></path>
+                                    <path class="{{ request()->routeIs('admin-minat-karier') || request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') || request()->routeIs('prediksi-kpkj') ? '' :  'fill-slate-800'}}" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
                                   </g>
                                 </g>
                               </g>
@@ -254,19 +266,28 @@
                 
                 <ul x-show="open" x-transition class="ml-10 mt-1 space-y-0">
                     <li>
-                      <a href="{{ route('karier') }}" wire:navigate
+                      <a href="{{ route('prediksi-kpkj') }}" wire:navigate
                       class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Rekomendasi Karier
+                              {{ request()->routeIs('prediksi-kpkj') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                          Prediksi KP/KJ
                       </a>
                     </li>
-                    <li>
-                      <a href="{{ route('admin-minat-karier') }}" wire:navigate
-                      class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
-                              {{ request()->routeIs('admin-minat-karier') ? 'font-semibold border-[#CB0C9F]' : '' }}">
-                          Tes Minat Karier
-                      </a>
-                    </li>
+                    @unless (auth()->user()->role == 1)
+                      <li>
+                        <a href="{{ route('karier') }}" wire:navigate
+                        class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                                {{ request()->routeIs('karier') || request()->routeIs('tambah-rekom-karier') || request()->routeIs('edit-rekom-karier') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                            Rekomendasi Karier
+                        </a>
+                      </li>
+                      <li>
+                        <a href="{{ route('admin-minat-karier') }}" wire:navigate
+                        class="block border-l-2 py-2 px-4 text-sm hover:bg-gray-100 
+                                {{ request()->routeIs('admin-minat-karier') ? 'font-semibold border-[#CB0C9F]' : '' }}">
+                            Tes Minat Karier
+                        </a>
+                      </li>
+                    @endunless
                 </ul>
             </li> 
 

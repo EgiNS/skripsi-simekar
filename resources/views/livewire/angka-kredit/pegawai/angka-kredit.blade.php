@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div x-show="showTambah" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
+        <div x-show="showTambah" x-on:close-modal.window="showTambah = false" class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96 max-h-96 overflow-y-auto relative">
                 <!-- Header -->
                 <div class="flex justify-between items-center border-b pb-2">

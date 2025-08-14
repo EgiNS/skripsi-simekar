@@ -79,14 +79,15 @@ class Dashboard extends Component
     public function setDataSatker()
     {
         $this->dataSatker = ABK::select(
-            'abk.id_satker',
-            'satker.nama', // Ambil nama satker dari tabel Satker
-            DB::raw('SUM(formasi) as formasi'),
-            DB::raw('(SELECT COUNT(*) FROM profile WHERE profile.id_satker = abk.id_satker AND profile.active = 1) as eksisting')
-        )
-        ->join('satker', 'satker.id', '=', 'abk.id_satker') // Join ke tabel Satker
-        ->groupBy('abk.id_satker', 'satker.nama') // Group by harus menyertakan semua kolom non-agregat
-        ->get();
+                'abk.id_satker',
+                'satker.nama',
+                DB::raw('SUM(formasi) as formasi'),
+                DB::raw('(SELECT COUNT(*) FROM profile WHERE profile.id_satker = abk.id_satker AND profile.active = 1) as eksisting')
+            )
+            ->join('satker', 'satker.id', '=', 'abk.id_satker')
+            ->groupBy('abk.id_satker', 'satker.nama')
+            ->orderByRaw('( (SELECT COUNT(*) FROM profile WHERE profile.id_satker = abk.id_satker AND profile.active = 1) / SUM(formasi) ) DESC')
+            ->get();
     }
     
     public function getNaikPangkat() {

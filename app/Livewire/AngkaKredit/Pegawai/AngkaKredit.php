@@ -51,7 +51,15 @@ class AngkaKredit extends Component
         $this->validate([
             'link_pak' => 'required|string',
             'jenis' => 'required',
-            'nilai' => 'required',
+            'nilai' => 'required|numeric',
+        ], [
+            'link_pak.required' => 'Link PAK wajib diisi.',
+            'link_pak.string' => 'Link PAK harus berupa teks.',
+            
+            'jenis.required' => 'Jenis angka kredit wajib dipilih.',
+            
+            'nilai.required' => 'Angka kredit wajib diisi.',
+            'nilai.numeric' => 'Angka kredit harus berupa angka (gunakan titik untuk angka desimal).',
         ]);
 
         $secondLatest = Profile::where('nip', $this->user->nip)
@@ -67,14 +75,14 @@ class AngkaKredit extends Component
             if ($this->user->golongan->nama == 'III/a' || $this->user->golongan->nama == 'III/c' || $this->user->golongan->nama == 'IV/a' || $this->user->golongan->nama == 'IV/d' || $this->user->golongan->nama == 'IV/e' ) {
                 $ak_total = $this->nilai;
             } else {
-                $ak_before = ModelsAngkaKredit::where('nip', $this->nip)
+                $ak_before = ModelsAngkaKredit::where('nip', $this->user->nip)
                     ->orderBy('id', 'desc')
                     ->value('total_ak') ?? 0;   
 
                 $ak_total = $ak_before + $this->nilai;
             }
         } else {
-            $ak_before = ModelsAngkaKredit::where('nip', $this->nip)
+            $ak_before = ModelsAngkaKredit::where('nip', $this->user->nip)
                 ->orderBy('id', 'desc')
                 ->value('total_ak') ?? 0;   
 
@@ -133,10 +141,12 @@ class AngkaKredit extends Component
             ]);
         }
 
-        // Reset form
-        $this->reset(['nip', 'nama', 'jabatan', 'satker', 'jenis', 'periodeMulai', 'periodeAkhir', 'tahun', 'nilai', 'link_pak']);
+        $this->dispatch('refreshTable');
 
         $this->dispatch('close-modal');
+        
+        // Reset form
+        $this->reset(['jenis', 'periodeMulai', 'periodeAkhir', 'tahun', 'nilai', 'link_pak']);
 
         // Kirim notifikasi ke user
         $this->dispatch('showFlashMessage', 'Angka Kredit Berhasil Ditambahkan!', 'success');

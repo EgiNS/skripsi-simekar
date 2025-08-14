@@ -371,7 +371,7 @@ class RekomendasiKarier extends Component
 
     public function render()
     {
-        if (!$this->isAk) {
+        if (!$this->isAk || $this->isAk->status == 3) {
             return view('livewire.karier.nonakredit')->extends('layouts.user');
         } elseif ($this->isFungsional) {
             return view('livewire.karier.rekomendasi-karier')->extends('layouts.user');

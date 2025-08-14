@@ -198,6 +198,15 @@
                     </div>
 
                     <div class="w-full mb-3">
+                        <label class="text-xs">Total Angka Kredit Sementara</label>
+                        <input type="text" wire:model="total_ak" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                    
+                        @error('total_ak')
+                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="w-full mb-3">
                         <label class="text-xs">Link PAK (Google Drive)</label>
                         <input type="text" wire:model="link_pak" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
                     

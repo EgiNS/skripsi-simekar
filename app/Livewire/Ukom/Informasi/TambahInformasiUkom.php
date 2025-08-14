@@ -19,7 +19,7 @@ class TambahInformasiUkom extends Component
         $validatedData = $this->validate([
             'judul' => 'required',
             'isi' => 'required',
-            'files.*' => 'file|mimes:pdf|max:5048'
+            'files.*' => 'file|mimes:pdf|max:10240'
         ]);
 
         $uploadedFiles = [];

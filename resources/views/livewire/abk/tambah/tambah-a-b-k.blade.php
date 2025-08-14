@@ -9,13 +9,13 @@
             </div>
             <div class="flex-auto px-0 pt-0 pb-2 mt-4">
                 <div class="p-5 overflow-x-auto">
-                    <form role="form">
+                    
                         <div class="w-full grid grid-cols-7 items-center text-sm mb-4">
                             <label class="text-slate-700">Satker</label>
                             <div class="col-span-6 relative w-full">
                                 <select class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow pr-10" 
                                     wire:model="satker">
-                                    <option value="" selected disabled>Pilih opsi</option>
+                                    {{-- <option value="" selected disabled>Pilih opsi</option> --}}
                                     @foreach ($allSatker as $satker)
                                         <option value="{{ $satker->id }}">{{ $satker->nama }}</option>
                                     @endforeach
@@ -26,6 +26,9 @@
                                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
+                                @error('satker')
+                                    <p class="text-red-500 text-xs md:col-span-6">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                         <div x-data="{ open: false }" class="relative w-full">
@@ -64,16 +67,16 @@
                         <div class="w-full grid grid-cols-7 items-center text-sm my-4">
                             <label class="text-slate-700">Jumlah Formasi</label>
                             <div class="col-span-6 relative w-full">
-                                <input type="integer" wire:model='formasi' class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
+                                <input wire:model='formasi' class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" />
                                 @error('formasi')
                                     <p class="text-red-500 text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
                         <div class="w-full flex justify-end">
-                            <button wire:click.prevent='createABK' type="submit" class="bg-gradient-to-br font-medium from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 py-2 text-sm rounded-lg">Kirim</button>
+                            <button wire:click='createABK' class="bg-gradient-to-br font-medium from-[#FF0080] to-[#7928CA] hover:scale-105 transition text-white px-5 py-2 text-sm rounded-lg">Kirim</button>
                         </div>
-                    </form>
+                
                 </div>
             </div>
         </div>

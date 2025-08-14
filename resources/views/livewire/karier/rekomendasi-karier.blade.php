@@ -6,7 +6,7 @@
         <div class="relative text-[#252F40] text-sm flex flex-col min-w-0 mb-6 break-words border-0 border-transparent border-solid rounded-2xl">
             <div class="mb-5 bg-white rounded-2xl shadow-soft-xl">
                   <div class="p-5 pb-3">
-                      <p>Halo, <span class="font-medium">{{ $user->nama }}</span> ! Jabatan anda saat ini adalah <span class="font-medium">{{ $user->jabatan }}</span></p>
+                      <p>Halo, <span class="font-medium">{{ $user->nama }}</span> ! Jabatan anda saat ini adalah <span class="font-medium">{{ $user->jabatan }}</span> dengan angka kredit sebesar <span class="font-medium">{{ rtrim(rtrim(number_format($isAk->total_ak, 3, '.', ''), '0'), '.') }}</span></p>
                       @if ($rekom)
                       <p class="mt-2">Berdasarkan <span class="font-medium">Peraturan XXX</span>, syarat kenaikan jenjang ke <span class="font-medium">{{ $nextJabatan }}</span> :</p>
                       <div class="mt-3">
@@ -21,7 +21,7 @@
             <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">
               <p>Perkiraan kenaikan pangkat: <span class="font-semibold">{{ $this->perkiraan_kp }}</span></p>
               <p>Perkiraan kenaikan jenjang: <span class="font-semibold">{{ $this->perkiraan_kj }}</span></p>  
-              <p>Prediksi periode kenaikan pangkat terdekat pada {{ $this->periode_kp['periode'] }}. Harap kumpulkan berkas paling lambat {{ $this->periode_kp['deadline'] }}</p>
+              <p>Prediksi periode kenaikan pangkat terdekat pada <span class="font-medium"> {{ $this->periode_kp['periode'] }} </span>. Harap kumpulkan berkas paling lambat <span class="font-medium"> {{ $this->periode_kp['deadline'] }} </span></p>
             </div>
             @if ($rekom)
               <div class="p-5 mb-5 bg-white rounded-2xl shadow-soft-xl">

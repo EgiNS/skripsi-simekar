@@ -12,7 +12,8 @@ class TambahABK extends Component
 {
     public $jabatan = '';
     public $suggestions = [];
-    public $satker, $allSatker, $formasi;
+    public $allSatker, $formasi;
+    public $satker = 1100;
 
     public function updatedJabatan()
     {
@@ -33,9 +34,9 @@ class TambahABK extends Component
     {
         // Validasi input
         $validatedData = $this->validate([
-            'satker'  => ['required', Rule::exists('satker', 'id')],
-            'jabatan' => 'required|string|max:255',
-            'formasi' => 'required|integer|min:1',
+            'satker'  => 'required',
+            'jabatan' => 'required',
+            'formasi' => 'required|integer',
         ]);
 
         // Simpan ke database
@@ -43,6 +44,12 @@ class TambahABK extends Component
             'id_satker' => $this->satker,
             'jabatan'   => $this->jabatan,
             'formasi'   => $this->formasi,
+        ]);
+
+        Jabatan::create([
+            'nama_simpeg' => $this->jabatan,
+            'konversi' => $this->jabatan,
+            'nama_umum' => $this->jabatan
         ]);
 
         // Reset form

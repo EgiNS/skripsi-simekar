@@ -16,4 +16,28 @@ class AngkaKredit extends Model
     {
         return $this->belongsTo(Profile::class, 'id_pegawai', 'id');
     }
+
+    /**
+     * Metode untuk mendapatkan entri AngkaKredit berikutnya berdasarkan NIP dan ID.
+     * Digunakan untuk update berantai.
+     */
+    public function nextEntry()
+    {
+        return static::where('nip', $this->nip)
+                     ->where('id', '>', $this->id)
+                     ->orderBy('id', 'asc')
+                     ->first();
+    }
+
+    /**
+     * Metode untuk mendapatkan entri AngkaKredit sebelumnya berdasarkan NIP dan ID.
+     * Digunakan untuk menghitung total_ak yang diharapkan.
+     */
+    public function previousEntry()
+    {
+        return static::where('nip', $this->nip)
+                     ->where('id', '<', $this->id)
+                     ->orderBy('id', 'desc')
+                     ->first();
+    }
 }

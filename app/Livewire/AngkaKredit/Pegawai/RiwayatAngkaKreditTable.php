@@ -112,7 +112,11 @@ class RiwayatAngkaKreditTable extends DataTableComponent
 
     public function showLink($link)
     {
-        return "<a href='{$link}'>{$link}</a>";
+        if (!preg_match('/^https?:\/\//', $link)) {
+            $link = 'https://' . $link;
+        }
+
+        return "<a href='{$link}' target='_blank' rel='noopener noreferrer'>{$link}</a>";
     }
 
     public function showTanggal($tgl)
